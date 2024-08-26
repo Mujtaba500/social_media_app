@@ -12,3 +12,84 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id         String   @id @default(uuid())
+  username   String   @unique
+  fullName   String
+  password   String
+  profilepic String?
+  coverphoto String?
+  createdAt  DateTime @default(now())
+  followers  String[]
+  following  String[]
+
+  notifications Notification[] @relation("Receiver")
+  posts         Post[]
+  comments      Comment[]
+  messages      Message[]      @relation("Sender")
+  conversations Conversation[]
+}
+
+enum NOTIFICATION_TYPE {
+  POST_LIKE
+  COMMENT
+  COMMENT_LIKE
+  FOLLOW
+}
+
+model Notification {
+  id        String            @id @default(uuid())
+  type      NOTIFICATION_TYPE
+  createdAt DateTime          @default(now())
+  from      String
+
+  to        String
+  BelongsTo User   @relation("Receiver", fields: [to], references: [id])
+}
+
+model Post {
+  id        String    @id @default(uuid())
+  content   String
+  createdAt DateTime  @default(now())
+  image     String?
+  likes     String[]
+  comments  Comment[]
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  body      String
+  createdAt DateTime @default(now())
+  likes     String[]
+
+  postId String
+  post   Post   @relation(fields: [postId], references: [id])
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+}
+
+model Conversation {
+  id String @id @default(uuid())
+
+  messages     Message[]
+  participents User[]
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  body      String
+  createdAt DateTime @default(now())
+
+  senderId String
+  sender   User   @relation("Sender", fields: [senderId], references: [id])
+
+  recipentId String
+
+  conversationId        String
+  belongsToConversation Conversation @relation(fields: [conversationId], references: [id])
+}
