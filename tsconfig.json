@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "sourceMap": true,
+    "outDir": "./server/dist",
+    "rootDir": "./server/src",
+    "lib": ["esnext"],
+    "esModuleInterop": true,
+    "strictNullChecks": true,
+    "declaration": true,
+    "strict": false
+  },
+  "include": ["server/src/**/*.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts", "client", "server/dev"]
+}
