@@ -7,7 +7,6 @@ const authValidator = {
     const schema = Joi.object({
       username: Joi.string().alphanum().min(3).max(20).required(),
       fullName: Joi.string().min(3).max(20).required(),
-      email: Joi.string().email().required(),
       password: Joi.string()
         .pattern(new RegExp("^(?=.*[A-Z])[a-zA-Z0-9]{6,30}$"))
         .required(),

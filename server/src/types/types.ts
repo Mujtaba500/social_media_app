@@ -26,11 +26,11 @@ export enum HttpStatusCode {
   GATEWAY_TIMEOUT = 504,
 }
 
-interface user {
+export interface user {
   userId: string;
   username: string;
 }
 
-interface customRequest extends Request {
+export interface customRequest extends Request {
   user?: user;
 }
