@@ -111,6 +111,19 @@ const authController = {
       });
     }
   },
+  logout: async (req: customRequest, res: Response) => {
+    try {
+      res.clearCookie("jwt").status(HttpStatusCode.OK).json({
+        message: "Logged out successfully",
+      });
+    } catch (err: any) {
+      console.log("Error in logout Controller", err.message);
+
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        message: "Internal server error",
+      });
+    }
+  },
 };
 
 export default authController;

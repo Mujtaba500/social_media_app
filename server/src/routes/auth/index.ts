@@ -11,9 +11,9 @@ authRouter.post(
   authController.createUser
 );
 
-authRouter.post("/auth/login", authValidator.login, () => {});
+authRouter.post("/auth/login", authValidator.login, authController.login);
 
-authRouter.post("/auth/logout", () => {});
+authRouter.post("/auth/logout", authController.logout);
 
 authRouter.get("/auth/user", verifyToken, () => {});
 
