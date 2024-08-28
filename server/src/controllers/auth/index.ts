@@ -124,6 +124,36 @@ const authController = {
       });
     }
   },
+  getUser: async (req: customRequest, res: Response) => {
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: req.user!.userId,
+          username: req.user!.username,
+        },
+      });
+
+      if (!user) {
+        return res.status(HttpStatusCode.UNAUTHORIZED).json({
+          message: "Unauthorized",
+        });
+      }
+
+      const userWithoutPassword = {
+        ...user,
+        password: undefined,
+      };
+
+      res.status(HttpStatusCode.OK).json({
+        data: userWithoutPassword,
+      });
+    } catch (err: any) {
+      console.log("Error while authenticating current user", err.message);
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        message: "Internal server error",
+      });
+    }
+  },
 };
 
 export default authController;
