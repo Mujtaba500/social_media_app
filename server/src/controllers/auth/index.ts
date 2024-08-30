@@ -1,8 +1,8 @@
+import { hashPassword, comparePassword } from "../../utils/pass.js";
 import {
-  createToken,
-  hashPassword,
-  comparePassword,
-} from "../../utils/auth.js";
+  createAccessToken,
+  createRefreshToken,
+} from "../../utils/createToken.js";
 import { Response } from "express";
 import prisma from "../../db/config.js";
 import { customRequest, HttpStatusCode } from "../../types/types.js";
@@ -34,7 +34,21 @@ const authController = {
         },
       });
 
-      const token = createToken(newUser.id, newUser.username);
+      const { token, accessTokenExpiry } = createAccessToken(
+        newUser.id,
+        newUser.username
+      );
+
+      const result = await createRefreshToken(newUser.id, newUser.username);
+
+      if ("error" in result) {
+        console.log("Error while saving token in db", result.error);
+        return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+          message: "Internal Server error",
+        });
+      }
+
+      const { refreshToken, refreshTokenExpiry } = result;
 
       const user = {
         id: newUser.id,
@@ -44,8 +58,8 @@ const authController = {
 
       res
         .status(HttpStatusCode.OK)
-        .cookie("jwt", token, {
-          maxAge: 15 * 24 * 60 * 60 * 1000, // MS
+        .cookie("jwt", refreshToken, {
+          maxAge: refreshTokenExpiry * 60 * 1000, // MS
           httpOnly: true, // prevent xss attacks
           // sameSite: "strict",
           // secure: process.env.STAGE !== "development",    HTTPS
@@ -53,6 +67,8 @@ const authController = {
         .json({
           message: "User signed up successfully",
           data: user,
+          token: token,
+          accessTokenExpiry,
         });
     } catch (err: any) {
       console.log("Error while registering user", err.message);
@@ -84,7 +100,21 @@ const authController = {
         });
       }
 
-      const token = createToken(userCheck.id, userCheck.username);
+      const { token, accessTokenExpiry } = createAccessToken(
+        userCheck.id,
+        userCheck.username
+      );
+
+      const result = await createRefreshToken(userCheck.id, userCheck.username);
+
+      if ("error" in result) {
+        console.log("Error while saving token in db", result.error);
+        return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+          message: "Internal Server error",
+        });
+      }
+
+      const { refreshToken, refreshTokenExpiry } = result;
 
       const user = {
         id: userCheck.id,
@@ -94,15 +124,17 @@ const authController = {
 
       res
         .status(200)
-        .cookie("jwt", token, {
-          maxAge: 15 * 24 * 60 * 60 * 1000, // MS
+        .cookie("jwt", refreshToken, {
+          maxAge: refreshTokenExpiry * 60 * 1000, // MS
           httpOnly: true, // prevent xss attacks
-          sameSite: "strict",
+          // sameSite: "strict",
           // secure: process.env.STAGE !== "development", // HTTPS
         })
         .json({
           message: "User logged in successfully",
           data: user,
+          token: token,
+          accessTokenExpiry,
         });
     } catch (err: any) {
       console.log("Error while logging in user", err.message);
@@ -113,6 +145,26 @@ const authController = {
   },
   logout: async (req: customRequest, res: Response) => {
     try {
+      const token = req.cookies.jwt;
+
+      const tokenDb = await prisma.token.findFirst({
+        where: {
+          token,
+        },
+      });
+
+      if (!tokenDb) {
+        return res.status(HttpStatusCode.UNAUTHORIZED).clearCookie("jwt").json({
+          message: "Unauthorized, Please login",
+        });
+      }
+
+      await prisma.token.delete({
+        where: {
+          id: tokenDb.id,
+        },
+      });
+
       res.clearCookie("jwt").status(HttpStatusCode.OK).json({
         message: "Logged out successfully",
       });
