@@ -4,7 +4,7 @@ import { customRequest, user } from "../../types/types.js";
 import { HttpStatusCode } from "../../types/types.js";
 
 const verifyToken = (req: customRequest, res: Response, next: NextFunction) => {
-  let token = req.cookies.jwt;
+  let token = req.headers.authorization;
 
   if (!token) {
     return res.status(HttpStatusCode.UNAUTHORIZED).json({
@@ -14,7 +14,7 @@ const verifyToken = (req: customRequest, res: Response, next: NextFunction) => {
 
   token = token.replace("Bearer ", "");
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET!) as user;
+  const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!) as user;
 
   req.user = decoded;
   next();

@@ -1,5 +1,5 @@
 import {
-  createToken,
+  createAccessToken,
   hashPassword,
   comparePassword,
 } from "../../utils/auth.js";
@@ -34,7 +34,10 @@ const authController = {
         },
       });
 
-      const token = createToken(newUser.id, newUser.username);
+      const { token, expiryTime } = createAccessToken(
+        newUser.id,
+        newUser.username
+      );
 
       const user = {
         id: newUser.id,
@@ -44,15 +47,17 @@ const authController = {
 
       res
         .status(HttpStatusCode.OK)
-        .cookie("jwt", token, {
-          maxAge: 15 * 24 * 60 * 60 * 1000, // MS
-          httpOnly: true, // prevent xss attacks
-          // sameSite: "strict",
-          // secure: process.env.STAGE !== "development",    HTTPS
-        })
+        // .cookie("jwt", token, {
+        //   maxAge: 15 * 24 * 60 * 60 * 1000, // MS
+        //   httpOnly: true, // prevent xss attacks
+        //   // sameSite: "strict",
+        //   // secure: process.env.STAGE !== "development",    HTTPS
+        // })
         .json({
           message: "User signed up successfully",
           data: user,
+          token: token,
+          expiryTime,
         });
     } catch (err: any) {
       console.log("Error while registering user", err.message);
@@ -84,7 +89,10 @@ const authController = {
         });
       }
 
-      const token = createToken(userCheck.id, userCheck.username);
+      const { token, expiryTime } = createAccessToken(
+        userCheck.id,
+        userCheck.username
+      );
 
       const user = {
         id: userCheck.id,
@@ -94,15 +102,17 @@ const authController = {
 
       res
         .status(200)
-        .cookie("jwt", token, {
-          maxAge: 15 * 24 * 60 * 60 * 1000, // MS
-          httpOnly: true, // prevent xss attacks
-          sameSite: "strict",
-          // secure: process.env.STAGE !== "development", // HTTPS
-        })
+        // .cookie("jwt", token, {
+        //   maxAge: 15 * 24 * 60 * 60 * 1000, // MS
+        //   httpOnly: true, // prevent xss attacks
+        //   sameSite: "strict",
+        //   // secure: process.env.STAGE !== "development", // HTTPS
+        // })
         .json({
           message: "User logged in successfully",
           data: user,
+          token: token,
+          expiryTime,
         });
     } catch (err: any) {
       console.log("Error while logging in user", err.message);
