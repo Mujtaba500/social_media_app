@@ -37,6 +37,25 @@ const userController = {
     }
   },
   getSuggested: async (req: customRequest, res: Response) => {
+    const userId = req.user?.userId;
+    const suggestedUsers = await prisma.user.findMany({
+      where: {
+        id: {
+          not: userId,
+        },
+      },
+      select: {
+        id: true,
+        username: true,
+        fullName: true,
+        profilepic: true,
+      },
+    });
+
+    res.status(HttpStatusCode.OK).json({
+      data: suggestedUsers,
+    });
+
     try {
     } catch (err: any) {
       console.log("Error while fetching suggested users", err.message);
