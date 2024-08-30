@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "strictNullChecks": true,
     "declaration": true,
-    "strict": false
+    "strict": true
   },
   "include": ["server/src/**/*.ts"],
   "exclude": ["node_modules", "**/*.spec.ts", "client", "server/dev"]
