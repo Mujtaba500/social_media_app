@@ -5,6 +5,7 @@ const userController = {
   getUserProfile: (req: customRequest, res: Response) => {
     try {
       const userId = req.params.id;
+      // Check git
     } catch (err: any) {
       console.log("Error while fetching user profile", err.message);
       res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
