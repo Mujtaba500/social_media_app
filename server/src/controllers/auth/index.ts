@@ -145,6 +145,26 @@ const authController = {
   },
   logout: async (req: customRequest, res: Response) => {
     try {
+      const token = req.cookies.jwt;
+
+      const tokenDb = await prisma.token.findFirst({
+        where: {
+          token,
+        },
+      });
+
+      if (!tokenDb) {
+        return res.status(HttpStatusCode.UNAUTHORIZED).clearCookie("jwt").json({
+          message: "Unauthorized, Please login",
+        });
+      }
+
+      await prisma.token.delete({
+        where: {
+          id: tokenDb.id,
+        },
+      });
+
       res.clearCookie("jwt").status(HttpStatusCode.OK).json({
         message: "Logged out successfully",
       });
