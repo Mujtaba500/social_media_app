@@ -10,6 +10,9 @@ const userController = {
         where: {
           id: userId,
         },
+        include: {
+          posts: true,
+        },
       });
 
       if (!user) {

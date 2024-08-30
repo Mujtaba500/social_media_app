@@ -183,6 +183,12 @@ const authController = {
           id: req.user!.userId,
           username: req.user!.username,
         },
+        select: {
+          id: true,
+          username: true,
+          fullName: true,
+          profilepic: true,
+        },
       });
 
       if (!user) {
@@ -191,13 +197,8 @@ const authController = {
         });
       }
 
-      const userWithoutPassword = {
-        ...user,
-        password: undefined,
-      };
-
       res.status(HttpStatusCode.OK).json({
-        data: userWithoutPassword,
+        data: user,
       });
     } catch (err: any) {
       console.log("Error while authenticating current user", err.message);
