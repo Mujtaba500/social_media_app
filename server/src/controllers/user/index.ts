@@ -212,6 +212,101 @@ const userController = {
       });
     }
   },
+  followUnfollowUser: async (req: customRequest, res: Response) => {
+    try {
+      await prisma.$transaction(async (prisma) => {
+        const authId = req.user?.userId;
+        const userId = req.params.id;
+
+        if (authId === userId) {
+          return res.status(HttpStatusCode.BAD_REQUEST).json({
+            message: "You cannot follow/unfollow yourself",
+          });
+        }
+
+        const userToFollow = await prisma.user.findUnique({
+          where: {
+            id: userId,
+          },
+        });
+
+        const currentUser = await prisma.user.findUnique({
+          where: {
+            id: authId,
+          },
+        });
+
+        if (!userToFollow || !currentUser) {
+          return res.status(HttpStatusCode.NOT_FOUND).json({
+            message: "User not found",
+          });
+        }
+
+        // Unfollow if already following
+        if (userToFollow.followers.includes(authId!)) {
+          const updatedFolllowers = userToFollow.followers.filter(
+            (id) => id !== authId
+          );
+          const updatedFollowing = currentUser.following.filter(
+            (id) => id !== userId
+          );
+
+          await prisma.user.update({
+            where: {
+              id: userId,
+            },
+            data: {
+              followers: updatedFolllowers,
+            },
+          });
+
+          await prisma.user.update({
+            where: {
+              id: authId,
+            },
+            data: {
+              following: updatedFollowing,
+            },
+          });
+
+          return res.status(HttpStatusCode.OK).json({
+            message: "User unfollowed successfully",
+          });
+        }
+
+        await prisma.user.update({
+          where: {
+            id: userId,
+          },
+          data: {
+            followers: {
+              push: authId,
+            },
+          },
+        });
+
+        await prisma.user.update({
+          where: {
+            id: authId,
+          },
+          data: {
+            following: {
+              push: userId,
+            },
+          },
+        });
+
+        return res.status(HttpStatusCode.OK).json({
+          message: "User followed successfully",
+        });
+      });
+    } catch (err: any) {
+      console.log("Error while following/unfollowing user", err.message);
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        message: "Internal server error",
+      });
+    }
+  },
 };
 
 export default userController;

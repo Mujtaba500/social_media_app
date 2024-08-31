@@ -24,6 +24,14 @@ userRouter.put(
   userController.updateProfile
 );
 
+//DELETE cover photo/profile image
 userRouter.delete("/user/:img", verifyToken, userController.removeImage);
+
+//Follow/unfollow user
+userRouter.put(
+  "/user/follow/:id",
+  verifyToken,
+  userController.followUnfollowUser
+);
 
 export default userRouter;
