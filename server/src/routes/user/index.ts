@@ -24,4 +24,6 @@ userRouter.put(
   userController.updateProfile
 );
 
+userRouter.delete("/user/:img", verifyToken, userController.removeImage);
+
 export default userRouter;

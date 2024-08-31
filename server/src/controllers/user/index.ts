@@ -3,6 +3,11 @@ import { Response } from "express";
 import prisma from "../../db/config.js";
 import { comparePassword } from "../../utils/pass.js";
 import { v2 as cloudinary } from "cloudinary";
+import {
+  uploadToCloudinary,
+  deleteFromCloudinary,
+} from "../../utils/cloudinary.js";
+import fs from "fs";
 
 const userController = {
   getUserProfile: async (req: customRequest, res: Response) => {
@@ -72,8 +77,6 @@ const userController = {
 
       const files = req.files as files;
 
-      console.log(files);
-
       // Check if payload is empty;
       if (Object.keys(payload).length == 0 && !req.files) {
         return res.status(HttpStatusCode.BAD_REQUEST).json({
@@ -112,26 +115,32 @@ const userController = {
         // Delete already exisiting profile pic
         if (user.profilepic) {
           const public_id = user.profilepic.split("/").pop()!.split(".")[0];
-          await cloudinary.uploader.destroy(public_id);
+          await deleteFromCloudinary(public_id);
         }
 
-        const uploadedResponse = await cloudinary.uploader.upload(
-          files.profilepic[0].path
+        const uploadedResponse = await uploadToCloudinary(
+          files.profilepic[0].path,
+          "social_media_app"
         );
         updates.profilepic = uploadedResponse.secure_url;
+        //remove file from disk storage
+        fs.unlinkSync(files.profilepic[0].path);
       }
 
       if (files.coverphoto) {
         //Delete already existing coverphoto
         if (user.coverphoto) {
           const public_id = user.coverphoto.split("/").pop()!.split(".")[0];
-          await cloudinary.uploader.destroy(public_id);
+          await deleteFromCloudinary(public_id);
         }
 
-        const uploadedResponse = await cloudinary.uploader.upload(
-          files.coverphoto[0].path
+        const uploadedResponse = await uploadToCloudinary(
+          files.coverphoto[0].path,
+          "social_media_app"
         );
         updates.coverphoto = uploadedResponse.secure_url;
+        // Remove file from disk storage
+        fs.unlinkSync(files.coverphoto[0].path);
       }
 
       updates.username = payload.username || user.username;
@@ -157,6 +166,47 @@ const userController = {
       });
     } catch (err: any) {
       console.log("Error while updating user profile", err.message);
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        message: "Internal server error",
+      });
+    }
+  },
+  removeImage: async (req: customRequest, res: Response) => {
+    try {
+      const id = req.user?.userId;
+      const img = req.params.img;
+
+      console.log(img);
+
+      const user = await prisma.user.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if (!user) {
+        return res.status(HttpStatusCode.NOT_FOUND).json({
+          message: "User doesnot exist",
+        });
+      }
+
+      if (img === "coverphoto") {
+        if (user.coverphoto) {
+          const public_id = user.coverphoto.split("/").pop()!.split(".")[0];
+          await deleteFromCloudinary(public_id);
+        }
+      } else if (img === "profilepic") {
+        if (user.profilepic) {
+          const public_id = user.profilepic.split("/").pop()!.split(".")[0];
+          await deleteFromCloudinary(public_id);
+        }
+      }
+
+      res.status(HttpStatusCode.OK).json({
+        message: `${img} successfully deleted`,
+      });
+    } catch (err: any) {
+      console.log("Error while deleting images", err.message);
       res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
         message: "Internal server error",
       });
