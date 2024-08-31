@@ -11,13 +11,17 @@ const verifyToken = (req: customRequest, res: Response, next: NextFunction) => {
       message: "UnAuthorized",
     });
   }
+  try {
+    token = token.replace("Bearer ", "");
 
-  token = token.replace("Bearer ", "");
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!) as user;
 
-  const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!) as user;
-
-  req.user = decoded;
-  next();
+    req.user = decoded;
+    next();
+  } catch (err: any) {
+    console.log("Error while verifying token", err.message);
+    res.status(HttpStatusCode.UNAUTHORIZED).json({ message: "unAuthorized" });
+  }
 };
 
 export default verifyToken;
