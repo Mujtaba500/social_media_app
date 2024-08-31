@@ -18,7 +18,8 @@ const verifyToken = (req: customRequest, res: Response, next: NextFunction) => {
 
     req.user = decoded;
     next();
-  } catch (err) {
+  } catch (err: any) {
+    console.log("Error while verifying token", err.message);
     res.status(HttpStatusCode.UNAUTHORIZED).json({ message: "unAuthorized" });
   }
 };
