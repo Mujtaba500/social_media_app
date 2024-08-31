@@ -1,6 +1,7 @@
 import { Router } from "express";
 import verifyToken from "../../middleware/auth/index.js";
 import userController from "../../controllers/user/index.js";
+import userProfileValidator from "../../validators/userProfile/index.js";
 
 const userRouter = Router();
 
@@ -11,6 +12,11 @@ userRouter.get("/user/:id", verifyToken, userController.getUserProfile);
 userRouter.get("/users", verifyToken, userController.getSuggested);
 
 // Update profile
-userRouter.put("/user", verifyToken, userController.updateProfile);
+userRouter.put(
+  "/user",
+  verifyToken,
+  userProfileValidator,
+  userController.updateProfile
+);
 
 export default userRouter;
