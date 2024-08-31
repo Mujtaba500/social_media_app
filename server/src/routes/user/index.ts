@@ -17,7 +17,10 @@ userRouter.put(
   "/user/update",
   verifyToken,
   userProfileValidator,
-  upload.single("profilepic"),
+  upload.fields([
+    { name: "profilepic", maxCount: 1 },
+    { name: "coverphoto", maxCount: 1 },
+  ]),
   userController.updateProfile
 );
 

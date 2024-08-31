@@ -31,6 +31,10 @@ export interface user {
   username: string;
 }
 
+export interface files {
+  [fieldname: string]: any[];
+}
+
 export interface customRequest extends Request {
   user?: user;
 }

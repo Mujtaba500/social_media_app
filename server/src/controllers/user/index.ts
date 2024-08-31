@@ -1,7 +1,8 @@
-import { customRequest, HttpStatusCode } from "../../types/types.js";
+import { customRequest, HttpStatusCode, files } from "../../types/types.js";
 import { Response } from "express";
 import prisma from "../../db/config.js";
 import { comparePassword } from "../../utils/pass.js";
+import { v2 as cloudinary } from "cloudinary";
 
 const userController = {
   getUserProfile: async (req: customRequest, res: Response) => {
@@ -69,10 +70,12 @@ const userController = {
       const id = req.user?.userId;
       const payload = req.body;
 
-      console.log(req.file?.path);
+      const files = req.files as files;
+
+      console.log(files);
 
       // Check if payload is empty;
-      if (Object.keys(payload).length == 0 && !req.file) {
+      if (Object.keys(payload).length == 0 && !req.files) {
         return res.status(HttpStatusCode.BAD_REQUEST).json({
           message: "Please upload file or enter data to update",
         });
@@ -105,12 +108,30 @@ const userController = {
         updates.password = payload.newPassword;
       }
 
-      if (payload.profilePic) {
-        updates.profilepic = payload.profilePic;
+      if (files.profilepic) {
+        // Delete already exisiting profile pic
+        if (user.profilepic) {
+          const public_id = user.profilepic.split("/").pop()!.split(".")[0];
+          await cloudinary.uploader.destroy(public_id);
+        }
+
+        const uploadedResponse = await cloudinary.uploader.upload(
+          files.profilepic[0].path
+        );
+        updates.profilepic = uploadedResponse.secure_url;
       }
 
-      if (payload.coverphoto) {
-        updates.coverphoto = payload.coverphoto;
+      if (files.coverphoto) {
+        //Delete already existing coverphoto
+        if (user.coverphoto) {
+          const public_id = user.coverphoto.split("/").pop()!.split(".")[0];
+          await cloudinary.uploader.destroy(public_id);
+        }
+
+        const uploadedResponse = await cloudinary.uploader.upload(
+          files.coverphoto[0].path
+        );
+        updates.coverphoto = uploadedResponse.secure_url;
       }
 
       updates.username = payload.username || user.username;
