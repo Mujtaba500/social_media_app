@@ -17,7 +17,7 @@ const createAccessToken = (userId: string, username: string) => {
     username,
   };
 
-  const accessTokenExpiry = "30m";
+  const accessTokenExpiry = "1d";
 
   const token = jwt.sign(dataToSign, process.env.ACCESS_TOKEN_SECRET!, {
     expiresIn: `${accessTokenExpiry}`,

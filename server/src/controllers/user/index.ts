@@ -69,10 +69,12 @@ const userController = {
       const id = req.user?.userId;
       const payload = req.body;
 
+      console.log(req.file?.path);
+
       // Check if payload is empty;
-      if (Object.keys(payload).length == 0) {
+      if (Object.keys(payload).length == 0 && !req.file) {
         return res.status(HttpStatusCode.BAD_REQUEST).json({
-          message: "Please enter data to update",
+          message: "Please upload file or enter data to update",
         });
       }
 
