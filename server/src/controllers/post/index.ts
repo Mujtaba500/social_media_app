@@ -217,6 +217,33 @@ const postController = {
       });
     }
   },
+  getAllPosts: async (req: customRequest, res: Response) => {
+    try {
+      const posts = await prisma.post.findMany({
+        orderBy: {
+          createdAt: "desc", // Use 'desc' for descending order
+        },
+        include: {
+          author: {
+            select: {
+              id: true,
+              username: true,
+              profilepic: true,
+            },
+          },
+        },
+      });
+
+      res.status(HttpStatusCode.OK).json({
+        data: posts,
+      });
+    } catch (err: any) {
+      console.log("Error while fetching all posts", err.message);
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        message: "Internal server error",
+      });
+    }
+  },
 };
 
 export default postController;

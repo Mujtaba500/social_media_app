@@ -28,7 +28,7 @@ postRouter.put(
 postRouter.get("/myposts", verifyToken, postController.getMyPosts);
 
 // Get all posts
-postRouter.get("/posts", verifyToken);
+postRouter.get("/posts", verifyToken, postController.getAllPosts);
 
 // Delete post
 postRouter.delete("/post/:id", verifyToken);
