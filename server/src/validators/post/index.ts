@@ -9,7 +9,7 @@ const postValidator = (
   next: NextFunction
 ) => {
   const schema = Joi.object({
-    content: Joi.string().max(100),
+    content: Joi.string().max(100).required(),
   });
   const { error, value } = schema.validate(req.body);
   if (error) {
