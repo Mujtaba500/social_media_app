@@ -194,11 +194,29 @@ const userController = {
         if (user.coverphoto) {
           const public_id = user.coverphoto.split("/").pop()!.split(".")[0];
           await deleteFromCloudinary(public_id);
+
+          await prisma.user.update({
+            where: {
+              id,
+            },
+            data: {
+              coverphoto: null,
+            },
+          });
         }
       } else if (img === "profilepic") {
         if (user.profilepic) {
           const public_id = user.profilepic.split("/").pop()!.split(".")[0];
           await deleteFromCloudinary(public_id);
+
+          await prisma.user.update({
+            where: {
+              id,
+            },
+            data: {
+              profilepic: null,
+            },
+          });
         }
       }
 

@@ -58,7 +58,7 @@ const postController = {
       });
 
       res.status(HttpStatusCode.OK).json({
-        message: "Post created cuessfully",
+        message: "Post created successfully",
         data: newPost,
       });
     } catch (err: any) {
@@ -134,7 +134,7 @@ const postController = {
         });
 
         return res.status(HttpStatusCode.OK).json({
-          message: "Post updated cuessfully",
+          message: "Post updated successfully",
           data: updatedPost,
         });
       }
@@ -195,18 +195,17 @@ const postController = {
   },
   getUserPosts: async (req: customRequest, res: Response) => {
     try {
-      const id = req.user?.userId;
       const userid = req.params.id;
 
       const user = await prisma.user.findUnique({
         where: {
-          id,
+          id: userid,
         },
       });
 
       if (!user) {
-        return res.status(HttpStatusCode.UNAUTHORIZED).json({
-          message: "Unauthorized",
+        return res.status(HttpStatusCode.NOT_FOUND).json({
+          message: "User not found",
         });
       }
 
