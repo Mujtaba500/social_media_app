@@ -24,8 +24,8 @@ postRouter.put(
   postController.editPost
 );
 
-// Get current user posts
-postRouter.get("/myposts", verifyToken, postController.getMyPosts);
+// Get user posts
+postRouter.get("/posts/:id", verifyToken, postController.getUserPosts);
 
 // Get all posts
 postRouter.get("/posts", verifyToken, postController.getAllPosts);

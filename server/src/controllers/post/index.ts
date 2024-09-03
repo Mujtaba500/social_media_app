@@ -193,16 +193,14 @@ const postController = {
       });
     }
   },
-  getMyPosts: async (req: customRequest, res: Response) => {
+  getUserPosts: async (req: customRequest, res: Response) => {
     try {
       const id = req.user?.userId;
+      const userid = req.params.id;
 
       const user = await prisma.user.findUnique({
         where: {
           id,
-        },
-        include: {
-          posts: true,
         },
       });
 
@@ -212,7 +210,12 @@ const postController = {
         });
       }
 
-      const posts = user.posts;
+      const posts = await prisma.post.findMany({
+        where: {
+          authorId: userid,
+        },
+      });
+
       res.status(HttpStatusCode.OK).json({
         data: posts,
       });
