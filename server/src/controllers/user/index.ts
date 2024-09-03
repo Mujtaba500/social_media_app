@@ -91,8 +91,8 @@ const userController = {
       });
 
       if (!user) {
-        return res.status(HttpStatusCode.NOT_FOUND).json({
-          message: "User doesnot exist",
+        return res.status(HttpStatusCode.UNAUTHORIZED).json({
+          message: "Unauthorized",
         });
       }
 

@@ -2,8 +2,13 @@ import jwt from "jsonwebtoken";
 import { Response, NextFunction } from "express";
 import { customRequest, user } from "../../types/types.js";
 import { HttpStatusCode } from "../../types/types.js";
+import prisma from "../../db/config.js";
 
-const verifyToken = (req: customRequest, res: Response, next: NextFunction) => {
+const verifyToken = async (
+  req: customRequest,
+  res: Response,
+  next: NextFunction
+) => {
   let token = req.headers.authorization;
 
   if (!token) {

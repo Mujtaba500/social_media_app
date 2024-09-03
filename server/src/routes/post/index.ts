@@ -11,12 +11,18 @@ postRouter.post(
   "/post",
   verifyToken,
   upload.single("postImg"),
-  postValidator,
+  postValidator.createPost,
   postController.createPost
 );
 
 // Update post
-postRouter.put("/post/:id", verifyToken, postValidator);
+postRouter.put(
+  "/post/:id",
+  verifyToken,
+  upload.single("postImg"),
+  postValidator.editPost,
+  postController.editPost
+);
 
 // Get current user posts
 postRouter.get("/myposts", verifyToken);
