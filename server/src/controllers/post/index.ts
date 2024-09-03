@@ -213,6 +213,9 @@ const postController = {
         where: {
           authorId: userid,
         },
+        orderBy: {
+          createdAt: "desc",
+        },
       });
 
       res.status(HttpStatusCode.OK).json({

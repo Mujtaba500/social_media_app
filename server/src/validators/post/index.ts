@@ -3,6 +3,7 @@ import Joi from "joi";
 import { NextFunction, Response } from "express";
 import { HttpStatusCode } from "../../types/types.js";
 import { filterErrorMessage } from "../../utils/filterErrorMessage.js";
+import fs from "fs";
 
 const postValidator = {
   createPost: (req: customRequest, res: Response, next: NextFunction) => {
@@ -31,6 +32,7 @@ const postValidator = {
       if (error) {
         console.log(error);
         const customErrMessage = filterErrorMessage(error.details[0].message);
+        fs.unlinkSync(req.file.path);
 
         return res.status(HttpStatusCode.BAD_REQUEST).json({
           message: "Invalid file",
@@ -80,6 +82,7 @@ const postValidator = {
       if (error) {
         console.log(error);
         const customErrMessage = filterErrorMessage(error.details[0].message);
+        fs.unlinkSync(req.file.path);
 
         return res.status(HttpStatusCode.BAD_REQUEST).json({
           message: "Invalid file",

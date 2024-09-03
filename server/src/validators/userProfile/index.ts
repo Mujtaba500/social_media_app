@@ -2,6 +2,7 @@ import Joi from "joi";
 import { Request, Response, NextFunction } from "express";
 import { HttpStatusCode } from "../../types/types.js";
 import { filterErrorMessage } from "../../utils/filterErrorMessage.js";
+import fs from "fs";
 
 const userProfileValidator = async (
   req: Request,
@@ -32,6 +33,7 @@ const userProfileValidator = async (
     if (error) {
       console.log(error);
       const customErrMessage = filterErrorMessage(error.details[0].message);
+      fs.unlinkSync(req.file.path);
 
       return res.status(HttpStatusCode.BAD_REQUEST).json({
         message: "Invalid file",
