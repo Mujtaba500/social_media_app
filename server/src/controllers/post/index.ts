@@ -100,6 +100,12 @@ const postController = {
         });
       }
 
+      if (post?.authorId !== userId) {
+        return res.status(HttpStatusCode.UNAUTHORIZED).json({
+          message: "Unauthorized",
+        });
+      }
+
       // If both image and content is getting changed
       if (req.file && content) {
         const image = req.file;
@@ -239,6 +245,50 @@ const postController = {
       });
     } catch (err: any) {
       console.log("Error while fetching all posts", err.message);
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        message: "Internal server error",
+      });
+    }
+  },
+  deletePost: async (req: customRequest, res: Response) => {
+    try {
+      const id = req.user?.userId;
+      const postId = req.params.id;
+
+      const post = await prisma.post.findUnique({
+        where: {
+          id: postId,
+        },
+      });
+
+      if (!post) {
+        return res.status(HttpStatusCode.NOT_FOUND).json({
+          message: "Post not found",
+        });
+      }
+
+      if (post?.authorId !== id) {
+        return res.status(HttpStatusCode.UNAUTHORIZED).json({
+          message: "Unauthorized",
+        });
+      }
+
+      if (post.image) {
+        const public_id = post.image.split("/").pop()!.split(".")[0];
+        await deleteFromCloudinary(public_id);
+      }
+
+      await prisma.post.delete({
+        where: {
+          id: postId,
+        },
+      });
+
+      res.status(HttpStatusCode.OK).json({
+        message: "Post deleted successfully",
+      });
+    } catch (err: any) {
+      console.log("Error while deleting post", err.message);
       res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
         message: "Internal server error",
       });

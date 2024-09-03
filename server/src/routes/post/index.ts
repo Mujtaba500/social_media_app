@@ -31,6 +31,6 @@ postRouter.get("/myposts", verifyToken, postController.getMyPosts);
 postRouter.get("/posts", verifyToken, postController.getAllPosts);
 
 // Delete post
-postRouter.delete("/post/:id", verifyToken);
+postRouter.delete("/post/:id", verifyToken, postController.deletePost);
 
 export default postRouter;
