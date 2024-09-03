@@ -1,23 +1,15 @@
+import { customRequest } from "../../types/types.js";
 import Joi from "joi";
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Response } from "express";
 import { HttpStatusCode } from "../../types/types.js";
 
-const userProfileValidator = async (
-  req: Request,
+const postValidator = (
+  req: customRequest,
   res: Response,
   next: NextFunction
 ) => {
   const schema = Joi.object({
-    username: Joi.string().alphanum().min(3).max(20),
-    fullName: Joi.string().min(3).max(20),
-    currentPassword: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{6,30}$")),
-    newPassword: Joi.string()
-      .pattern(new RegExp("^[a-zA-Z0-9]{6,30}$"))
-      .when("currentPassword", {
-        is: Joi.exist(),
-        then: Joi.required(),
-        otherwise: Joi.forbidden(),
-      }),
+    content: Joi.string().max(100),
   });
   const { error, value } = schema.validate(req.body);
   if (error) {
@@ -32,11 +24,11 @@ const userProfileValidator = async (
       .join("");
 
     return res.status(HttpStatusCode.BAD_REQUEST).json({
-      message: "Invalid input values",
+      message: "Invalid input",
       details: customErrMessage,
     });
   }
   next();
 };
 
-export default userProfileValidator;
+export default postValidator;
