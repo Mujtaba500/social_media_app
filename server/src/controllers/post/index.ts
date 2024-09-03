@@ -187,6 +187,36 @@ const postController = {
       });
     }
   },
+  getMyPosts: async (req: customRequest, res: Response) => {
+    try {
+      const id = req.user?.userId;
+
+      const user = await prisma.user.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          posts: true,
+        },
+      });
+
+      if (!user) {
+        return res.status(HttpStatusCode.UNAUTHORIZED).json({
+          message: "Unauthorized",
+        });
+      }
+
+      const posts = user.posts;
+      res.status(HttpStatusCode.OK).json({
+        data: posts,
+      });
+    } catch (err: any) {
+      console.log("Error while fetching current user posts", err.message);
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        message: "Internal server error",
+      });
+    }
+  },
 };
 
 export default postController;
