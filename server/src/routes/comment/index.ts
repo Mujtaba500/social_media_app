@@ -29,7 +29,11 @@ commentRouter.put(
 );
 
 // delete comment
-commentRouter.delete("/comment/:commentId", verifyToken);
+commentRouter.delete(
+  "/comment/:commentId",
+  verifyToken,
+  commentController.deleteComment
+);
 
 // Like/ unlike comment
 commentRouter.put("/comment/like/:commentId", verifyToken);

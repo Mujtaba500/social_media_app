@@ -41,7 +41,7 @@ const commentController = {
         },
       });
 
-      res.status(HttpStatusCode.OK).json({
+      res.status(HttpStatusCode.CREATED).json({
         message: "Commented sucessfully",
         data: comment,
       });
@@ -61,7 +61,11 @@ const commentController = {
           id: postId,
         },
         include: {
-          comments: true,
+          comments: {
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
         },
       });
 
@@ -126,6 +130,51 @@ const commentController = {
       });
     } catch (err: any) {
       console.log("Error while editing comment", err.message);
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        message: "Internal server error",
+      });
+    }
+  },
+  deleteComment: async (req: customRequest, res: Response) => {
+    try {
+      const id = req.params.commentId;
+      const userId = req.user?.userId;
+
+      const comment = await prisma.comment.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if (!comment) {
+        return res.status(HttpStatusCode.NOT_FOUND).json({
+          message: "Comment not found",
+        });
+      }
+
+      const user = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!user) {
+        return res.status(HttpStatusCode.UNAUTHORIZED).json({
+          message: "Unauthorized",
+        });
+      }
+
+      await prisma.comment.delete({
+        where: {
+          id,
+        },
+      });
+
+      res.status(HttpStatusCode.OK).json({
+        message: "Comment deleted successfully",
+      });
+    } catch (err: any) {
+      console.log("Error while deleting comment", err.message);
       res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
         message: "Internal server error",
       });
