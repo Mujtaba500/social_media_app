@@ -24,6 +24,9 @@ postRouter.put(
   postController.editPost
 );
 
+// Like / Unlike post
+postRouter.put("/post/:id", verifyToken, postController.likeUnlikePost);
+
 // Get user posts
 postRouter.get("/posts/:id", verifyToken, postController.getUserPosts);
 

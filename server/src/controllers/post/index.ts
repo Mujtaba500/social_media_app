@@ -193,6 +193,15 @@ const postController = {
       });
     }
   },
+  likeUnlikePost: async (req: customRequest, res: Response) => {
+    try {
+    } catch (err: any) {
+      console.log("Error while liking/unliking post", err.message);
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        message: "Internal server error",
+      });
+    }
+  },
   getUserPosts: async (req: customRequest, res: Response) => {
     try {
       const userid = req.params.id;
@@ -240,6 +249,11 @@ const postController = {
               id: true,
               username: true,
               profilepic: true,
+            },
+          },
+          comments: {
+            select: {
+              id: true,
             },
           },
         },
