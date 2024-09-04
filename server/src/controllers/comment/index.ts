@@ -52,6 +52,35 @@ const commentController = {
       });
     }
   },
+  getComments: async (req: customRequest, res: Response) => {
+    try {
+      const postId = req.params.postId;
+
+      const post = await prisma.post.findUnique({
+        where: {
+          id: postId,
+        },
+        include: {
+          comments: true,
+        },
+      });
+
+      if (!post) {
+        return res.status(HttpStatusCode.NOT_FOUND).json({
+          message: "Post not found",
+        });
+      }
+
+      res.status(HttpStatusCode.OK).json({
+        data: post.comments,
+      });
+    } catch (err: any) {
+      console.log("Error while fetching comments", err.message);
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        message: "Internal server error",
+      });
+    }
+  },
 };
 
 export default commentController;

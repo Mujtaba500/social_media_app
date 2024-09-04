@@ -14,7 +14,11 @@ commentRouter.post(
 );
 
 // Get comments for a single post
-commentRouter.get("/comments/:postId", verifyToken);
+commentRouter.get(
+  "/comments/:postId",
+  verifyToken,
+  commentController.getComments
+);
 
 // Edit comment
 commentRouter.put("/comment/:commentId", verifyToken, commentValidator);
