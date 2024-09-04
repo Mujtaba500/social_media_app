@@ -180,6 +180,74 @@ const commentController = {
       });
     }
   },
+  likeUnlikeComment: async (req: customRequest, res: Response) => {
+    try {
+      const id = req.params.commentId;
+      const userId = req.user?.userId;
+
+      const comment = await prisma.comment.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if (!comment) {
+        return res.status(HttpStatusCode.NOT_FOUND).json({
+          message: "Comment not found",
+        });
+      }
+
+      const user = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!user) {
+        return res.status(HttpStatusCode.UNAUTHORIZED).json({
+          message: "Unauthorized",
+        });
+      }
+
+      // If comment is already liked, we will unlike
+      if (comment.likes.includes(user.id)) {
+        const updatedLikes = comment.likes.filter((id) => id !== user.id);
+
+        await prisma.comment.update({
+          where: {
+            id,
+          },
+          data: {
+            likes: updatedLikes,
+          },
+        });
+
+        return res.status(HttpStatusCode.OK).json({
+          message: "Comment unliked",
+        });
+      }
+
+      await prisma.comment.update({
+        where: {
+          id,
+        },
+        data: {
+          likes: {
+            push: user.id,
+          },
+        },
+      });
+
+      return res.status(HttpStatusCode.OK).json({
+        message: "Comment liked",
+      });
+    } catch (err: any) {
+      console.log("Error while likeing/unliking comment", err.message);
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        message: "Internal server error",
+      });
+    }
+  },
 };
 
 export default commentController;

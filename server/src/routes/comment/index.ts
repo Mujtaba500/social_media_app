@@ -36,6 +36,10 @@ commentRouter.delete(
 );
 
 // Like/ unlike comment
-commentRouter.put("/comment/like/:commentId", verifyToken);
+commentRouter.put(
+  "/comment/like/:commentId",
+  verifyToken,
+  commentController.likeUnlikeComment
+);
 
 export default commentRouter;
