@@ -21,7 +21,12 @@ commentRouter.get(
 );
 
 // Edit comment
-commentRouter.put("/comment/:commentId", verifyToken, commentValidator);
+commentRouter.put(
+  "/comment/:commentId",
+  verifyToken,
+  commentValidator,
+  commentController.editComment
+);
 
 // delete comment
 commentRouter.delete("/comment/:commentId", verifyToken);
