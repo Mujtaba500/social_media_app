@@ -182,12 +182,81 @@ const postController = {
         },
       });
 
-      res.status(HttpStatusCode.OK).json({
-        message: "Post updated cuessfully",
+      return res.status(HttpStatusCode.OK).json({
+        message: "Post updated successfully",
         data: updatedPost,
       });
     } catch (err: any) {
       console.log("Error while editing post", err.message);
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        message: "Internal server error",
+      });
+    }
+  },
+  likeUnlikePost: async (req: customRequest, res: Response) => {
+    try {
+      const userId = req.user?.userId;
+      const postId = req.params.id;
+
+      const user = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!user) {
+        return res.status(HttpStatusCode.UNAUTHORIZED).json({
+          message: "UnAuthorized",
+        });
+      }
+
+      const post = await prisma.post.findUnique({
+        where: {
+          id: postId,
+        },
+      });
+
+      if (!post) {
+        return res.status(HttpStatusCode.NOT_FOUND).json({
+          message: "Post does not exist",
+        });
+      }
+
+      if (post.likes.includes(userId!)) {
+        const updatedLikes = post.likes.filter((id) => id !== userId);
+
+        const updatedPost = await prisma.post.update({
+          where: {
+            id: postId,
+          },
+          data: {
+            likes: updatedLikes,
+          },
+        });
+
+        return res.status(HttpStatusCode.OK).json({
+          message: "Post unliked successfully",
+          data: updatedPost,
+        });
+      }
+
+      const likedPost = await prisma.post.update({
+        where: {
+          id: postId,
+        },
+        data: {
+          likes: {
+            push: userId,
+          },
+        },
+      });
+
+      res.status(HttpStatusCode.OK).json({
+        message: "Post liked successfully",
+        data: likedPost,
+      });
+    } catch (err: any) {
+      console.log("Error while liking/unliking post", err.message);
       res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
         message: "Internal server error",
       });
@@ -240,6 +309,11 @@ const postController = {
               id: true,
               username: true,
               profilepic: true,
+            },
+          },
+          comments: {
+            select: {
+              id: true,
             },
           },
         },
