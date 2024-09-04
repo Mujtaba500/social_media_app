@@ -314,6 +314,22 @@ const userController = {
           },
         });
 
+        // Send notification
+        try {
+          await prisma.notification.create({
+            data: {
+              type: "FOLLOW",
+              from: authId!,
+              to: userId,
+            },
+          });
+        } catch (err: any) {
+          console.log("Error while creating notification", err.message);
+          res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+            message: "Internal server error",
+          });
+        }
+
         return res.status(HttpStatusCode.OK).json({
           message: "User followed successfully",
         });

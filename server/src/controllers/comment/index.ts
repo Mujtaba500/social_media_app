@@ -41,6 +41,27 @@ const commentController = {
         },
       });
 
+      // Send notification
+      try {
+        const postAuthorId = post.authorId;
+
+        // Donot send notification if user comment on his own post
+        if (postAuthorId !== userId) {
+          await prisma.notification.create({
+            data: {
+              type: "COMMENT",
+              from: userId!,
+              to: postAuthorId,
+            },
+          });
+        }
+      } catch (err: any) {
+        console.log("Error while creating notification", err.message);
+        res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+          message: "Internal server error",
+        });
+      }
+
       res.status(HttpStatusCode.CREATED).json({
         message: "Commented sucessfully",
         data: comment,
@@ -237,6 +258,26 @@ const commentController = {
           },
         },
       });
+
+      // Send notificaiotn
+      try {
+        const authorId = comment.authorId;
+
+        if (authorId !== userId) {
+          await prisma.notification.create({
+            data: {
+              type: "COMMENT_LIKE",
+              from: userId!,
+              to: authorId,
+            },
+          });
+        }
+      } catch (err: any) {
+        console.log("Error while creating notification", err.message);
+        res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+          message: "Internal server error",
+        });
+      }
 
       return res.status(HttpStatusCode.OK).json({
         message: "Comment liked",
