@@ -251,6 +251,26 @@ const postController = {
         },
       });
 
+      // Send notification
+      try {
+        const authorId = post.authorId;
+
+        if (authorId !== userId) {
+          await prisma.notification.create({
+            data: {
+              type: "POST_LIKE",
+              from: userId!,
+              to: authorId,
+            },
+          });
+        }
+      } catch (err: any) {
+        console.log("Error while creating notification", err.message);
+        res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+          message: "Internal server error",
+        });
+      }
+
       res.status(HttpStatusCode.OK).json({
         message: "Post liked successfully",
         data: likedPost,
