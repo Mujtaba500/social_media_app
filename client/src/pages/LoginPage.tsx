@@ -4,7 +4,7 @@ const LoginPage = () => {
   return (
     <div className="flex justify-center items-center min-h-screen">
       <form className="text-center flex flex-col max-h-max ">
-        <h1 className="text-3xl m-5 text-white">Sign in </h1>
+        <h1 className="text-3xl m-5 text-white">Log In </h1>
         <label className="input input-bordered flex items-center gap-2 mt-5 mx-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
