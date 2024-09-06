@@ -1,7 +1,17 @@
+import Sidebar from "../components/Sidebar";
+import Suggested from "../components/Suggested";
+
 const HomePage = () => {
   return (
     <>
-      <h1 className="text-slate-100">Homepage</h1>
+      <div className="drawer lg:drawer-open">
+        <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+        <div className="drawer-content flex flex-col items-center justify-between">
+          {/* Page content here */}
+          <Suggested />
+        </div>
+        <Sidebar />
+      </div>
     </>
   );
 };
