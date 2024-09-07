@@ -1,3 +1,5 @@
+import UserCard from "./UserCard";
+
 const Suggested = () => {
   return (
     <>
@@ -5,7 +7,9 @@ const Suggested = () => {
         <div>
           <ul className="menu text-base-content w-80 p-4 gap-5">
             <li>
-              <a className="text-white rounded-full text-2xl">User 1</a>
+              <a className="text-white rounded-full ">
+                <UserCard />
+              </a>
             </li>
           </ul>
         </div>

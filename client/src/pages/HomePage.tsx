@@ -6,8 +6,9 @@ const HomePage = () => {
     <>
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex flex-col items-center justify-between">
+        <div className="drawer-content flex  items-center justify-between">
           {/* Page content here */}
+          <div className="posts"></div>
           <Suggested />
         </div>
         <Sidebar />
