@@ -11,7 +11,7 @@ const UserCard: React.FC<UserCardProps> = ({ auth }) => {
           </div>
         </div>
         <div className="ml-3">
-          <p className=" text-white text-xl whitespace-nowrap overflow-hidden text-ellipsis max-w-28">
+          <p className=" text-white text-lg whitespace-nowrap overflow-hidden text-ellipsis max-w-28">
             Portgas D Ace
           </p>
           <p>@ace123</p>
@@ -22,7 +22,7 @@ const UserCard: React.FC<UserCardProps> = ({ auth }) => {
             <LogOut />
           </div>
         ) : (
-          <button className="btn rounded-full btn-primary btn-outline ml-5">
+          <button className="btn rounded-full btn-sm  btn-primary btn-outline ml-5">
             Follow
           </button>
         )}
