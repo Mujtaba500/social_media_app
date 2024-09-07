@@ -3,7 +3,7 @@ import { ImageUp } from "lucide-react";
 const CreatePost = () => {
   return (
     <>
-      <div className="h-full">
+      <div>
         <textarea
           className="textarea textarea-bordered textarea-lg w-full h-1/6 m-0"
           placeholder="What's on your mind?"

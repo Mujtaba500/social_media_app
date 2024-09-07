@@ -1,6 +1,7 @@
-import CreatePost from "../components/CreatePost";
-import Sidebar from "../components/Sidebar";
-import Suggested from "../components/Suggested";
+import CreatePost from "../components/common/CreatePost";
+import Posts from "../components/common/Posts";
+import Sidebar from "../components/common/Sidebar";
+import Suggested from "../components/common/Suggested";
 
 const HomePage = () => {
   return (
@@ -11,6 +12,7 @@ const HomePage = () => {
           {/* Page content here */}
           <div className="posts w-full h-full">
             <CreatePost />
+            <Posts />
           </div>
           <Suggested />
         </div>

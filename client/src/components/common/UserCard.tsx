@@ -1,4 +1,4 @@
-import { UserCardProps } from "../types";
+import { UserCardProps } from "../../types";
 import { LogOut } from "lucide-react";
 
 const UserCard: React.FC<UserCardProps> = ({ auth }) => {
