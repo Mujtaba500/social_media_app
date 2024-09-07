@@ -1,8 +1,9 @@
 import { Trash2, Pencil, ThumbsUp, MessageCircle } from "lucide-react";
+import Comments from "./Comments";
 
 const Post = () => {
   return (
-    <div className="">
+    <div>
       <div className="flex justify-between ml-4 ">
         <div className="flex">
           <div className="avatar placeholder">
@@ -37,11 +38,28 @@ const Post = () => {
         <div className="flex">
           <MessageCircle
             size={20}
+            onClick={() => {
+              const modal = document.getElementById(
+                "myModal"
+              ) as HTMLDialogElement;
+              if (modal) {
+                modal.showModal();
+              }
+            }}
             className="cursor-pointer hover:text-green-400"
           />
           <p className="ml-1">2</p>
         </div>
       </div>
+      <dialog id="myModal" className="modal">
+        <div className="modal-box">
+          <h1 className="font-bold text-lg text-white">COMMENTS</h1>
+          <Comments />
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
 
       <div className="divider mt-0 ml-0"></div>
     </div>
