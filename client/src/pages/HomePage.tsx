@@ -1,5 +1,5 @@
-import CreatePost from "../components/common/CreatePost";
-import Posts from "../components/common/Posts";
+import CreatePost from "../components/common/post/CreatePost";
+import Posts from "../components/common/post/Posts";
 import Sidebar from "../components/common/Sidebar";
 import Suggested from "../components/common/Suggested";
 

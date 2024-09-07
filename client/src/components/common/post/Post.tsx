@@ -1,5 +1,6 @@
 import { Trash2, Pencil, ThumbsUp, MessageCircle } from "lucide-react";
-import Comments from "./Comments";
+import Comments from "../comment/Comments";
+import EditPost from "./EditPost";
 
 const Post = () => {
   return (
@@ -19,8 +20,22 @@ const Post = () => {
           </div>
         </div>
         <div className="flex">
-          <Pencil size={20} className="cursor-pointer mr-2" />
-          <Trash2 size={20} className="cursor-pointer mr-4" />
+          <Pencil
+            size={20}
+            className="cursor-pointer mr-2 hover:text-blue-400"
+            onClick={() => {
+              const modal = document.getElementById(
+                "editPostModal"
+              ) as HTMLDialogElement;
+              if (modal) {
+                modal.showModal();
+              }
+            }}
+          />
+          <Trash2
+            size={20}
+            className="cursor-pointer mr-4 hover:text-red-600"
+          />
         </div>
       </div>
       <div className=" mt-4 flex justify-center">
@@ -60,7 +75,7 @@ const Post = () => {
           <button>close</button>
         </form>
       </dialog>
-
+      <EditPost />
       <div className="divider mt-0 ml-0"></div>
     </div>
   );
