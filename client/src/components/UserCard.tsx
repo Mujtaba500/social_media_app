@@ -1,7 +1,10 @@
-const UserCard = () => {
+import { UserCardProps } from "../types";
+import { LogOut } from "lucide-react";
+
+const UserCard: React.FC<UserCardProps> = ({ auth }) => {
   return (
     <>
-      <div className="userCard flex items-center">
+      <div className="userCard flex items-center justify-between">
         <div className="avatar placeholder">
           <div className="bg-neutral text-neutral-content w-12 rounded-full">
             <span className="">M</span>
@@ -13,9 +16,16 @@ const UserCard = () => {
           </p>
           <p>@ace123</p>
         </div>
-        <button className="btn rounded-full btn-primary btn-outline ml-5">
-          Follow
-        </button>
+
+        {auth === true ? (
+          <div className="ml-12">
+            <LogOut />
+          </div>
+        ) : (
+          <button className="btn rounded-full btn-primary btn-outline ml-5">
+            Follow
+          </button>
+        )}
       </div>
     </>
   );

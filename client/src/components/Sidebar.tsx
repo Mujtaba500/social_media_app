@@ -1,9 +1,12 @@
+import UserCard from "./UserCard";
+
 const Sidebar = () => {
   return (
-    <div className="drawer-side min-h-full bg-base-200">
-      <div>
-        <ul className="menu text-b  ase-content w-80 p-4 gap-5">
+    <div className="drawer-side bg-base-200 ">
+      <div className="flex flex-col justify-between min-h-full">
+        <ul className="menu text-base-content w-80 p-4 gap-5">
           {/* Sidebar content here */}
+
           <li>
             <img src="/public/konekt.png" alt="logo" className="w-28" />
           </li>
@@ -15,6 +18,14 @@ const Sidebar = () => {
           </li>
           <li>
             <a className="text-white text-2xl">Messages</a>
+          </li>
+        </ul>
+
+        <ul className="menu text-base-content w-80 ">
+          <li>
+            <a className="text-white rounded-full ">
+              <UserCard auth={true} />
+            </a>
           </li>
         </ul>
       </div>
