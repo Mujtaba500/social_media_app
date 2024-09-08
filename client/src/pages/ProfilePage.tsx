@@ -1,6 +1,7 @@
 import { ArrowLeft, CalendarDays, Trash2 } from "lucide-react";
 import { useNavigateNoUpdates } from "../context/RouterUtils";
 import Posts from "../components/common/post/Posts";
+import EditProfileModal from "../components/common/EditProfileModal";
 
 const ProfilePage = () => {
   const navigate = useNavigateNoUpdates();
@@ -48,9 +49,20 @@ const ProfilePage = () => {
               className="cursor-pointer -top-10 -left-4 opacity-0 group-hover:opacity-100 text-red-500  hover:text-red-600 relative my-0"
             />
           </div>
-          <button className="btn rounded-full btn-sm  btn-primary btn-outline mr-3 mt-3 ">
+          <button
+            className="btn rounded-full btn-sm  btn-primary btn-outline mr-3 mt-3 "
+            onClick={() => {
+              const modal = document.getElementById(
+                "editProfileModal"
+              ) as HTMLDialogElement;
+              if (modal) {
+                modal.showModal();
+              }
+            }}
+          >
             Edit profile
           </button>
+          <EditProfileModal />
         </div>
         <div className="ml-4 -top-6 relative">
           <h1 className="text-slate-200 text-lg font-bold ">Portgas D Ace</h1>
