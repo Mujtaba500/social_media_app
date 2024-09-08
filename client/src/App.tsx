@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ProfilePage from "./pages/ProfilePage";
 import Layout from "./components/common/Layout";
+import NotificationPage from "./pages/NotificationPage";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/notifications" element={<NotificationPage />} />
         </Route>
       </Routes>
     </>

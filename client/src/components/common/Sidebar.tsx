@@ -14,6 +14,10 @@ const Sidebar = () => {
     navigate("/profile");
   };
 
+  const handleNavigateNotificationPage = () => {
+    navigate("/notifications");
+  };
+
   return (
     <div className="drawer-side bg-base-200 w-1  ">
       <div className="flex flex-col justify-between min-h-full">
@@ -32,7 +36,7 @@ const Sidebar = () => {
               My Profile
             </a>
           </li>
-          <li>
+          <li onClick={handleNavigateNotificationPage}>
             <a className="text-white text-lg">
               <Bell size={32} />
               Notifications

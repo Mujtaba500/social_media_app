@@ -9,7 +9,7 @@ const ProfilePage = () => {
   return (
     <>
       {/* Page content here */}
-      <div className="posts w-full h-full">
+      <div className="profile w-full h-full">
         <div className="header flex items-center mt-3">
           <ArrowLeft
             className="mx-4 cursor-pointer"
