@@ -49,7 +49,7 @@ const Sidebar = () => {
         <ul className="menu text-base-content w-80 ">
           <li>
             <a className="text-white rounded-full ">
-              <UserCard />
+              <UserCard auth={true} />
             </a>
           </li>
         </ul>
