@@ -1,4 +1,4 @@
-import { ArrowLeft, CalendarDays } from "lucide-react";
+import { ArrowLeft, CalendarDays, Trash2 } from "lucide-react";
 import { useNavigateNoUpdates } from "../context/RouterUtils";
 import Posts from "../components/common/post/Posts";
 
@@ -23,17 +23,31 @@ const ProfilePage = () => {
             <p>3 posts</p>
           </div>
         </div>
-        <div className="divider my-0 ml-0"></div>
+        <div className="divider my-0 ml-0 "></div>
+        <div className=" justify-end my-0 flex p-0 h-0 ">
+          <Trash2
+            size={20}
+            className="cursor-pointer -left-3 -bottom-4 hover:text-red-600 relative my-0"
+          />
+        </div>
         <img
           src="/public/cover.png"
+          id="cover"
           className="h-52 w-full object-cover"
           alt="cover image"
         />
+
         <div className="flex justify-between ">
-          <img
-            src={"/public/profilepic.png"}
-            className="w-32 rounded-full -top-16 -right-4 relative "
-          />
+          <div className="flex group">
+            <img
+              src={"/public/profilepic.png"}
+              className="w-32 rounded-full -top-16 -right-4 relative "
+            />
+            <Trash2
+              size={20}
+              className="cursor-pointer -top-10 -left-4 opacity-0 group-hover:opacity-100 text-red-500  hover:text-red-600 relative my-0"
+            />
+          </div>
           <button className="btn rounded-full btn-sm  btn-primary btn-outline mr-3 mt-3 ">
             Edit profile
           </button>
