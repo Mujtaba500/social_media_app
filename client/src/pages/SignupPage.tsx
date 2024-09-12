@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import useSignup from "../hooks/useSignup";
 
 const SignupPage = () => {
+  const { signup, loading } = useSignup();
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -31,8 +34,7 @@ const SignupPage = () => {
         .required("Required"),
     }),
     onSubmit: async (values) => {
-      // login(values);
-      console.log(values);
+      signup(values);
     },
   });
 
@@ -117,7 +119,7 @@ const SignupPage = () => {
           type="submit"
           className="btn rounded-full btn-neutral text-white m-5"
         >
-          Sign Up
+          {loading ? "Loading..." : "Sign Up"}
         </button>
         <div className="flex flex-col gap-2 ">
           <p className="text-white text-lg mt-1 ">Already have an account?</p>
