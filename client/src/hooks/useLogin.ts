@@ -3,9 +3,12 @@ import axiosInstance from "../axios";
 import { LoginInputValues } from "../types";
 import toast from "react-hot-toast";
 import refreshAccessToken from "../utils/refreshAccessToken";
+import { useAuthContext } from "../context/authContext";
 
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
+
+  const { setAuthUser } = useAuthContext();
 
   const login = async (values: LoginInputValues) => {
     try {
@@ -13,6 +16,8 @@ const useLogin = () => {
       const response = await axiosInstance.post("/auth/login", values);
       localStorage.setItem("access_token", response.data.token);
       toast.success(response.data.message);
+
+      setAuthUser(response.data.data);
 
       const tokenExpiryInMinutes = response.data.accessTokenExpiry;
 

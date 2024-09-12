@@ -21,7 +21,7 @@ const refreshAccessToken = (tokenExpiryInMinutes: number) => {
       console.log("status: ", err.response.status);
       console.log("Error: ", err.response.data.message);
     }
-  }, 5000);
+  }, 50000);
 };
 
 export default refreshAccessToken;

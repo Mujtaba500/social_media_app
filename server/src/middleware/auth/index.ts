@@ -10,7 +10,6 @@ const verifyToken = async (
   next: NextFunction
 ) => {
   let token = req.headers.authorization;
-  console.log("Access token", token);
 
   if (!token) {
     return res.status(HttpStatusCode.UNAUTHORIZED).json({

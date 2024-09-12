@@ -6,7 +6,7 @@ import { createAccessToken } from "../../utils/createToken.js";
 export const refreshAccessToken = async (req: customRequest, res: Response) => {
   try {
     const refreshToken = req.cookies.jwt;
-    console.log("refreshToken", refreshToken);
+
     const user = req.user as user;
 
     if (!refreshToken) {
@@ -26,7 +26,6 @@ export const refreshAccessToken = async (req: customRequest, res: Response) => {
         mesage: "Unauthorized",
       });
     }
-    console.log("token exists");
 
     const { token: newToken, accessTokenExpiry } = createAccessToken(
       user.userId!,

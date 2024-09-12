@@ -7,3 +7,10 @@ export type LoginInputValues = {
   username: string;
   password: string;
 };
+
+export type AuthUserType = {
+  id: string;
+  username: string;
+  fullName: string;
+  profilepic: string | null;
+};
