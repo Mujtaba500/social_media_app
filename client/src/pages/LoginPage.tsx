@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import useLogin from "../hooks/useLogin";
 
 const LoginPage = () => {
+  const { login, loading } = useLogin();
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -26,7 +29,7 @@ const LoginPage = () => {
         .required("Required"),
     }),
     onSubmit: async (values) => {
-      console.log(values);
+      login(values);
     },
   });
 

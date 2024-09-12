@@ -5,6 +5,7 @@ import SignupPage from "./pages/SignupPage";
 import ProfilePage from "./pages/ProfilePage";
 import Layout from "./components/common/Layout";
 import NotificationPage from "./pages/NotificationPage";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/notifications" element={<NotificationPage />} />
         </Route>
       </Routes>
+      <Toaster />
     </>
   );
 }
