@@ -14,7 +14,7 @@ const SignupPage = () => {
     },
     validationSchema: Yup.object({
       username: Yup.string()
-        .min(3, "username must be atleast 3 characters long")
+        .min(6, "username must be atleast 6 characters long")
         .max(20, "username cannot exceed 20 characters")
         .matches(
           /^[0-9a-z]*$/,
@@ -22,7 +22,7 @@ const SignupPage = () => {
         )
         .required("Required"),
       fullName: Yup.string()
-        .min(3, "fullName must be atleast 3 characters long")
+        .min(6, "fullName must be atleast 6 characters long")
         .max(20, "fullName cannot exceed 20 characters")
         .required("Required"),
       password: Yup.string()
