@@ -1,6 +1,14 @@
 export interface UserCardProps {
-  user?: string;
+  user: User | AuthUserType | null;
   auth?: boolean; // or the appropriate type (e.g., object, number, etc.)
+}
+
+export interface User {
+  id: string;
+  username: string;
+  fullName: string;
+  profilepic?: string | null;
+  coverphoto?: string | null;
 }
 
 export type LoginInputValues = {

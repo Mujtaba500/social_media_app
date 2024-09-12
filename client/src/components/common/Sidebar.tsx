@@ -1,9 +1,11 @@
 import UserCard from "./UserCard";
 import { User, Bell, MessageSquareMore } from "lucide-react";
 import { useNavigateNoUpdates } from "../../context/RouterUtils";
+import { useAuthContext } from "../../context/authContext";
 
 const Sidebar = () => {
-  console.log("sidebar refresh");
+  const { authUser } = useAuthContext();
+
   const navigate = useNavigateNoUpdates();
 
   const handleNavigateHome = () => {
@@ -53,7 +55,7 @@ const Sidebar = () => {
         <ul className="menu text-base-content w-80 ">
           <li>
             <a className="text-white rounded-full ">
-              <UserCard auth={true} />
+              <UserCard auth={true} user={authUser} />
             </a>
           </li>
         </ul>
