@@ -8,6 +8,12 @@ export type LoginInputValues = {
   password: string;
 };
 
+export type SignupInputValues = {
+  username: string;
+  fullName: string;
+  password: string;
+};
+
 export type AuthUserType = {
   id: string;
   username: string;

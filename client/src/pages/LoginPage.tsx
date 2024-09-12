@@ -93,7 +93,7 @@ const LoginPage = () => {
           type="submit"
           className="btn rounded-full btn-neutral text-white m-5"
         >
-          Login
+          {loading ? "Loading..." : "Login"}
         </button>
         <div className="flex flex-col gap-2 ">
           <p className="text-white text-lg mt-1 ">Don't have an account?</p>

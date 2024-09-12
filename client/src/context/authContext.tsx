@@ -9,7 +9,6 @@ import {
   ReactNode,
 } from "react";
 import axiosInstance from "../axios";
-import toast from "react-hot-toast";
 
 const AuthContext = createContext<{
   authUser: AuthUserType | null;
