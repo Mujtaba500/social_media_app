@@ -3,11 +3,14 @@ import "dotenv/config";
 import morgan from "morgan";
 import allRoutes from "./routes/allRoutes.js";
 import cookieparser from "cookie-parser";
+import cors from "cors";
+import { corsOptions } from "./utils/corsSetup.js";
 
 const app = express();
 
 const logger = morgan("dev");
 
+app.use(cors(corsOptions));
 app.use(logger);
 app.use(cookieparser());
 app.use(express.json());

@@ -6,7 +6,14 @@ import { createAccessToken } from "../../utils/createToken.js";
 export const refreshAccessToken = async (req: customRequest, res: Response) => {
   try {
     const refreshToken = req.cookies.jwt;
+
     const user = req.user as user;
+
+    if (!refreshToken) {
+      return res.status(HttpStatusCode.UNAUTHORIZED).json({
+        mesage: "Unauthorized",
+      });
+    }
 
     const tokenExists = await prisma.token.findFirst({
       where: {

@@ -126,7 +126,8 @@ const authController = {
         .status(200)
         .cookie("jwt", refreshToken, {
           maxAge: refreshTokenExpiry * 60 * 1000, // MS
-          httpOnly: true, // prevent xss attacks
+          httpOnly: true,
+          // prevent xss attacks
           // sameSite: "strict",
           // secure: process.env.STAGE !== "development", // HTTPS
         })
