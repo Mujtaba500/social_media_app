@@ -43,6 +43,10 @@ export type Post = {
   comments: Comment[];
 };
 
+export type PostsProps = {
+  posts: Post[];
+};
+
 export type Comment = {
   id: string;
   body: string;

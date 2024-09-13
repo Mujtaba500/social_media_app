@@ -2,8 +2,11 @@ import { Pencil, Trash2 } from "lucide-react";
 import DialogEditComment from "./DialogEditComment";
 import React from "react";
 import { CommentProps } from "../../../types";
+import { useAuthContext } from "../../../context/authContext";
 
 const Comment: React.FC<CommentProps> = ({ comment }) => {
+  const { authUser } = useAuthContext();
+
   return (
     <>
       <div className="flex my-4 ">
@@ -27,24 +30,26 @@ const Comment: React.FC<CommentProps> = ({ comment }) => {
               </h1>
               <p>@{comment.author.username}</p>
             </div>
-            <div className="flex">
-              <Pencil
-                size={20}
-                className="cursor-pointer mr-2 hover:text-blue-400"
-                onClick={() => {
-                  const modal = document.getElementById(
-                    "editCommentModal"
-                  ) as HTMLDialogElement;
-                  if (modal) {
-                    modal.showModal();
-                  }
-                }}
-              />
-              <Trash2
-                size={20}
-                className="cursor-pointer mr-4 hover:text-red-600"
-              />
-            </div>
+            {authUser?.id === comment.authorId ? (
+              <div className="flex">
+                <Pencil
+                  size={20}
+                  className="cursor-pointer mr-2 hover:text-blue-400"
+                  onClick={() => {
+                    const modal = document.getElementById(
+                      "editCommentModal"
+                    ) as HTMLDialogElement;
+                    if (modal) {
+                      modal.showModal();
+                    }
+                  }}
+                />
+                <Trash2
+                  size={20}
+                  className="cursor-pointer mr-4 hover:text-red-600"
+                />
+              </div>
+            ) : null}
           </div>
           <p className="text-white">{comment.body}</p>
         </div>

@@ -2,8 +2,11 @@ import { Trash2, Pencil, ThumbsUp, MessageCircle } from "lucide-react";
 import Comments from "../comment/Comments";
 import EditPost from "./EditPost";
 import { PostProps } from "../../../types";
+import { useAuthContext } from "../../../context/authContext";
 
 const Post: React.FC<PostProps> = ({ post }) => {
+  const { authUser } = useAuthContext();
+
   return (
     <div>
       <div className="flex justify-between ml-4 ">
@@ -27,24 +30,26 @@ const Post: React.FC<PostProps> = ({ post }) => {
             <p className="text-white">{post.content}</p>
           </div>
         </div>
-        <div className="flex">
-          <Pencil
-            size={20}
-            className="cursor-pointer mr-2 hover:text-blue-400"
-            onClick={() => {
-              const modal = document.getElementById(
-                "editPostModal"
-              ) as HTMLDialogElement;
-              if (modal) {
-                modal.showModal();
-              }
-            }}
-          />
-          <Trash2
-            size={20}
-            className="cursor-pointer mr-4 hover:text-red-600"
-          />
-        </div>
+        {authUser?.id === post.authorId ? (
+          <div className="flex">
+            <Pencil
+              size={20}
+              className="cursor-pointer mr-2 hover:text-blue-400"
+              onClick={() => {
+                const modal = document.getElementById(
+                  "editPostModal"
+                ) as HTMLDialogElement;
+                if (modal) {
+                  modal.showModal();
+                }
+              }}
+            />
+            <Trash2
+              size={20}
+              className="cursor-pointer mr-4 hover:text-red-600"
+            />
+          </div>
+        ) : null}
       </div>
       <div className=" mt-4 flex justify-center">
         {post.image ? (

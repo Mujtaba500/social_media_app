@@ -3,7 +3,7 @@ import Posts from "../components/common/post/Posts";
 import useGetPosts from "../hooks/useGetPosts";
 
 const HomePage = () => {
-  const { loading } = useGetPosts();
+  const { posts, loading } = useGetPosts();
 
   return (
     <>
@@ -14,7 +14,7 @@ const HomePage = () => {
             <span className="loading loading-spinner loading-lg"></span>
           </div>
         ) : (
-          <Posts />
+          <Posts posts={posts} />
         )}
       </div>
     </>
