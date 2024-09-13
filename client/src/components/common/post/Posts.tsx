@@ -1,4 +1,3 @@
-import useGetPosts from "../../../hooks/useGetPosts";
 import Post from "./Post";
 import { PostsProps } from "../../../types";
 
