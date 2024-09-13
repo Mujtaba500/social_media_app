@@ -1,22 +1,30 @@
 import { Trash2, Pencil, ThumbsUp, MessageCircle } from "lucide-react";
 import Comments from "../comment/Comments";
 import EditPost from "./EditPost";
+import { PostProps } from "../../../types";
 
-const Post = () => {
+const Post: React.FC<PostProps> = ({ post }) => {
   return (
     <div>
       <div className="flex justify-between ml-4 ">
         <div className="flex">
           <div className="avatar placeholder">
-            <div className="bg-neutral text-neutral-content w-12 rounded-full">
-              <span className="">M</span>
-            </div>
+            {post.author.profilepic ? (
+              <img
+                src={`${post?.author?.profilepic}`}
+                className="w-12 rounded-full"
+              />
+            ) : (
+              <div className="bg-neutral text-neutral-content w-12 rounded-full">
+                <span>{post?.author?.fullName.slice(0, 1)}</span>
+              </div>
+            )}
           </div>
           <div className="ml-2 ">
             <h1 className="text-slate-200 text-lg  font-bold ">
-              Portgas D Ace
+              {post?.author.fullName}
             </h1>
-            <p className="text-white">Hello From another world</p>
+            <p className="text-white">{post.content}</p>
           </div>
         </div>
         <div className="flex">
@@ -39,23 +47,25 @@ const Post = () => {
         </div>
       </div>
       <div className=" mt-4 flex justify-center">
-        <img
-          className="ml-49 self-center justify-self-center"
-          src="../../../public/konekt.png"
-          alt="postImg"
-        />
+        {post.image ? (
+          <img
+            className="ml-49 self-center justify-self-center"
+            src={`${post.image}`}
+            alt="postImg"
+          />
+        ) : null}
       </div>
       <div className="flex m-4 justify-around">
         <div className="flex">
           <ThumbsUp size={20} className="cursor-pointer hover:text-blue-400" />
-          <p className="ml-1">2</p>
+          <p className="ml-1">{post.likes.length}</p>
         </div>
         <div className="flex">
           <MessageCircle
             size={20}
             onClick={() => {
               const modal = document.getElementById(
-                "myModal"
+                "commentModal"
               ) as HTMLDialogElement;
               if (modal) {
                 modal.showModal();
@@ -63,13 +73,13 @@ const Post = () => {
             }}
             className="cursor-pointer hover:text-green-400"
           />
-          <p className="ml-1">2</p>
+          <p className="ml-1">{post.comments.length}</p>
         </div>
       </div>
-      <dialog id="myModal" className="modal">
+      <dialog id="commentModal" className="modal">
         <div className="modal-box">
           <h1 className="font-bold text-lg text-white">COMMENTS</h1>
-          <Comments />
+          <Comments comments={post.comments} />
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>

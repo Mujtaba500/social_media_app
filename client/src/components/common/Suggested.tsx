@@ -7,7 +7,7 @@ const Suggested = () => {
 
   const mappedusers = suggestedUsers.map((user) => {
     return (
-      <li>
+      <li key={user.id}>
         <a className="text-white rounded-full ">
           <UserCard user={user} />
         </a>

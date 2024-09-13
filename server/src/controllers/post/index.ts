@@ -327,15 +327,11 @@ const postController = {
           author: {
             select: {
               id: true,
-              username: true,
+              fullName: true,
               profilepic: true,
             },
           },
-          comments: {
-            select: {
-              id: true,
-            },
-          },
+          comments: true,
         },
       });
 

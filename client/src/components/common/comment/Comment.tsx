@@ -1,7 +1,9 @@
 import { Pencil, Trash2 } from "lucide-react";
 import DialogEditComment from "./DialogEditComment";
+import React from "react";
+import { CommentProps } from "../../../types";
 
-const Comment = () => {
+const Comment: React.FC<CommentProps> = () => {
   return (
     <>
       <div className="flex my-4 ">

@@ -5,7 +5,7 @@ export interface UserCardProps {
 
 export interface User {
   id: string;
-  username: string;
+  username?: string;
   fullName: string;
   profilepic?: string | null;
   coverphoto?: string | null;
@@ -27,4 +27,34 @@ export type AuthUserType = {
   username: string;
   fullName: string;
   profilepic: string | null;
+};
+
+export type PostProps = {
+  post: Post;
+};
+
+export type Post = {
+  id: string;
+  content: string;
+  authorId: string;
+  author: User;
+  image?: string;
+  likes: string[];
+  comments: Comment[];
+};
+
+export type Comment = {
+  id: string;
+  body: string;
+  likes: string[];
+  postId: string;
+  authorId: string;
+};
+
+export type CommentProps = {
+  comment: Comment;
+};
+
+export type CommentsProp = {
+  comments: Comment[];
 };
