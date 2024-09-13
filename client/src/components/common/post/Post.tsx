@@ -65,7 +65,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
             size={20}
             onClick={() => {
               const modal = document.getElementById(
-                "commentModal"
+                `commentModal${post.id}`
               ) as HTMLDialogElement;
               if (modal) {
                 modal.showModal();
@@ -76,7 +76,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
           <p className="ml-1">{post.comments.length}</p>
         </div>
       </div>
-      <dialog id="commentModal" className="modal">
+      <dialog id={`commentModal${post.id}`} className="modal">
         <div className="modal-box">
           <h1 className="font-bold text-lg text-white">COMMENTS</h1>
           <Comments comments={post.comments} />

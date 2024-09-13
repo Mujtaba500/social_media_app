@@ -22,7 +22,7 @@ const UserCard: React.FC<UserCardProps> = ({ auth, user }) => {
             <p className=" text-white text-lg whitespace-nowrap overflow-hidden text-ellipsis max-w-28">
               {user?.fullName}
             </p>
-            <p>{user?.username}</p>
+            <p>@{user?.username}</p>
           </div>
 
           {auth === true ? (

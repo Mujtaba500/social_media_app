@@ -49,6 +49,7 @@ export type Comment = {
   likes: string[];
   postId: string;
   authorId: string;
+  author: User;
 };
 
 export type CommentProps = {

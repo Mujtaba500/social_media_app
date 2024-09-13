@@ -331,7 +331,18 @@ const postController = {
               profilepic: true,
             },
           },
-          comments: true,
+          comments: {
+            include: {
+              author: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  username: true,
+                  profilepic: true,
+                },
+              },
+            },
+          },
         },
       });
 
