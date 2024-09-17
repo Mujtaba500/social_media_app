@@ -1,9 +1,18 @@
+import { useRecoilValue } from "recoil";
 import CreatePost from "../components/common/post/CreatePost";
 import Posts from "../components/common/post/Posts";
 import useGetPosts from "../hooks/useGetPosts";
+import { useEffect } from "react";
+import postsState from "../global/Posts";
 
 const HomePage = () => {
-  const { posts, loading } = useGetPosts();
+  const { loading, getPosts } = useGetPosts();
+  const posts = useRecoilValue(postsState);
+
+  useEffect(() => {
+    getPosts();
+    console.log("useeffect running");
+  }, []);
 
   return (
     <>

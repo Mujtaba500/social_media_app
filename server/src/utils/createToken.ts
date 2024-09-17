@@ -17,7 +17,7 @@ const createAccessToken = (userId: string, username: string) => {
     username,
   };
 
-  const accessTokenExpiry = 60;
+  const accessTokenExpiry = 360;
 
   const token = jwt.sign(dataToSign, process.env.ACCESS_TOKEN_SECRET!, {
     expiresIn: `${accessTokenExpiry}m`,
@@ -39,7 +39,7 @@ const createRefreshToken = async (
     };
 
     let refreshToken = jwt.sign(dataToSign, process.env.REFRESH_TOKEN_SECRET!, {
-      expiresIn: "40m",
+      expiresIn: "8h",
     });
 
     const expirationTime = new Date();

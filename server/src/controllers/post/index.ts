@@ -50,10 +50,37 @@ const postController = {
       }
 
       // If only content and no image
-      const newPost = await prisma.post.create({
+      const post = await prisma.post.create({
         data: {
           authorId: userId,
           content,
+        },
+      });
+
+      const newPost = await prisma.post.findUnique({
+        where: {
+          id: post.id,
+        },
+        include: {
+          author: {
+            select: {
+              id: true,
+              fullName: true,
+              profilepic: true,
+            },
+          },
+          comments: {
+            include: {
+              author: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  username: true,
+                  profilepic: true,
+                },
+              },
+            },
+          },
         },
       });
 
