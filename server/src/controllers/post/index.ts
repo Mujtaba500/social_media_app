@@ -158,6 +158,27 @@ const postController = {
             content,
             image: uploadedResponse.secure_url,
           },
+          include: {
+            author: {
+              select: {
+                id: true,
+                fullName: true,
+                profilepic: true,
+              },
+            },
+            comments: {
+              include: {
+                author: {
+                  select: {
+                    id: true,
+                    fullName: true,
+                    username: true,
+                    profilepic: true,
+                  },
+                },
+              },
+            },
+          },
         });
 
         return res.status(HttpStatusCode.OK).json({
@@ -190,6 +211,27 @@ const postController = {
             authorId: userId,
             image: uploadedResponse.secure_url,
           },
+          include: {
+            author: {
+              select: {
+                id: true,
+                fullName: true,
+                profilepic: true,
+              },
+            },
+            comments: {
+              include: {
+                author: {
+                  select: {
+                    id: true,
+                    fullName: true,
+                    username: true,
+                    profilepic: true,
+                  },
+                },
+              },
+            },
+          },
         });
 
         return res.status(HttpStatusCode.OK).json({
@@ -206,6 +248,27 @@ const postController = {
         data: {
           authorId: userId,
           content,
+        },
+        include: {
+          author: {
+            select: {
+              id: true,
+              fullName: true,
+              profilepic: true,
+            },
+          },
+          comments: {
+            include: {
+              author: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  username: true,
+                  profilepic: true,
+                },
+              },
+            },
+          },
         },
       });
 

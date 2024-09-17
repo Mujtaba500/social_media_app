@@ -1,3 +1,5 @@
+import { File } from "buffer";
+
 export interface UserCardProps {
   user: User | AuthUserType | null;
   auth?: boolean; // or the appropriate type (e.g., object, number, etc.)
@@ -45,6 +47,10 @@ export type Post = {
 
 export type PostsProps = {
   posts: Post[];
+};
+
+export type EditPostProps = {
+  postId: string;
 };
 
 export type Comment = {

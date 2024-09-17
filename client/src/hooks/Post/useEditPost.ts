@@ -12,6 +12,7 @@ const useEditPost = () => {
   const editPost = async (postId: string, values: FormData) => {
     try {
       setLoading(true);
+
       const response = await axiosInstance.put(`/post/${postId}`, values, {
         headers: {
           Authorization: localStorage.getItem("access_token"),
@@ -20,12 +21,17 @@ const useEditPost = () => {
       });
       toast.success(response.data.message);
 
-      //   setPosts(newPosts);
+      let newPosts = [...posts];
+      const index = newPosts.findIndex((post) => post.id === postId);
+      newPosts[index] = response.data.data;
+      setPosts(newPosts);
     } catch (err: any) {
       console.log(err);
       console.log("status: ", err.response?.status);
       console.log("Error: ", err.response?.data?.message);
       toast.error(err.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
 

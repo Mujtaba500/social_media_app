@@ -44,7 +44,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
               className="cursor-pointer mr-2 hover:text-blue-400"
               onClick={() => {
                 const modal = document.getElementById(
-                  "editPostModal"
+                  `editPostModal${post.id}`
                 ) as HTMLDialogElement;
                 if (modal) {
                   modal.showModal();
@@ -104,7 +104,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
           <button>close</button>
         </form>
       </dialog>
-      <EditPost />
+      <EditPost postId={post.id} />
       <div className="divider mt-0 ml-0"></div>
     </div>
   );
