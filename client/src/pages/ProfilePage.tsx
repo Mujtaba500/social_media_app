@@ -2,7 +2,7 @@ import { ArrowLeft, CalendarDays, Trash2 } from "lucide-react";
 import { useNavigateNoUpdates } from "../context/RouterUtils";
 import Posts from "../components/common/post/Posts";
 import EditProfileModal from "../components/common/EditProfileModal";
-import useGetPosts from "../hooks/useGetPosts";
+import useGetPosts from "../hooks/Post/useGetPosts";
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import postsState from "../global/Posts";

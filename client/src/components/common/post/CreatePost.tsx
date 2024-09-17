@@ -2,7 +2,7 @@ import { ImageUp } from "lucide-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRef, useState } from "react";
-import useCreatePost from "../../../hooks/useCreatePost";
+import useCreatePost from "../../../hooks/Post/useCreatePost";
 
 const CreatePost = () => {
   const imgRef = useRef<HTMLInputElement>(null);

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import axiosInstance from "../axios";
+import axiosInstance from "../../axios";
 
 import { useSetRecoilState } from "recoil";
-import postsState from "../global/Posts";
+import postsState from "../../global/Posts";
 
 const useGetPosts = () => {
   const [loading, setLoading] = useState(false);

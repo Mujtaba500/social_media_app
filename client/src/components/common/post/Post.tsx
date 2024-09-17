@@ -3,9 +3,16 @@ import Comments from "../comment/Comments";
 import EditPost from "./EditPost";
 import { PostProps } from "../../../types";
 import { useAuthContext } from "../../../context/authContext";
+import useDeletePost from "../../../hooks/Post/useDeletePost";
 
 const Post: React.FC<PostProps> = ({ post }) => {
   const { authUser } = useAuthContext();
+
+  const { deletePost, loading } = useDeletePost();
+
+  const handleDelete = () => {
+    deletePost(post.id);
+  };
 
   return (
     <div>
@@ -44,10 +51,17 @@ const Post: React.FC<PostProps> = ({ post }) => {
                 }
               }}
             />
-            <Trash2
-              size={20}
-              className="cursor-pointer mr-4 hover:text-red-600"
-            />
+            {loading ? (
+              <div className="text-center">
+                <span className="loading loading-spinner loading-sm"></span>
+              </div>
+            ) : (
+              <Trash2
+                size={20}
+                className="cursor-pointer mr-4 hover:text-red-600"
+                onClick={handleDelete}
+              />
+            )}
           </div>
         ) : null}
       </div>

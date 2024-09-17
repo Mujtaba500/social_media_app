@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
 import CreatePost from "../components/common/post/CreatePost";
 import Posts from "../components/common/post/Posts";
-import useGetPosts from "../hooks/useGetPosts";
+import useGetPosts from "../hooks/Post/useGetPosts";
 import { useEffect } from "react";
 import postsState from "../global/Posts";
 
