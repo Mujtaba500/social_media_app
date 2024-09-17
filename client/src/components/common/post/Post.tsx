@@ -4,11 +4,14 @@ import EditPost from "./EditPost";
 import { PostProps } from "../../../types";
 import { useAuthContext } from "../../../context/authContext";
 import useDeletePost from "../../../hooks/Post/useDeletePost";
+import useLikeUnlikePost from "../../../hooks/Post/useLikeUnlikePost";
 
 const Post: React.FC<PostProps> = ({ post }) => {
   const { authUser } = useAuthContext();
 
   const { deletePost, loading } = useDeletePost();
+
+  const { likeUnlikePost, loading: likeLoading } = useLikeUnlikePost();
 
   const handleDelete = () => {
     deletePost(post.id);
@@ -76,7 +79,24 @@ const Post: React.FC<PostProps> = ({ post }) => {
       </div>
       <div className="flex m-4 justify-around">
         <div className="flex">
-          <ThumbsUp size={20} className="cursor-pointer hover:text-blue-400" />
+          {post.likes.includes(authUser!.id) ? (
+            <ThumbsUp
+              size={20}
+              className="cursor-pointer text-blue-600"
+              onClick={() => {
+                likeUnlikePost(post.id);
+              }}
+            />
+          ) : (
+            <ThumbsUp
+              size={20}
+              className="cursor-pointer hover:text-blue-400"
+              onClick={() => {
+                likeUnlikePost(post.id);
+              }}
+            />
+          )}
+
           <p className="ml-1">{post.likes.length}</p>
         </div>
         <div className="flex">

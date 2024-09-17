@@ -16,7 +16,6 @@ const useGetPosts = () => {
           Authorization: localStorage.getItem("access_token"),
         },
       });
-      console.log(response);
       setPosts(response.data.data);
     } catch (err: any) {
       console.log(err);

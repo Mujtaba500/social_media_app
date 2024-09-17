@@ -11,7 +11,6 @@ const HomePage = () => {
 
   useEffect(() => {
     getPosts();
-    console.log("useeffect running");
   }, []);
 
   return (

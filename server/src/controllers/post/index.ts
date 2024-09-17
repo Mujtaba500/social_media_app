@@ -322,6 +322,27 @@ const postController = {
           data: {
             likes: updatedLikes,
           },
+          include: {
+            author: {
+              select: {
+                id: true,
+                fullName: true,
+                profilepic: true,
+              },
+            },
+            comments: {
+              include: {
+                author: {
+                  select: {
+                    id: true,
+                    fullName: true,
+                    username: true,
+                    profilepic: true,
+                  },
+                },
+              },
+            },
+          },
         });
 
         return res.status(HttpStatusCode.OK).json({
@@ -337,6 +358,27 @@ const postController = {
         data: {
           likes: {
             push: userId,
+          },
+        },
+        include: {
+          author: {
+            select: {
+              id: true,
+              fullName: true,
+              profilepic: true,
+            },
+          },
+          comments: {
+            include: {
+              author: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  username: true,
+                  profilepic: true,
+                },
+              },
+            },
           },
         },
       });
