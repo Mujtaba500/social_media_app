@@ -45,10 +45,6 @@ export type Post = {
   comments: Comment[];
 };
 
-export type PostsProps = {
-  posts: Post[];
-};
-
 export type EditPostProps = {
   postId: string;
 };

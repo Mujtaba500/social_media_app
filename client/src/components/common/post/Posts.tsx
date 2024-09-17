@@ -1,7 +1,11 @@
 import Post from "./Post";
-import { PostsProps } from "../../../types";
+import { useRecoilValue } from "recoil";
+import postsState from "../../../global/Posts";
 
-const Posts: React.FC<PostsProps> = ({ posts }) => {
+const Posts = () => {
+  const posts = useRecoilValue(postsState);
+  console.log("posts in display", posts);
+
   return (
     <>
       {posts.map((post) => {

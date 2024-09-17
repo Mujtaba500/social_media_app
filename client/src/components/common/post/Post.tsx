@@ -5,13 +5,20 @@ import { PostProps } from "../../../types";
 import { useAuthContext } from "../../../context/authContext";
 import useDeletePost from "../../../hooks/Post/useDeletePost";
 import useLikeUnlikePost from "../../../hooks/Post/useLikeUnlikePost";
+import { useEffect, useState } from "react";
 
 const Post: React.FC<PostProps> = ({ post }) => {
   const { authUser } = useAuthContext();
 
   const { deletePost, loading } = useDeletePost();
 
-  const { likeUnlikePost, loading: likeLoading } = useLikeUnlikePost();
+  const { likeUnlikePost } = useLikeUnlikePost();
+
+  const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    post.likes.includes(authUser!.id) ? setIsLiked(true) : setIsLiked(false);
+  }, [post]);
 
   const handleDelete = () => {
     deletePost(post.id);
@@ -79,20 +86,20 @@ const Post: React.FC<PostProps> = ({ post }) => {
       </div>
       <div className="flex m-4 justify-around">
         <div className="flex">
-          {post.likes.includes(authUser!.id) ? (
+          {isLiked ? (
             <ThumbsUp
               size={20}
               className="cursor-pointer text-blue-600"
-              onClick={() => {
-                likeUnlikePost(post.id);
+              onClick={async () => {
+                await likeUnlikePost(post.id);
               }}
             />
           ) : (
             <ThumbsUp
               size={20}
               className="cursor-pointer hover:text-blue-400"
-              onClick={() => {
-                likeUnlikePost(post.id);
+              onClick={async () => {
+                await likeUnlikePost(post.id);
               }}
             />
           )}
