@@ -69,3 +69,8 @@ export type CommentsProp = {
 export type AddCommentsProps = {
   postId: string;
 };
+
+export type EditCommentProps = {
+  postId: string;
+  commentId: string;
+};

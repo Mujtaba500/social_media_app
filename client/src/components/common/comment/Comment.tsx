@@ -7,7 +7,8 @@ import useDeleteComment from "../../../hooks/comment/useDeleteComment";
 
 const Comment: React.FC<CommentProps> = ({ postId, comment }) => {
   const { authUser } = useAuthContext();
-  const { deleteComment, loading } = useDeleteComment();
+
+  const { deleteComment } = useDeleteComment();
 
   const handleDelete = async () => {
     await deleteComment(comment.id, postId);
@@ -43,7 +44,7 @@ const Comment: React.FC<CommentProps> = ({ postId, comment }) => {
                   className="cursor-pointer mr-2 hover:text-blue-400"
                   onClick={() => {
                     const modal = document.getElementById(
-                      "editCommentModal"
+                      `editCommentModal${comment.id}`
                     ) as HTMLDialogElement;
                     if (modal) {
                       modal.showModal();
@@ -60,7 +61,7 @@ const Comment: React.FC<CommentProps> = ({ postId, comment }) => {
           </div>
           <p className="text-white">{comment.body}</p>
         </div>
-        <DialogEditComment />
+        <DialogEditComment postId={postId} commentId={comment.id} />
       </div>
     </>
   );
