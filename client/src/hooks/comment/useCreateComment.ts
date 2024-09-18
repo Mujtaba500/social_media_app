@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useRecoilState } from "recoil";
 import postsState from "../../global/Posts";
 
-const useCreatePost = () => {
+const useCreateComment = () => {
   const [loading, setLoading] = useState(false);
 
   const [posts, setPosts] = useRecoilState(postsState);
@@ -22,9 +22,19 @@ const useCreatePost = () => {
         }
       );
       toast.success(response.data.message);
-      //   const newPosts = [...posts];
 
-      //   setPosts(newPosts);
+      let newPosts = [...posts];
+
+      newPosts = newPosts.map((post) => {
+        if (post.id === postId) {
+          let newComments = [...post.comments, response.data.data];
+          return { ...post, comments: newComments };
+        } else {
+          return post;
+        }
+      });
+
+      setPosts(newPosts);
     } catch (err: any) {
       console.log(err);
       console.log("status: ", err.response?.status);
@@ -38,4 +48,4 @@ const useCreatePost = () => {
   return { createComment, loading };
 };
 
-export default useCreatePost;
+export default useCreateComment;

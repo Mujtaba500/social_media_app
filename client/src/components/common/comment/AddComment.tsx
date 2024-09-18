@@ -1,7 +1,11 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import useCreateComment from "../../../hooks/comment/useCreateComment";
+import { AddCommentsProps } from "../../../types";
 
-const AddComment = () => {
+const AddComment: React.FC<AddCommentsProps> = ({ postId }) => {
+  const { createComment, loading } = useCreateComment();
+
   const formik = useFormik({
     initialValues: {
       body: "",
@@ -12,7 +16,7 @@ const AddComment = () => {
         .max(100, "Comment length cannot exceed 100 characters"),
     }),
     onSubmit: async (values) => {
-      console.log(values);
+      await createComment(values.body, postId);
       formik.values.body = "";
     },
   });
@@ -37,7 +41,7 @@ const AddComment = () => {
             type="submit"
             className="btn btn-primary btn-sm rounded-full py-0 px-6 ml-4 mr-0 text-white "
           >
-            Post
+            {loading ? "Posting..." : "Post"}
           </button>
         </div>
       </form>

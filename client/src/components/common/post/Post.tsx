@@ -125,7 +125,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
       <dialog id={`commentModal${post.id}`} className="modal">
         <div className="modal-box">
           <h1 className="font-bold text-lg text-white">COMMENTS</h1>
-          <Comments comments={post.comments} />
+          <Comments comments={post.comments} postId={post.id} />
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>

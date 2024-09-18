@@ -1,5 +1,3 @@
-import { File } from "buffer";
-
 export interface UserCardProps {
   user: User | AuthUserType | null;
   auth?: boolean; // or the appropriate type (e.g., object, number, etc.)
@@ -64,4 +62,9 @@ export type CommentProps = {
 
 export type CommentsProp = {
   comments: Comment[];
+  postId: string;
+};
+
+export type AddCommentsProps = {
+  postId: string;
 };
