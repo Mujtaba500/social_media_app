@@ -4,7 +4,6 @@ import postsState from "../../../global/Posts";
 
 const Posts = () => {
   const posts = useRecoilValue(postsState);
-  console.log("posts in display", posts);
 
   return (
     <>

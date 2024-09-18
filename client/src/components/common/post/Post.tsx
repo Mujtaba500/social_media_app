@@ -18,7 +18,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
 
   useEffect(() => {
     post.likes.includes(authUser!.id) ? setIsLiked(true) : setIsLiked(false);
-  }, [post]);
+  }, [likeUnlikePost]);
 
   const handleDelete = () => {
     deletePost(post.id);
