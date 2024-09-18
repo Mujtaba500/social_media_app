@@ -1,6 +1,14 @@
 export interface UserCardProps {
-  user?: string;
+  user: User | AuthUserType | null;
   auth?: boolean; // or the appropriate type (e.g., object, number, etc.)
+}
+
+export interface User {
+  id: string;
+  username?: string;
+  fullName: string;
+  profilepic?: string | null;
+  coverphoto?: string | null;
 }
 
 export type LoginInputValues = {
@@ -19,4 +27,50 @@ export type AuthUserType = {
   username: string;
   fullName: string;
   profilepic: string | null;
+};
+
+export type PostProps = {
+  post: Post;
+};
+
+export type Post = {
+  id: string;
+  content: string;
+  authorId: string;
+  author: User;
+  image?: string;
+  likes: string[];
+  comments: Comment[];
+};
+
+export type EditPostProps = {
+  postId: string;
+};
+
+export type Comment = {
+  id: string;
+  body: string;
+  likes: string[];
+  postId: string;
+  authorId: string;
+  author: User;
+};
+
+export type CommentProps = {
+  comment: Comment;
+  postId: string;
+};
+
+export type CommentsProp = {
+  comments: Comment[];
+  postId: string;
+};
+
+export type AddCommentsProps = {
+  postId: string;
+};
+
+export type EditCommentProps = {
+  postId: string;
+  commentId: string;
 };

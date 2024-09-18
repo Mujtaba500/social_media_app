@@ -5,14 +5,17 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { RouterUtils } from "./context/RouterUtils.tsx";
 import AuthContextProvider from "./context/authContext.tsx";
+import { RecoilRoot } from "recoil";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <RouterUtils>
-        <AuthContextProvider>
-          <App />
-        </AuthContextProvider>
+        <RecoilRoot>
+          <AuthContextProvider>
+            <App />
+          </AuthContextProvider>
+        </RecoilRoot>
       </RouterUtils>
     </BrowserRouter>
   </StrictMode>

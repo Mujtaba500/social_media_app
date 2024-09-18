@@ -2,9 +2,19 @@ import { ArrowLeft, CalendarDays, Trash2 } from "lucide-react";
 import { useNavigateNoUpdates } from "../context/RouterUtils";
 import Posts from "../components/common/post/Posts";
 import EditProfileModal from "../components/common/EditProfileModal";
+import useGetPosts from "../hooks/Post/useGetPosts";
+import { useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import postsState from "../global/Posts";
 
 const ProfilePage = () => {
   const navigate = useNavigateNoUpdates();
+  const posts = useRecoilValue(postsState);
+  const { getPosts } = useGetPosts();
+
+  useEffect(() => {
+    getPosts();
+  }, []);
 
   return (
     <>
@@ -83,7 +93,7 @@ const ProfilePage = () => {
         <div className="posts">
           <h1 className="text-white text-center ">Posts</h1>
           <div className="divider my-0 ml-0"></div>
-          <Posts />
+          <Posts posts={posts} />
         </div>
       </div>
     </>

@@ -39,6 +39,16 @@ const commentController = {
           postId: postId,
           authorId: userId!,
         },
+        include: {
+          author: {
+            select: {
+              id: true,
+              fullName: true,
+              username: true,
+              profilepic: true,
+            },
+          },
+        },
       });
 
       // Send notification

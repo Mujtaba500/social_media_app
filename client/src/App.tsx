@@ -8,24 +8,38 @@ import NotificationPage from "./pages/NotificationPage";
 import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "./context/authContext";
 import HomeSkeleton from "./components/skeletons/HomeSkeleton";
+import { useState, useEffect } from "react";
 
 function App() {
   const { authUser, isLoading } = useAuthContext();
+  const [isAuthResolved, setAuthResolved] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading) {
+      setTimeout(() => {
+        setAuthResolved(true);
+      }, 2000);
+    }
+  }, [isLoading, authUser]);
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || !isAuthResolved ? (
         <HomeSkeleton />
       ) : (
         <>
           <Routes>
             <Route
               path="/login"
-              element={!authUser ? <LoginPage /> : <Navigate to="/" />}
+              element={
+                !authUser && !isLoading ? <LoginPage /> : <Navigate to="/" />
+              }
             />
             <Route
               path="/signup"
-              element={!authUser ? <SignupPage /> : <Navigate to="/" />}
+              element={
+                !authUser && !isLoading ? <SignupPage /> : <Navigate to="/" />
+              }
             />
             <Route path="/" element={<Layout />}>
               <Route

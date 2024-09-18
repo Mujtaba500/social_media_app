@@ -4,6 +4,6 @@ import { refreshAccessToken } from "../../controllers/token/index.js";
 
 const tokenRouter = Router();
 
-tokenRouter.post("/refresh_token", verifyToken, refreshAccessToken);
+tokenRouter.post("/refresh_token", refreshAccessToken);
 
 export default tokenRouter;

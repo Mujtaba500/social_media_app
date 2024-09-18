@@ -9,6 +9,7 @@ import {
   ReactNode,
 } from "react";
 import axiosInstance from "../axios";
+import refreshAccessToken from "../utils/refreshAccessToken";
 
 const AuthContext = createContext<{
   authUser: AuthUserType | null;
@@ -38,8 +39,20 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         });
         setAuthUser(response.data.data);
       } catch (err: any) {
-        console.log("status: ", err.response.status);
-        console.log("Error: ", err.response.data.message);
+        if (err.response.status === 401) {
+          try {
+            await refreshAccessToken();
+            const response = await axiosInstance.get("/auth/user", {
+              headers: {
+                Authorization: localStorage.getItem("access_token"),
+              },
+            });
+            setAuthUser(response.data.data);
+          } catch (err: any) {
+            console.log("status: ", err.response.status);
+            console.log("Error: ", err.response.data.message);
+          }
+        }
       } finally {
         setisLoading(false);
       }

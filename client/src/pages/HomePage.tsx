@@ -1,24 +1,26 @@
-import axiosInstance from "../axios";
 import CreatePost from "../components/common/post/CreatePost";
 import Posts from "../components/common/post/Posts";
+import useGetPosts from "../hooks/Post/useGetPosts";
+import { useEffect } from "react";
 
 const HomePage = () => {
-  const getPosts = async () => {
-    try {
-      const response = await axiosInstance.get("/posts");
-      console.log(response);
-    } catch (err: any) {
-      console.log(err);
-    }
-  };
+  const { loading, getPosts } = useGetPosts();
 
-  getPosts();
+  useEffect(() => {
+    getPosts();
+  }, []);
 
   return (
     <>
-      <div className="posts w-full h-full">
+      <div className="posts w-full h-full ">
         <CreatePost />
-        <Posts />
+        {loading ? (
+          <div className="text-center">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
+        ) : (
+          <Posts />
+        )}
       </div>
     </>
   );

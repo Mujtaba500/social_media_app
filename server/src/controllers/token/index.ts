@@ -2,12 +2,11 @@ import prisma from "../../db/config.js";
 import { Response } from "express";
 import { customRequest, HttpStatusCode, user } from "../../types/types.js";
 import { createAccessToken } from "../../utils/createToken.js";
+import jwt from "jsonwebtoken";
 
 export const refreshAccessToken = async (req: customRequest, res: Response) => {
   try {
     const refreshToken = req.cookies.jwt;
-
-    const user = req.user as user;
 
     if (!refreshToken) {
       return res.status(HttpStatusCode.UNAUTHORIZED).json({
@@ -26,6 +25,11 @@ export const refreshAccessToken = async (req: customRequest, res: Response) => {
         mesage: "Unauthorized",
       });
     }
+
+    const user = jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET!
+    ) as user;
 
     const { token: newToken, accessTokenExpiry } = createAccessToken(
       user.userId!,
