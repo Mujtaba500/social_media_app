@@ -6,7 +6,7 @@ const Comments: React.FC<CommentsProp> = ({ comments, postId }) => {
   return (
     <>
       {comments.map((comment) => {
-        return <Comment comment={comment} key={comment.id} />;
+        return <Comment comment={comment} postId={postId} key={comment.id} />;
       })}
       <div className="divider mt-0 ml-0"></div>
       <AddComment postId={postId} />

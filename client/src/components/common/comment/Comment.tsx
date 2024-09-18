@@ -3,9 +3,15 @@ import DialogEditComment from "./DialogEditComment";
 import React from "react";
 import { CommentProps } from "../../../types";
 import { useAuthContext } from "../../../context/authContext";
+import useDeleteComment from "../../../hooks/comment/useDeleteComment";
 
-const Comment: React.FC<CommentProps> = ({ comment }) => {
+const Comment: React.FC<CommentProps> = ({ postId, comment }) => {
   const { authUser } = useAuthContext();
+  const { deleteComment, loading } = useDeleteComment();
+
+  const handleDelete = async () => {
+    await deleteComment(comment.id, postId);
+  };
 
   return (
     <>
@@ -47,6 +53,7 @@ const Comment: React.FC<CommentProps> = ({ comment }) => {
                 <Trash2
                   size={20}
                   className="cursor-pointer mr-4 hover:text-red-600"
+                  onClick={handleDelete}
                 />
               </div>
             ) : null}

@@ -58,6 +58,7 @@ export type Comment = {
 
 export type CommentProps = {
   comment: Comment;
+  postId: string;
 };
 
 export type CommentsProp = {
