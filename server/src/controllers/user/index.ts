@@ -294,12 +294,40 @@ const userController = {
             (id) => id !== userId
           );
 
-          await prisma.user.update({
+          const user = await prisma.user.update({
             where: {
               id: userId,
             },
             data: {
               followers: updatedFolllowers,
+            },
+            include: {
+              posts: {
+                orderBy: {
+                  createdAt: "desc", // Use 'desc' for descending order
+                },
+                include: {
+                  author: {
+                    select: {
+                      id: true,
+                      fullName: true,
+                      profilepic: true,
+                    },
+                  },
+                  comments: {
+                    include: {
+                      author: {
+                        select: {
+                          id: true,
+                          fullName: true,
+                          username: true,
+                          profilepic: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
             },
           });
 
@@ -314,16 +342,45 @@ const userController = {
 
           return res.status(HttpStatusCode.OK).json({
             message: "User unfollowed successfully",
+            user,
           });
         }
 
-        await prisma.user.update({
+        const user = await prisma.user.update({
           where: {
             id: userId,
           },
           data: {
             followers: {
               push: authId,
+            },
+          },
+          include: {
+            posts: {
+              orderBy: {
+                createdAt: "desc", // Use 'desc' for descending order
+              },
+              include: {
+                author: {
+                  select: {
+                    id: true,
+                    fullName: true,
+                    profilepic: true,
+                  },
+                },
+                comments: {
+                  include: {
+                    author: {
+                      select: {
+                        id: true,
+                        fullName: true,
+                        username: true,
+                        profilepic: true,
+                      },
+                    },
+                  },
+                },
+              },
             },
           },
         });
@@ -357,6 +414,7 @@ const userController = {
 
         return res.status(HttpStatusCode.OK).json({
           message: "User followed successfully",
+          user,
         });
       });
     } catch (err: any) {

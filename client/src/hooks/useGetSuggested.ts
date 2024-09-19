@@ -16,7 +16,6 @@ const useGetSuggested = () => {
           },
         });
         setSuggestedusers(response.data.data);
-        console.log(response);
       } catch (err: any) {
         console.log("status: ", err.response.status);
         console.log("Error: ", err.response.data.message);

@@ -10,6 +10,7 @@ import { useSetRecoilState } from "recoil";
 import postsState from "../global/Posts";
 import extractMonthAndYear from "../utils/extractDate";
 import { useAuthContext } from "../context/authContext";
+import useFollowUnfollow from "../hooks/useFollowUnfollow";
 
 const ProfilePage = () => {
   const navigate = useNavigateNoUpdates();
@@ -25,6 +26,8 @@ const ProfilePage = () => {
 
   const setPosts = useSetRecoilState(postsState);
 
+  const { followUnfollow, loading: followLoading } = useFollowUnfollow();
+
   useEffect(() => {
     const getUserProfile = async () => {
       const response = await getProfile(params.username!);
@@ -36,6 +39,11 @@ const ProfilePage = () => {
     };
     getUserProfile();
   }, [params]);
+
+  const handleFollowUnfollow = async () => {
+    const UpdatedUser = await followUnfollow(user?.id!);
+    setUser(UpdatedUser);
+  };
 
   return (
     <>
@@ -86,8 +94,19 @@ const ProfilePage = () => {
               />
             </div>
             {authUser?.id !== user?.id ? (
-              <button className="btn rounded-full btn-sm  btn-primary btn-outline mr-3 mt-3 ml-5">
-                {user?.followers.includes(authUser!.id) ? "Unfollow" : "Follow"}
+              <button
+                onClick={handleFollowUnfollow}
+                className="btn rounded-full btn-sm  btn-primary btn-outline mr-3 mt-3 ml-5"
+              >
+                {followLoading ? (
+                  <div className="text-center">
+                    <span className="loading loading-spinner loading-sm m-auto"></span>
+                  </div>
+                ) : user?.followers.includes(authUser!.id) ? (
+                  "Unfollow"
+                ) : (
+                  "Follow"
+                )}
               </button>
             ) : (
               <button
