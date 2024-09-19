@@ -12,13 +12,38 @@ import fs from "fs";
 const userController = {
   getUserProfile: async (req: customRequest, res: Response) => {
     try {
-      const userId = req.params.id;
+      const username = req.params.username;
       const user = await prisma.user.findUnique({
         where: {
-          id: userId,
+          username,
         },
         include: {
-          posts: true,
+          posts: {
+            orderBy: {
+              createdAt: "desc", // Use 'desc' for descending order
+            },
+            include: {
+              author: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  profilepic: true,
+                },
+              },
+              comments: {
+                include: {
+                  author: {
+                    select: {
+                      id: true,
+                      fullName: true,
+                      username: true,
+                      profilepic: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       });
 

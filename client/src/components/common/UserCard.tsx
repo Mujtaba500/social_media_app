@@ -1,3 +1,5 @@
+import { useNavigateNoUpdates } from "../../context/RouterUtils";
+import useGetProfile from "../../hooks/useGetProfile";
 import useLogout from "../../hooks/useLogout";
 import { UserCardProps } from "../../types";
 import { LogOut } from "lucide-react";
@@ -5,9 +7,18 @@ import { LogOut } from "lucide-react";
 const UserCard: React.FC<UserCardProps> = ({ auth, user }) => {
   const logout = useLogout();
 
+  const navigate = useNavigateNoUpdates();
+
+  const handleClick = async () => {
+    navigate(`/profile/${user?.username}`);
+  };
+
   return (
     <>
-      <div className="userCard flex items-center justify-center w-full">
+      <div
+        onClick={handleClick}
+        className="userCard flex items-center justify-center w-full"
+      >
         <div className="avatar placeholder">
           {user?.profilepic ? (
             <img src={`${user.profilepic}`} className="w-12 rounded-full" />
