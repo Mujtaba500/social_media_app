@@ -71,10 +71,18 @@ const userController = {
   getSuggested: async (req: customRequest, res: Response) => {
     try {
       const userId = req.user?.userId;
+
+      const user = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+
       const suggestedUsers = await prisma.user.findMany({
         where: {
           id: {
             not: userId,
+            notIn: user?.following,
           },
         },
         select: {

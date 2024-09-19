@@ -9,10 +9,10 @@ export interface User {
   fullName: string;
   profilepic?: string | null;
   coverphoto?: string | null;
-  posts: Post[];
-  followers: string[];
-  following: string[];
-  createdAt: Date;
+  posts?: Post[];
+  followers?: string[];
+  following?: string[];
+  createdAt?: Date;
 }
 
 export type LoginInputValues = {

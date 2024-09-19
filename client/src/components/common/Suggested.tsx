@@ -1,9 +1,20 @@
+import { useEffect } from "react";
 import useGetSuggested from "../../hooks/useGetSuggested";
 import RightPanelSkeleton from "../skeletons/RightPanelSkeleton";
 import UserCard from "./UserCard";
+import { useRecoilValue } from "recoil";
+import suggestedUsersState from "../../global/SuggestedUsers";
 
 const Suggested = () => {
-  const { suggestedUsers, loading } = useGetSuggested();
+  const { getSuggestedUsers, loading } = useGetSuggested();
+  const suggestedUsers = useRecoilValue(suggestedUsersState);
+
+  useEffect(() => {
+    const getSuggested = async () => {
+      await getSuggestedUsers();
+    };
+    getSuggested();
+  }, []);
 
   const mappedusers = suggestedUsers.map((user) => {
     return (

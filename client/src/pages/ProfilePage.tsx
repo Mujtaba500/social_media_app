@@ -65,7 +65,7 @@ const ProfilePage = () => {
               <h1 className="text-slate-200 text-lg  font-bold ">
                 {user?.fullName}
               </h1>
-              <p>{user?.posts.length} posts</p>
+              <p>{user?.posts!.length} posts</p>
             </div>
           </div>
           <div className="divider my-0 ml-0 "></div>
@@ -102,7 +102,7 @@ const ProfilePage = () => {
                   <div className="text-center">
                     <span className="loading loading-spinner loading-sm m-auto"></span>
                   </div>
-                ) : user?.followers.includes(authUser!.id) ? (
+                ) : user?.followers!.includes(authUser!.id) ? (
                   "Unfollow"
                 ) : (
                   "Follow"
@@ -137,11 +137,11 @@ const ProfilePage = () => {
             </div>
             <div className="mt-3 flex">
               <p className="mr-2">
-                <span className="text-white">{user?.following.length}</span>{" "}
+                <span className="text-white">{user?.following!.length}</span>{" "}
                 Following
               </p>
               <p>
-                <span className="text-white">{user?.followers.length}</span>{" "}
+                <span className="text-white">{user?.followers!.length}</span>{" "}
                 Followers
               </p>
             </div>
