@@ -27,7 +27,10 @@ const UserCard: React.FC<UserCardProps> = ({ auth, user }) => {
       >
         <div className="avatar placeholder">
           {user?.profilepic ? (
-            <img src={`${user.profilepic}`} className="w-12 rounded-full" />
+            <img
+              src={`${user.profilepic}`}
+              className="max-w-12 max-h-12 rounded-full object-cover "
+            />
           ) : (
             <div className="bg-neutral text-neutral-content w-12 rounded-full">
               <span>{user?.fullName.slice(0, 1)}</span>

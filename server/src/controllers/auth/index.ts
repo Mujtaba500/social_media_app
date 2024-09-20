@@ -125,7 +125,7 @@ const authController = {
       res
         .status(200)
         .cookie("jwt", refreshToken, {
-          maxAge: refreshTokenExpiry * 60 * 1000, // MS
+          maxAge: refreshTokenExpiry * 60 * 60 * 1000, // MS
           httpOnly: true,
           // prevent xss attacks
           // sameSite: "strict",
@@ -182,7 +182,6 @@ const authController = {
       const user = await prisma.user.findUnique({
         where: {
           id: req.user!.userId,
-          username: req.user!.username,
         },
         select: {
           id: true,

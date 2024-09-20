@@ -78,3 +78,7 @@ export type EditCommentProps = {
   postId: string;
   commentId: string;
 };
+
+export type EditProfileProps = {
+  setUserProfile: (profile: User) => void;
+};

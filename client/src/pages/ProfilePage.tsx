@@ -101,7 +101,7 @@ const ProfilePage = () => {
                     ? `${user.profilepic}`
                     : "/public/profilepic.png"
                 }
-                className="w-32 rounded-full -top-16 -right-4 relative "
+                className="w-32 h-32 object-cover rounded-full -top-16 -right-4 relative "
               />
               {authUser?.id === user?.id ? (
                 <Trash2
@@ -141,7 +141,7 @@ const ProfilePage = () => {
               </button>
             )}
 
-            <EditProfileModal />
+            <EditProfileModal setUserProfile={setUser} />
           </div>
           <div className="ml-4 -top-6 relative">
             <h1 className="text-slate-200 text-lg font-bold ">

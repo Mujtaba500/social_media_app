@@ -32,7 +32,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
             {post.author.profilepic ? (
               <img
                 src={`${post?.author?.profilepic}`}
-                className="w-12 rounded-full"
+                className="max-w-12 max-h-12 object-cover rounded-full"
               />
             ) : (
               <div className="bg-neutral text-neutral-content w-12 rounded-full">

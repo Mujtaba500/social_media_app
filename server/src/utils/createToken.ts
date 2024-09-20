@@ -44,8 +44,8 @@ const createRefreshToken = async (
 
     const expirationTime = new Date();
 
-    expirationTime.setMinutes(expirationTime.getMinutes() + 5);
-    const refreshTokenExpiry = expirationTime.getMinutes();
+    expirationTime.setMinutes(expirationTime.getHours() + 8);
+    const refreshTokenExpiry = expirationTime.getHours();
 
     const token = await prisma.token.create({
       data: {

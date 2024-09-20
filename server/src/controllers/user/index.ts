@@ -186,6 +186,34 @@ const userController = {
         data: {
           ...updates,
         },
+        include: {
+          posts: {
+            orderBy: {
+              createdAt: "desc", // Use 'desc' for descending order
+            },
+            include: {
+              author: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  profilepic: true,
+                },
+              },
+              comments: {
+                include: {
+                  author: {
+                    select: {
+                      id: true,
+                      fullName: true,
+                      username: true,
+                      profilepic: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       });
 
       const userWithoutPassword = {
