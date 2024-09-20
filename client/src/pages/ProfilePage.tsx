@@ -11,6 +11,7 @@ import extractMonthAndYear from "../utils/extractDate";
 import { useAuthContext } from "../context/authContext";
 import useFollowUnfollow from "../hooks/useFollowUnfollow";
 import { User } from "../types";
+import useDeletePhoto from "../hooks/useDeletePhoto";
 
 const ProfilePage = () => {
   const navigate = useNavigateNoUpdates();
@@ -18,15 +19,17 @@ const ProfilePage = () => {
   const [user, setUser] = useState<User | null>(null);
   const [monthYear, setMonthYear] = useState("");
 
+  const params = useParams();
+
   const { authUser } = useAuthContext();
 
   const { loading, getProfile } = useGetProfile();
 
-  const params = useParams();
-
   const setPosts = useSetRecoilState(postsState);
 
   const { followUnfollow, loading: followLoading } = useFollowUnfollow();
+
+  const { deletePhoto, loading: deleteLoading, imageType } = useDeletePhoto();
 
   useEffect(() => {
     const getUserProfile = async () => {
@@ -38,7 +41,8 @@ const ProfilePage = () => {
       setMonthYear(`${monthName} ${year}`);
     };
     getUserProfile();
-  }, [params]);
+    console.log("useeffect running");
+  }, [params.username]);
 
   const handleFollowUnfollow = async () => {
     const UpdatedUser = await followUnfollow(user?.id!);
@@ -71,10 +75,25 @@ const ProfilePage = () => {
           <div className="divider my-0 ml-0 "></div>
           <div className=" justify-end my-0 flex p-0 h-0 ">
             {authUser?.id === user?.id ? (
-              <Trash2
-                size={20}
-                className="cursor-pointer -left-3 -bottom-4 hover:text-red-600 relative my-0"
-              />
+              deleteLoading && imageType === "coverphoto" ? (
+                <div className="text-center">
+                  <span className="loading loading-spinner loading-sm m-auto -left-3 -bottom-4 relative my-0"></span>
+                </div>
+              ) : (
+                <Trash2
+                  size={20}
+                  className="cursor-pointer -left-3 -bottom-4 hover:text-red-600 relative my-0"
+                  onClick={async () => {
+                    await deletePhoto("coverphoto");
+
+                    let newUser: User | null = {
+                      ...user!,
+                      coverphoto: null,
+                    };
+                    setUser(newUser);
+                  }}
+                />
+              )
             ) : null}
           </div>
           {user?.coverphoto ? (
@@ -104,10 +123,24 @@ const ProfilePage = () => {
                 className="w-32 h-32 object-cover rounded-full -top-16 -right-4 relative "
               />
               {authUser?.id === user?.id ? (
-                <Trash2
-                  size={20}
-                  className="cursor-pointer -top-10 -left-4 opacity-0 group-hover:opacity-100 text-red-500  hover:text-red-600 relative my-0"
-                />
+                deleteLoading && imageType === "profilepic" ? (
+                  <div className="text-center">
+                    <span className="loading loading-spinner loading-sm m-auto -top-10 -left-4 relative my-0"></span>
+                  </div>
+                ) : (
+                  <Trash2
+                    size={20}
+                    onClick={async () => {
+                      await deletePhoto("profilepic");
+                      let newUser: User | null = {
+                        ...user!,
+                        profilepic: null,
+                      };
+                      setUser(newUser);
+                    }}
+                    className="cursor-pointer -top-10 -left-4 opacity-0 group-hover:opacity-100 text-red-500  hover:text-red-600 relative my-0"
+                  />
+                )
               ) : null}
             </div>
             {authUser?.id !== user?.id ? (
