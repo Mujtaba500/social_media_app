@@ -2,7 +2,7 @@ import { useState } from "react";
 import axiosInstance from "../axios";
 import { SignupInputValues } from "../types";
 import toast from "react-hot-toast";
-import refreshAccessToken from "../utils/refreshAccessToken";
+import { refreshAccessTokenBg } from "../utils/refreshAccessToken";
 import { useAuthContext } from "../context/authContext";
 
 const useSignup = () => {
@@ -21,7 +21,7 @@ const useSignup = () => {
 
       const tokenExpiryInMinutes = response.data.accessTokenExpiry;
 
-      refreshAccessToken(tokenExpiryInMinutes);
+      refreshAccessTokenBg(tokenExpiryInMinutes);
     } catch (err: any) {
       console.log("status: ", err.response.status);
       console.log("Error: ", err.response.data.message);

@@ -1,5 +1,5 @@
 import { useNavigateNoUpdates } from "../../context/RouterUtils";
-import useGetProfile from "../../hooks/useGetProfile";
+import useFollowUnfollow from "../../hooks/useFollowUnfollow";
 import useLogout from "../../hooks/useLogout";
 import { UserCardProps } from "../../types";
 import { LogOut } from "lucide-react";
@@ -9,8 +9,14 @@ const UserCard: React.FC<UserCardProps> = ({ auth, user }) => {
 
   const navigate = useNavigateNoUpdates();
 
+  const { followUnfollow } = useFollowUnfollow();
+
   const handleClick = async () => {
     navigate(`/profile/${user?.username}`);
+  };
+
+  const handleFollow = async () => {
+    await followUnfollow(user?.id!);
   };
 
   return (
@@ -41,7 +47,13 @@ const UserCard: React.FC<UserCardProps> = ({ auth, user }) => {
               <LogOut onClick={logout} />
             </div>
           ) : (
-            <button className="btn rounded-full btn-sm  btn-primary btn-outline ml-5">
+            <button
+              onClick={(e) => {
+                handleFollow();
+                e.stopPropagation();
+              }}
+              className="btn rounded-full btn-sm  btn-primary btn-outline ml-5"
+            >
               Follow
             </button>
           )}

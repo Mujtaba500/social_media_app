@@ -5,12 +5,12 @@ import EditProfileModal from "../components/common/EditProfileModal";
 import { useEffect, useState } from "react";
 import useGetProfile from "../hooks/useGetProfile";
 import { useParams } from "react-router-dom";
-import { User } from "../types";
 import { useSetRecoilState } from "recoil";
 import postsState from "../global/Posts";
 import extractMonthAndYear from "../utils/extractDate";
 import { useAuthContext } from "../context/authContext";
 import useFollowUnfollow from "../hooks/useFollowUnfollow";
+import { User } from "../types";
 
 const ProfilePage = () => {
   const navigate = useNavigateNoUpdates();
@@ -70,28 +70,45 @@ const ProfilePage = () => {
           </div>
           <div className="divider my-0 ml-0 "></div>
           <div className=" justify-end my-0 flex p-0 h-0 ">
-            <Trash2
-              size={20}
-              className="cursor-pointer -left-3 -bottom-4 hover:text-red-600 relative my-0"
-            />
+            {authUser?.id === user?.id ? (
+              <Trash2
+                size={20}
+                className="cursor-pointer -left-3 -bottom-4 hover:text-red-600 relative my-0"
+              />
+            ) : null}
           </div>
-          <img
-            src="/public/cover.png"
-            id="cover"
-            className="h-52 w-full object-cover"
-            alt="cover image"
-          />
+          {user?.coverphoto ? (
+            <img
+              src={`${user.coverphoto}`}
+              id="cover"
+              className="h-52 w-full object-cover"
+              alt="cover image"
+            />
+          ) : (
+            <img
+              src="/public/cover.png"
+              id="cover"
+              className="h-52 w-full object-cover"
+              alt="cover image"
+            />
+          )}
 
           <div className="flex justify-between ">
             <div className="flex group">
               <img
-                src={"/public/profilepic.png"}
+                src={
+                  user?.profilepic
+                    ? `${user.profilepic}`
+                    : "/public/profilepic.png"
+                }
                 className="w-32 rounded-full -top-16 -right-4 relative "
               />
-              <Trash2
-                size={20}
-                className="cursor-pointer -top-10 -left-4 opacity-0 group-hover:opacity-100 text-red-500  hover:text-red-600 relative my-0"
-              />
+              {authUser?.id === user?.id ? (
+                <Trash2
+                  size={20}
+                  className="cursor-pointer -top-10 -left-4 opacity-0 group-hover:opacity-100 text-red-500  hover:text-red-600 relative my-0"
+                />
+              ) : null}
             </div>
             {authUser?.id !== user?.id ? (
               <button

@@ -11,11 +11,16 @@ const useFollowUnfollow = () => {
   const followUnfollow = async (userId: string) => {
     try {
       setLoading(true);
-      const response = await axiosInstance.put(`/user/follow/${userId}`, {
-        headers: {
-          Authorization: localStorage.getItem("access_token"),
-        },
-      });
+
+      const response = await axiosInstance.put(
+        `/user/follow/${userId}`,
+        {},
+        {
+          headers: {
+            Authorization: localStorage.getItem("access_token"),
+          },
+        }
+      );
       toast.success(response.data.message);
       await getSuggestedUsers();
       return response.data.user;

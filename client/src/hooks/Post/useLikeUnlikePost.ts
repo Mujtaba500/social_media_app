@@ -12,11 +12,15 @@ const useLikeUnlikePost = () => {
   const likeUnlikePost = async (postId: string) => {
     try {
       setLoading(true);
-      const response = await axiosInstance.put(`/post/like/${postId}`, {
-        headers: {
-          Authorization: localStorage.getItem("access_token"),
-        },
-      });
+      const response = await axiosInstance.put(
+        `/post/like/${postId}`,
+        {},
+        {
+          headers: {
+            Authorization: localStorage.getItem("access_token"),
+          },
+        }
+      );
 
       toast.success(response.data.message);
       setPosts((prevPosts) => {
