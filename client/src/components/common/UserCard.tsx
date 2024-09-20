@@ -1,3 +1,5 @@
+import { useNavigateNoUpdates } from "../../context/RouterUtils";
+import useFollowUnfollow from "../../hooks/useFollowUnfollow";
 import useLogout from "../../hooks/useLogout";
 import { UserCardProps } from "../../types";
 import { LogOut } from "lucide-react";
@@ -5,12 +7,30 @@ import { LogOut } from "lucide-react";
 const UserCard: React.FC<UserCardProps> = ({ auth, user }) => {
   const logout = useLogout();
 
+  const navigate = useNavigateNoUpdates();
+
+  const { followUnfollow } = useFollowUnfollow();
+
+  const handleClick = async () => {
+    navigate(`/profile/${user?.username}`);
+  };
+
+  const handleFollow = async () => {
+    await followUnfollow(user?.id!);
+  };
+
   return (
     <>
-      <div className="userCard flex items-center justify-center w-full">
+      <div
+        onClick={handleClick}
+        className="userCard flex items-center justify-center w-full"
+      >
         <div className="avatar placeholder">
           {user?.profilepic ? (
-            <img src={`${user.profilepic}`} className="w-12 rounded-full" />
+            <img
+              src={`${user.profilepic}`}
+              className="max-w-12 max-h-12 rounded-full object-cover "
+            />
           ) : (
             <div className="bg-neutral text-neutral-content w-12 rounded-full">
               <span>{user?.fullName.slice(0, 1)}</span>
@@ -30,7 +50,13 @@ const UserCard: React.FC<UserCardProps> = ({ auth, user }) => {
               <LogOut onClick={logout} />
             </div>
           ) : (
-            <button className="btn rounded-full btn-sm  btn-primary btn-outline ml-5">
+            <button
+              onClick={(e) => {
+                handleFollow();
+                e.stopPropagation();
+              }}
+              className="btn rounded-full btn-sm  btn-primary btn-outline ml-5"
+            >
               Follow
             </button>
           )}

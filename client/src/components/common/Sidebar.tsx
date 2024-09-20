@@ -12,8 +12,8 @@ const Sidebar = () => {
     navigate("/");
   };
 
-  const handleNavigateProfile = () => {
-    navigate("/profile");
+  const handleNavigateProfile = async () => {
+    navigate(`/profile/${authUser?.username}`);
   };
 
   const handleNavigateNotificationPage = () => {

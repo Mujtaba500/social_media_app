@@ -7,7 +7,7 @@ import upload from "../../middleware/multer_cloudinary/index.js";
 const userRouter = Router();
 
 // Get user profile
-userRouter.get("/user/:id", verifyToken, userController.getUserProfile);
+userRouter.get("/user/:username", verifyToken, userController.getUserProfile);
 
 //Get suggested Users
 userRouter.get("/users", verifyToken, userController.getSuggested);

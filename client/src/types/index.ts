@@ -9,6 +9,10 @@ export interface User {
   fullName: string;
   profilepic?: string | null;
   coverphoto?: string | null;
+  posts?: Post[];
+  followers?: string[];
+  following?: string[];
+  createdAt?: Date;
 }
 
 export type LoginInputValues = {
@@ -73,4 +77,8 @@ export type AddCommentsProps = {
 export type EditCommentProps = {
   postId: string;
   commentId: string;
+};
+
+export type EditProfileProps = {
+  setUserProfile: (profile: User) => void;
 };

@@ -12,13 +12,38 @@ import fs from "fs";
 const userController = {
   getUserProfile: async (req: customRequest, res: Response) => {
     try {
-      const userId = req.params.id;
+      const username = req.params.username;
       const user = await prisma.user.findUnique({
         where: {
-          id: userId,
+          username,
         },
         include: {
-          posts: true,
+          posts: {
+            orderBy: {
+              createdAt: "desc", // Use 'desc' for descending order
+            },
+            include: {
+              author: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  profilepic: true,
+                },
+              },
+              comments: {
+                include: {
+                  author: {
+                    select: {
+                      id: true,
+                      fullName: true,
+                      username: true,
+                      profilepic: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       });
 
@@ -46,10 +71,18 @@ const userController = {
   getSuggested: async (req: customRequest, res: Response) => {
     try {
       const userId = req.user?.userId;
+
+      const user = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+
       const suggestedUsers = await prisma.user.findMany({
         where: {
           id: {
             not: userId,
+            notIn: user?.following,
           },
         },
         select: {
@@ -152,6 +185,34 @@ const userController = {
         },
         data: {
           ...updates,
+        },
+        include: {
+          posts: {
+            orderBy: {
+              createdAt: "desc", // Use 'desc' for descending order
+            },
+            include: {
+              author: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  profilepic: true,
+                },
+              },
+              comments: {
+                include: {
+                  author: {
+                    select: {
+                      id: true,
+                      fullName: true,
+                      username: true,
+                      profilepic: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       });
 
@@ -269,12 +330,40 @@ const userController = {
             (id) => id !== userId
           );
 
-          await prisma.user.update({
+          const user = await prisma.user.update({
             where: {
               id: userId,
             },
             data: {
               followers: updatedFolllowers,
+            },
+            include: {
+              posts: {
+                orderBy: {
+                  createdAt: "desc", // Use 'desc' for descending order
+                },
+                include: {
+                  author: {
+                    select: {
+                      id: true,
+                      fullName: true,
+                      profilepic: true,
+                    },
+                  },
+                  comments: {
+                    include: {
+                      author: {
+                        select: {
+                          id: true,
+                          fullName: true,
+                          username: true,
+                          profilepic: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
             },
           });
 
@@ -289,16 +378,45 @@ const userController = {
 
           return res.status(HttpStatusCode.OK).json({
             message: "User unfollowed successfully",
+            user,
           });
         }
 
-        await prisma.user.update({
+        const user = await prisma.user.update({
           where: {
             id: userId,
           },
           data: {
             followers: {
               push: authId,
+            },
+          },
+          include: {
+            posts: {
+              orderBy: {
+                createdAt: "desc", // Use 'desc' for descending order
+              },
+              include: {
+                author: {
+                  select: {
+                    id: true,
+                    fullName: true,
+                    profilepic: true,
+                  },
+                },
+                comments: {
+                  include: {
+                    author: {
+                      select: {
+                        id: true,
+                        fullName: true,
+                        username: true,
+                        profilepic: true,
+                      },
+                    },
+                  },
+                },
+              },
             },
           },
         });
@@ -332,6 +450,7 @@ const userController = {
 
         return res.status(HttpStatusCode.OK).json({
           message: "User followed successfully",
+          user,
         });
       });
     } catch (err: any) {

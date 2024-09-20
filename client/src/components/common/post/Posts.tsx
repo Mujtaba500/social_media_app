@@ -7,7 +7,7 @@ const Posts = () => {
 
   return (
     <>
-      {posts.map((post) => {
+      {posts?.map((post) => {
         return <Post post={post} key={post.id} />;
       })}
     </>
