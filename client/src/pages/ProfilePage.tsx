@@ -41,7 +41,6 @@ const ProfilePage = () => {
       setMonthYear(`${monthName} ${year}`);
     };
     getUserProfile();
-    console.log("useeffect running");
   }, [params.username]);
 
   const handleFollowUnfollow = async () => {

@@ -21,7 +21,7 @@ const Comment: React.FC<CommentProps> = ({ postId, comment }) => {
           {comment.author.profilepic ? (
             <img
               src={`${comment?.author?.profilepic}`}
-              className="w-12 rounded-full"
+              className="max-w-14 max-h-14 object-cover rounded-full"
             />
           ) : (
             <div className="bg-neutral text-neutral-content w-12 rounded-full">
