@@ -1,32 +1,27 @@
-import axiosInstance from "../axios";
+import axiosInstance from "../../axios";
 import { useState } from "react";
-import toast from "react-hot-toast";
 
-const useEditProfile = () => {
+const useGetProfile = () => {
   const [loading, setLoading] = useState(false);
 
-  const editprofile = async (values: FormData) => {
+  const getProfile = async (username: string) => {
     try {
       setLoading(true);
-
-      const response = await axiosInstance.put("/user/update", values, {
+      const response = await axiosInstance.get(`/user/${username}`, {
         headers: {
           Authorization: localStorage.getItem("access_token"),
-          "Content-Type": "multipart/form-data",
         },
       });
-      toast.success(response.data.message);
       return response.data.data;
     } catch (err: any) {
       console.log("status: ", err.response.status);
       console.log("Error: ", err.response.data.message);
-      toast.error(err.response.data.message);
     } finally {
       setLoading(false);
     }
   };
 
-  return { editprofile, loading };
+  return { getProfile, loading };
 };
 
-export default useEditProfile;
+export default useGetProfile;

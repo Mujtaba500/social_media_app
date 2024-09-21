@@ -25,7 +25,7 @@ const Comment: React.FC<CommentProps> = ({ postId, comment }) => {
             />
           ) : (
             <div className="bg-neutral text-neutral-content w-12 rounded-full">
-              <span>{comment?.author?.fullName.slice(0, 1)}</span>
+              <span>{comment?.author?.fullName?.slice(0, 1)}</span>
             </div>
           )}
         </div>

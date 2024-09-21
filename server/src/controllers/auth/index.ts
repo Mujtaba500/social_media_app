@@ -120,6 +120,7 @@ const authController = {
         id: userCheck.id,
         username: userCheck.username,
         fullName: userCheck.fullName,
+        profilepic: userCheck.profilepic,
       };
 
       res

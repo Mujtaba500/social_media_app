@@ -25,6 +25,7 @@ model User {
   following  String[]
 
   notifications Notification[] @relation("Receiver")
+  notificationFrom Notification[] @relation("Sender") 
   posts         Post[]
   comments      Comment[]
   messages      Message[]      @relation("Sender")
@@ -42,7 +43,8 @@ model Notification {
   id        String            @id @default(uuid())
   type      NOTIFICATION_TYPE
   createdAt DateTime          @default(now())
-  from      String
+  from      String 
+  sentFrom  User @relation("Sender", fields: [from], references: [id]) 
 
   to        String
   BelongsTo User   @relation("Receiver", fields: [to], references: [id])

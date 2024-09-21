@@ -6,7 +6,7 @@ export interface UserCardProps {
 export interface User {
   id: string;
   username?: string;
-  fullName: string;
+  fullName?: string;
   profilepic?: string | null;
   coverphoto?: string | null;
   posts?: Post[];
@@ -81,4 +81,20 @@ export type EditCommentProps = {
 
 export type EditProfileProps = {
   setUserProfile: (profile: User) => void;
+};
+
+enum Notification_Type {
+  COMMENT = "COMMENT",
+  POST_LIKE = "POST_LIKE",
+  FOLLOW = "FOLLOW",
+}
+
+export type Notification = {
+  id: string;
+  type: Notification_Type;
+  sentFrom: User;
+};
+
+export type Notification_Props = {
+  notification: Notification;
 };

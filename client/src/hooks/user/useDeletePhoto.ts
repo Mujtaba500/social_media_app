@@ -1,8 +1,8 @@
-import axiosInstance from "../axios";
+import axiosInstance from "../../axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useAuthContext } from "../context/authContext";
-import { AuthUserType } from "../types";
+import { useAuthContext } from "../../context/authContext";
+import { AuthUserType } from "../../types";
 
 const useDeletePhoto = () => {
   const [loading, setLoading] = useState(false);
