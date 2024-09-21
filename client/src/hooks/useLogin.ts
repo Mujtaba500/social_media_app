@@ -16,6 +16,7 @@ const useLogin = () => {
       const response = await axiosInstance.post("/auth/login", values);
       localStorage.setItem("access_token", response.data.token);
       toast.success(response.data.message);
+      console.log(response.data);
 
       setAuthUser(response.data.data);
 
