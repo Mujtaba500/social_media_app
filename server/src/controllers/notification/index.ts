@@ -12,7 +12,20 @@ const notificationController = {
           id,
         },
         include: {
-          notifications: true,
+          notifications: {
+            orderBy: {
+              createdAt: "desc",
+            },
+            select: {
+              sentFrom: {
+                select: {
+                  id: true,
+                  username: true,
+                  profilepic: true,
+                },
+              },
+            },
+          },
         },
       });
 
