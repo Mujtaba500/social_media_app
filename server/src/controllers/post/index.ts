@@ -313,7 +313,7 @@ const postController = {
       }
 
       if (post.likes.includes(userId!)) {
-        const updatedLikes = post.likes.filter((id) => id !== userId);
+        const updatedLikes = post.likes.filter((id: string) => id !== userId);
 
         const updatedPost = await prisma.post.update({
           where: {

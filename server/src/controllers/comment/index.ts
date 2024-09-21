@@ -242,7 +242,9 @@ const commentController = {
 
       // If comment is already liked, we will unlike
       if (comment.likes.includes(user.id)) {
-        const updatedLikes = comment.likes.filter((id) => id !== user.id);
+        const updatedLikes = comment.likes.filter(
+          (id: string) => id !== user.id
+        );
 
         await prisma.comment.update({
           where: {

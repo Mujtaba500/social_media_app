@@ -293,7 +293,7 @@ const userController = {
   },
   followUnfollowUser: async (req: customRequest, res: Response) => {
     try {
-      await prisma.$transaction(async (prisma) => {
+      await prisma.$transaction(async (prisma: any) => {
         const authId = req.user?.userId;
         const userId = req.params.id;
 
@@ -324,10 +324,10 @@ const userController = {
         // Unfollow if already following
         if (userToFollow.followers.includes(authId!)) {
           const updatedFolllowers = userToFollow.followers.filter(
-            (id) => id !== authId
+            (id: string) => id !== authId
           );
           const updatedFollowing = currentUser.following.filter(
-            (id) => id !== userId
+            (id: string) => id !== userId
           );
 
           const user = await prisma.user.update({
