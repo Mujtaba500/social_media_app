@@ -1,7 +1,7 @@
-import axiosInstance from "../axios";
+import axiosInstance from "../../axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import useGetSuggested from "./useGetSuggested";
+import useGetSuggested from ".././useGetSuggested";
 
 const useFollowUnfollow = () => {
   const [loading, setLoading] = useState(false);

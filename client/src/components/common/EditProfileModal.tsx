@@ -2,7 +2,7 @@ import { ImageUp } from "lucide-react";
 import { useRef } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import useEditProfile from "../../hooks/useEditProfile";
+import useEditProfile from "../../hooks/user/useEditProfile";
 import { EditProfileProps } from "../../types";
 import { useAuthContext } from "../../context/authContext";
 import { useNavigateNoUpdates } from "../../context/RouterUtils";

@@ -3,15 +3,15 @@ import { useNavigateNoUpdates } from "../context/RouterUtils";
 import Posts from "../components/common/post/Posts";
 import EditProfileModal from "../components/common/EditProfileModal";
 import { useEffect, useState } from "react";
-import useGetProfile from "../hooks/useGetProfile";
+import useGetProfile from "../hooks/user/useGetProfile";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import postsState from "../global/Posts";
 import extractMonthAndYear from "../utils/extractDate";
 import { useAuthContext } from "../context/authContext";
-import useFollowUnfollow from "../hooks/useFollowUnfollow";
+import useFollowUnfollow from "../hooks/user/useFollowUnfollow";
 import { User } from "../types";
-import useDeletePhoto from "../hooks/useDeletePhoto";
+import useDeletePhoto from "../hooks/user/useDeletePhoto";
 
 const ProfilePage = () => {
   const navigate = useNavigateNoUpdates();

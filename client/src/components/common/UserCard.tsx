@@ -1,5 +1,5 @@
 import { useNavigateNoUpdates } from "../../context/RouterUtils";
-import useFollowUnfollow from "../../hooks/useFollowUnfollow";
+import useFollowUnfollow from "../../hooks/user/useFollowUnfollow";
 import useLogout from "../../hooks/useLogout";
 import { UserCardProps } from "../../types";
 import { LogOut } from "lucide-react";
@@ -33,7 +33,7 @@ const UserCard: React.FC<UserCardProps> = ({ auth, user }) => {
             />
           ) : (
             <div className="bg-neutral text-neutral-content w-12 rounded-full">
-              <span>{user?.fullName.slice(0, 1)}</span>
+              <span>{user?.fullName?.slice(0, 1)}</span>
             </div>
           )}
         </div>

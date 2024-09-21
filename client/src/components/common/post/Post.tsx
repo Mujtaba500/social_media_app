@@ -36,7 +36,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
               />
             ) : (
               <div className="bg-neutral text-neutral-content w-12 rounded-full">
-                <span>{post?.author?.fullName.slice(0, 1)}</span>
+                <span>{post?.author?.fullName?.slice(0, 1)}</span>
               </div>
             )}
           </div>

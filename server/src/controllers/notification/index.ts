@@ -17,6 +17,8 @@ const notificationController = {
               createdAt: "desc",
             },
             select: {
+              id: true,
+              type: true,
               sentFrom: {
                 select: {
                   id: true,
