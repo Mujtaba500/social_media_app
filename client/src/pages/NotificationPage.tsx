@@ -1,7 +1,14 @@
 import { Trash2 } from "lucide-react";
 import Notifications from "../components/common/notification/Notifications";
+import useDeleteNotifications from "../hooks/notification/useDeleteNotifications";
 
 const NotificationPage = () => {
+  const { deleteNotifications, loading } = useDeleteNotifications();
+
+  const handleDelete = async () => {
+    await deleteNotifications();
+  };
+
   return (
     <>
       <div className="notifications w-full h-full  mt-12">
@@ -20,8 +27,14 @@ const NotificationPage = () => {
               tabIndex={0}
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
             >
-              <li>
-                <a>Delete all notifications</a>
+              <li className="text-center">
+                {loading ? (
+                  <div className="text-center">
+                    <span className="loading loading-spinner loading-sm"></span>
+                  </div>
+                ) : (
+                  <a onClick={handleDelete}>Delete all notifications</a>
+                )}
               </li>
             </ul>
           </div>
