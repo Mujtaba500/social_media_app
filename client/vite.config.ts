@@ -7,7 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:4000",
+        // target: "http://localhost:4000",
+        target: "http://ec2-13-61-4-237.eu-north-1.compute.amazonaws.com",
         // changeOrigin: true,
       },
     },

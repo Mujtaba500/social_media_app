@@ -1,13 +1,13 @@
 import { useState } from "react";
 import axiosInstance from "../../axios";
 import toast from "react-hot-toast";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import postsState from "../../global/Posts";
 
 const useLikeUnlikePost = () => {
   const [loading, setLoading] = useState(false);
 
-  const [posts, setPosts] = useRecoilState(postsState);
+  const setPosts = useSetRecoilState(postsState);
 
   const likeUnlikePost = async (postId: string) => {
     try {

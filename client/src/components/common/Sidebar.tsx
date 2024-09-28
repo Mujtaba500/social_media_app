@@ -28,7 +28,7 @@ const Sidebar = () => {
 
           <li onClick={handleNavigateHome}>
             <p className="text-white text-2xl ">
-              <img src="/public/konekt.png" alt="logo" className="w-10 mr-4" />
+              <img src="/konekt.png" alt="logo" className="w-10 mr-4" />
               Konekt
             </p>
           </li>

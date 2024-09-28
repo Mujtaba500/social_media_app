@@ -1,4 +1,4 @@
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import axiosInstance from "../../axios";
 import { useState } from "react";
 import notificationsState from "../../global/Notifications";
@@ -6,8 +6,8 @@ import { Notification } from "../../types";
 
 const useGetNotifications = () => {
   const [loading, setLoading] = useState(false);
-  const [notifications, setNotifications] =
-    useRecoilState<Notification[]>(notificationsState);
+  const setNotifications =
+    useSetRecoilState<Notification[]>(notificationsState);
 
   const getNotifications = async () => {
     try {

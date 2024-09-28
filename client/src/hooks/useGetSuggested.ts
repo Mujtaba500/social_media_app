@@ -1,12 +1,11 @@
 import { useState } from "react";
 import axiosInstance from "../axios";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import suggestedUsersState from "../global/SuggestedUsers";
 
 const useGetSuggested = () => {
   const [loading, setLoading] = useState(false);
-  const [suggestedUsers, setSuggestedusers] =
-    useRecoilState(suggestedUsersState);
+  const setSuggestedusers = useSetRecoilState(suggestedUsersState);
 
   const getSuggestedUsers = async () => {
     try {

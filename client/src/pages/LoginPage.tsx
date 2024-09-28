@@ -40,7 +40,7 @@ const LoginPage = () => {
         className="text-center flex flex-col max-h-max "
       >
         <div className="flex justify-center items-center">
-          <img src="/public/konekt.png" alt="logo" className="w-12" />
+          <img src="/konekt.png" alt="logo" className="w-12" />
           <h1 className="text-3xl m-5 text-white">Log In </h1>
         </div>
         <label className="input input-bordered flex items-center gap-2 mt-5 mx-5">

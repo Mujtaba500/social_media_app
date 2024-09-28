@@ -1,5 +1,4 @@
 import axiosInstance from "../axios";
-import { useNavigateNoUpdates } from "../context/RouterUtils";
 
 const refreshAccessToken = async () => {
   try {
@@ -26,7 +25,7 @@ const refreshAccessToken = async () => {
 export const refreshAccessTokenBg = (tokenExpiryInMinutes: number) => {
   setTimeout(async () => {
     refreshAccessToken();
-  }, 50000);
+  }, tokenExpiryInMinutes * 60 * 900);
 };
 
 export default refreshAccessToken;
