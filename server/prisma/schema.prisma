@@ -44,10 +44,10 @@ model Notification {
   type      NOTIFICATION_TYPE
   createdAt DateTime          @default(now())
   from      String 
-  sentFrom  User @relation("Sender", fields: [from], references: [id]) 
+  sentFrom  User @relation("Sender", fields: [from], references: [id], onDelete: Cascade) 
 
   to        String
-  BelongsTo User   @relation("Receiver", fields: [to], references: [id])
+  BelongsTo User   @relation("Receiver", fields: [to], references: [id], onDelete: Cascade)
 }
 
 model Post {
@@ -59,7 +59,7 @@ model Post {
   comments  Comment[]
 
   authorId String
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
@@ -69,10 +69,10 @@ model Comment {
   likes     String[]
 
   postId String
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   authorId String
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
 model Conversation {
@@ -93,7 +93,7 @@ model Message {
   recipentId String
 
   conversationId        String
-  belongsToConversation Conversation @relation(fields: [conversationId], references: [id])
+  belongsToConversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 }
 
 model Token {
