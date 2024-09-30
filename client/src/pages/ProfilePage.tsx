@@ -115,7 +115,7 @@ const ProfilePage = () => {
             <div className="flex group">
               <img
                 src={
-                  user?.profilepic ? `${user.profilepic}` : "/profilepic.png"
+                  user?.profilepic ? `${user.profilepic}` : "/profilePic.png"
                 }
                 className="w-32 h-32 object-cover rounded-full -top-16 -right-4 relative "
               />
