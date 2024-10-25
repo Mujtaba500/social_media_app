@@ -37,6 +37,11 @@ export type PostProps = {
   post: Post;
 };
 
+export type PostsProps = {
+  getPosts: () => void,
+  loading: Boolean
+}
+
 export type Post = {
   id: string;
   content: string;

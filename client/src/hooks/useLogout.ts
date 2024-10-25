@@ -1,9 +1,12 @@
 import axiosInstance from "../axios";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/authContext";
+import { useSetRecoilState } from "recoil";
+import postsState from "../global/Posts";
 
 const useLogout = () => {
   const { setAuthUser } = useAuthContext();
+  const setPosts = useSetRecoilState(postsState)
 
   const logout = async () => {
     try {
@@ -15,6 +18,8 @@ const useLogout = () => {
       console.log("status: ", err.response.status);
       console.log("Error: ", err.response.data.message);
       toast.error(err.response.data.message);
+    } finally {
+      setPosts([])
     }
   };
 

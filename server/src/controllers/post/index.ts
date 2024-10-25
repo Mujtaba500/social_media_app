@@ -451,10 +451,14 @@ const postController = {
   },
   getAllPosts: async (req: customRequest, res: Response) => {
     try {
+      const offset = Number(req.query.offset);
+      const limit = 5
       const posts = await prisma.post.findMany({
         orderBy: {
           createdAt: "desc", // Use 'desc' for descending order
         },
+        skip: offset,
+        take: limit,
         include: {
           author: {
             select: {

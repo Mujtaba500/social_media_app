@@ -4,7 +4,7 @@ import useGetPosts from "../hooks/Post/useGetPosts";
 import { useEffect } from "react";
 
 const HomePage = () => {
-  const { loading, getPosts } = useGetPosts();
+  const { initloading, getPosts, loading} =  useGetPosts();
 
   useEffect(() => {
     getPosts();
@@ -14,13 +14,14 @@ const HomePage = () => {
     <>
       <div className="posts w-full h-full ">
         <CreatePost />
-        {loading ? (
+        {initloading ? (
           <div className="text-center">
             <span className="loading loading-spinner loading-lg"></span>
           </div>
         ) : (
-          <Posts />
+          <Posts getPosts={getPosts} loading={loading}/>
         )}
+        {/* <Posts /> */}
       </div>
     </>
   );

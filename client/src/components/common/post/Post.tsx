@@ -132,7 +132,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
         </form>
       </dialog>
       <EditPost postId={post.id} />
-      <div className="divider mt-0 ml-0"></div>
+      <div className="divider my-0 ml-0"></div>
     </div>
   );
 };
