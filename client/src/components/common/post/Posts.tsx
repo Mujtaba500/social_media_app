@@ -12,11 +12,13 @@ const Posts: React.FC<PostsProps | userPostsProps> = (props) => {
   let getPosts: () => void
   let loading: Boolean 
   let userId: string | undefined
+  let pageType:string
 
   ({getUserPosts, loading} = useGetUserPosts())
 
   if('userId' in  props){
     ({userId} = props)
+    pageType = 'ProfilePage'
   }else if('getPosts' in props){
     ({getPosts, loading} = props)
   }
@@ -26,7 +28,7 @@ const Posts: React.FC<PostsProps | userPostsProps> = (props) => {
   return (
     <>
       {posts?.map((post) => {
-        return <Post post={post} key={post.id} />;
+        return <Post post={post} key={post.id} pageType={pageType}/>;
       })}
       <div className="text-center">
         {posts.length === 0 ? (

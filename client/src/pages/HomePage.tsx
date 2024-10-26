@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import CreatePost from "../components/common/post/CreatePost";
 import Posts from "../components/common/post/Posts";
 import useGetPosts from "../hooks/Post/useGetPosts";
@@ -5,6 +6,9 @@ import { useEffect } from "react";
 
 const HomePage = () => {
   const { initloading, getPosts, loading} =  useGetPosts();
+
+  // const params = useParams()
+  // console.log(params);
 
   useEffect(() => {
     getPosts();

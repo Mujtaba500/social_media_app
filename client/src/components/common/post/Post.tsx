@@ -7,7 +7,7 @@ import useDeletePost from "../../../hooks/Post/useDeletePost";
 import useLikeUnlikePost from "../../../hooks/Post/useLikeUnlikePost";
 import { useEffect, useState } from "react";
 
-const Post: React.FC<PostProps> = ({ post }) => {
+const Post: React.FC<PostProps> = ({ post, pageType }) => {
   const { authUser } = useAuthContext();
 
   const { deletePost, loading } = useDeletePost();
@@ -91,7 +91,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
               size={20}
               className="cursor-pointer text-blue-600"
               onClick={async () => {
-                await likeUnlikePost(post.id);
+                await likeUnlikePost(post.id, pageType);
               }}
             />
           ) : (
@@ -99,7 +99,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
               size={20}
               className="cursor-pointer hover:text-blue-400"
               onClick={async () => {
-                await likeUnlikePost(post.id);
+                await likeUnlikePost(post.id, pageType);
               }}
             />
           )}

@@ -13,7 +13,7 @@ const useGetPosts = () => {
   const getPosts = async () => {
     try {
       // On initial render set initLoading to true 
-      posts.length === 0 ? setInitLoading(true) : setLoading(true)
+      offsetCount.current === 0 ? setInitLoading(true) : setLoading(true)
       
       let offset = offsetCount.current * 5
       const response = await axiosInstance.get(`/posts?offset=${offset}`, {
@@ -21,8 +21,12 @@ const useGetPosts = () => {
           Authorization: localStorage.getItem("access_token"),
         },
       });
-      const newPosts = [...posts, ...response.data.data]
-      setPosts(newPosts);
+      if(offsetCount.current === 0){
+        setPosts(response.data.data)
+      }else{const newPosts = [...posts, ...response.data.data]
+        setPosts(newPosts);
+      }
+      
     } catch (err: any) {
       console.log(err);
       console.log("status: ", err.response?.status);
@@ -31,7 +35,7 @@ const useGetPosts = () => {
       setInitLoading(false)
       setLoading(false)      
       offsetCount.current++
-      console.log(offsetCount);
+      
     }
   };
 
