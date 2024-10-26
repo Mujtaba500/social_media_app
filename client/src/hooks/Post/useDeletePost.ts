@@ -3,13 +3,16 @@ import axiosInstance from "../../axios";
 import toast from "react-hot-toast";
 import { useRecoilState } from "recoil";
 import postsState from "../../global/Posts";
+import userPostsState from "../../global/UserPosts";
 
 const useDeletePost = () => {
   const [loading, setLoading] = useState(false);
 
   const [posts, setPosts] = useRecoilState(postsState);
 
-  const deletePost = async (postId: string) => {
+  const [userPosts, setUserPosts] = useRecoilState(userPostsState)
+
+  const deletePost = async (postId: string, pageType?:string) => {
     try {
       setLoading(true);
       const response = await axiosInstance.delete(`/post/${postId}`, {
@@ -18,8 +21,15 @@ const useDeletePost = () => {
         },
       });
       toast.success(response.data.message);
-      const newPosts = posts.filter((post) => post.id !== postId);
-      setPosts(newPosts);
+      
+      if(pageType === 'ProfilePage'){
+        const newPosts = userPosts.filter((post) => post.id !== postId);
+        setUserPosts(newPosts) 
+      }else {
+        const newPosts = posts.filter((post) => post.id !== postId);
+        setPosts(newPosts);
+      }
+      
     } catch (err: any) {
       console.log(err);
       console.log("status: ", err.response?.status);

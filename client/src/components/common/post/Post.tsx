@@ -21,7 +21,7 @@ const Post: React.FC<PostProps> = ({ post, pageType }) => {
   }, [likeUnlikePost]);
 
   const handleDelete = () => {
-    deletePost(post.id);
+    deletePost(post.id, pageType);
   };
 
   return (
@@ -131,7 +131,7 @@ const Post: React.FC<PostProps> = ({ post, pageType }) => {
           <button>close</button>
         </form>
       </dialog>
-      <EditPost postId={post.id} />
+      <EditPost postId={post.id} pageType={pageType}/>
       <div className="divider my-0 ml-0"></div>
     </div>
   );

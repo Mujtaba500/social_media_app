@@ -59,6 +59,7 @@ export type Post = {
 
 export type EditPostProps = {
   postId: string;
+  pageType?: string
 };
 
 export type Comment = {

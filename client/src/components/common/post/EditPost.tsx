@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import useEditPost from "../../../hooks/Post/useEditPost";
 import { EditPostProps } from "../../../types";
 
-const EditPost: React.FC<EditPostProps> = ({ postId }) => {
+const EditPost: React.FC<EditPostProps> = ({ postId, pageType }) => {
   const imgRef = useRef<HTMLInputElement>(null);
 
   const { loading, editPost } = useEditPost();
@@ -45,7 +45,7 @@ const EditPost: React.FC<EditPostProps> = ({ postId }) => {
       if (values.image) {
         formData.append("postImg", values.image as Blob);
       }
-      await editPost(postId, formData);
+      await editPost(postId, formData, pageType);
       formik.values.content = "";
 
       //Close modal on update

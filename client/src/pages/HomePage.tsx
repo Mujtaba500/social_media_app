@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import CreatePost from "../components/common/post/CreatePost";
 import Posts from "../components/common/post/Posts";
 import useGetPosts from "../hooks/Post/useGetPosts";
