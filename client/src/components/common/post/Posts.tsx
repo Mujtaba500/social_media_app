@@ -1,10 +1,28 @@
 import Post from "./Post";
 import { useRecoilValue } from "recoil";
 import postsState from "../../../global/Posts";
-import { PostsProps } from "../../../types";
+import { PostsProps, userPostsProps} from "../../../types";
+import userPostsState from "../../../global/UserPosts";
+import useGetUserPosts from "../../../hooks/Post/useGetUserPosts";
 
-const Posts: React.FC<PostsProps> = ({getPosts, loading}) => {
-  const posts = useRecoilValue(postsState);
+const Posts: React.FC<PostsProps | userPostsProps> = (props) => {
+ 
+  let posts
+  let getUserPosts: ((id: string) => void)
+  let getPosts: () => void
+  let loading: Boolean 
+  let userId: string | undefined
+
+  ({getUserPosts, loading} = useGetUserPosts())
+
+  if('userId' in  props){
+    ({userId} = props)
+  }else if('getPosts' in props){
+    ({getPosts, loading} = props)
+  }
+
+  userId ? posts = useRecoilValue(userPostsState)  :  posts = useRecoilValue(postsState);
+ 
   return (
     <>
       {posts?.map((post) => {
@@ -16,7 +34,12 @@ const Posts: React.FC<PostsProps> = ({getPosts, loading}) => {
         ) : (
           <button className="btn text-center text-white btn-outline mb-1" onClick={
             () => {
-              getPosts()
+              if(userId){
+                getUserPosts(userId)
+              }else{
+                getPosts()
+              }
+              
             }
            }>{loading ? "Loading..." : "Load more posts"}</button>
            

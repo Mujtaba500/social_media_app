@@ -13,6 +13,7 @@ const userController = {
   getUserProfile: async (req: customRequest, res: Response) => {
     try {
       const username = req.params.username;
+      const limit = 5
       const user = await prisma.user.findUnique({
         where: {
           username,
@@ -22,6 +23,7 @@ const userController = {
             orderBy: {
               createdAt: "desc", // Use 'desc' for descending order
             },
+            take: limit,
             include: {
               author: {
                 select: {

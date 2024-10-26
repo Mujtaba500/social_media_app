@@ -39,7 +39,11 @@ export type PostProps = {
 
 export type PostsProps = {
   getPosts: () => void,
-  loading: Boolean
+  loading: Boolean,
+}
+
+export type userPostsProps = {
+  userId?: string,
 }
 
 export type Post = {

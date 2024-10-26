@@ -430,12 +430,38 @@ const postController = {
         });
       }
 
+      const offset = Number(req.query.offset);
+      const limit = 5
+
       const posts = await prisma.post.findMany({
         where: {
           authorId: userid,
         },
         orderBy: {
           createdAt: "desc",
+        },
+        skip: offset,
+        take: limit,
+        include: {
+          author: {
+            select: {
+              id: true,
+              fullName: true,
+              profilepic: true,
+            },
+          },
+          comments: {
+            include: {
+              author: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  username: true,
+                  profilepic: true,
+                },
+              },
+            },
+          },
         },
       });
 

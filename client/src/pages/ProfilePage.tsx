@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import useGetProfile from "../hooks/user/useGetProfile";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import postsState from "../global/Posts";
+import userpostsState from "../global/UserPosts";
 import extractMonthAndYear from "../utils/extractDate";
 import { useAuthContext } from "../context/authContext";
 import useFollowUnfollow from "../hooks/user/useFollowUnfollow";
@@ -25,7 +25,7 @@ const ProfilePage = () => {
 
   const { loading, getProfile } = useGetProfile();
 
-  const setPosts = useSetRecoilState(postsState);
+  const setPosts = useSetRecoilState(userpostsState)
 
   const { followUnfollow, loading: followLoading } = useFollowUnfollow();
 
@@ -196,7 +196,7 @@ const ProfilePage = () => {
           <div className="posts">
             <h1 className="text-white text-center ">Posts</h1>
             <div className="divider my-0 ml-0"></div>
-            <Posts />
+            <Posts  userId={user?.id} />
           </div>
         </div>
       )}
