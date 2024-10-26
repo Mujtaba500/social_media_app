@@ -9,21 +9,31 @@ const useGetPosts = () => {
   const [loading, setLoading] = useState(false)
   const [posts, setPosts] = useRecoilState(postsState);
   let offsetCount = useRef(0)
+  let userId= useRef< string | null>(null)
 
-  const getPosts = async () => {
+  const getPosts = async (id?: string) => {
     try {
       // On initial render set initLoading to true 
       offsetCount.current === 0 ? setInitLoading(true) : setLoading(true)
-      
+      if(id){
+        offsetCount.current = 1
+      }
       let offset = offsetCount.current * 5
-      const response = await axiosInstance.get(`/posts?offset=${offset}`, {
+      let pathname :string
+      if(id && userId.current !== id){
+        userId.current = id
+        offsetCount.current = 1
+      }   
+      id ? pathname = `/posts/${id}?offset=${offset}` : pathname = `/posts?offset=${offset}`
+      const response = await axiosInstance.get(pathname, {
         headers: {
           Authorization: localStorage.getItem("access_token"),
         },
       });
       if(offsetCount.current === 0){
         setPosts(response.data.data)
-      }else{const newPosts = [...posts, ...response.data.data]
+      }else{
+        const newPosts = [...posts, ...response.data.data]
         setPosts(newPosts);
       }
       

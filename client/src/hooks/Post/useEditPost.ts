@@ -3,16 +3,13 @@ import axiosInstance from "../../axios";
 import toast from "react-hot-toast";
 import { useRecoilState } from "recoil";
 import postsState from "../../global/Posts";
-import userPostsState from "../../global/UserPosts";
 
 const useEditPost = () => {
   const [loading, setLoading] = useState(false);
 
   const [posts, setPosts] = useRecoilState(postsState);
 
-  const [userPosts, setUserPosts] = useRecoilState(userPostsState)
-
-  const editPost = async (postId: string, values: FormData, pageType?:string) => {
+  const editPost = async (postId: string, values: FormData) => {
     try {
       setLoading(true);
 
@@ -24,17 +21,11 @@ const useEditPost = () => {
       });
       toast.success(response.data.message);
 
-      if(pageType === 'ProfilePage'){
-        let newPosts = [...userPosts];
-      const index = newPosts.findIndex((post) => post.id === postId);
-      newPosts[index] = response.data.data;
-      setUserPosts(newPosts);
-      }else{
         let newPosts = [...posts];
       const index = newPosts.findIndex((post) => post.id === postId);
       newPosts[index] = response.data.data;
       setPosts(newPosts);
-      }
+      
       
     } catch (err: any) {
       console.log(err);

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import useGetProfile from "../hooks/user/useGetProfile";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import userpostsState from "../global/UserPosts";
+import postsState from "../global/Posts";
 import extractMonthAndYear from "../utils/extractDate";
 import { useAuthContext } from "../context/authContext";
 import useFollowUnfollow from "../hooks/user/useFollowUnfollow";
@@ -25,7 +25,7 @@ const ProfilePage = () => {
 
   const { loading, getProfile } = useGetProfile();
 
-  const setPosts = useSetRecoilState(userpostsState)
+  const setPosts = useSetRecoilState(postsState)
 
   const { followUnfollow, loading: followLoading } = useFollowUnfollow();
 

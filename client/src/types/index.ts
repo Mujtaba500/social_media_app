@@ -35,7 +35,6 @@ export type AuthUserType = {
 
 export type PostProps = {
   post: Post;
-  pageType?: string
 };
 
 export type PostsProps = {

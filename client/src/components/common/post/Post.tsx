@@ -7,7 +7,7 @@ import useDeletePost from "../../../hooks/Post/useDeletePost";
 import useLikeUnlikePost from "../../../hooks/Post/useLikeUnlikePost";
 import { useEffect, useState } from "react";
 
-const Post: React.FC<PostProps> = ({ post, pageType }) => {
+const Post: React.FC<PostProps> = ({ post}) => {
   const { authUser } = useAuthContext();
 
   const { deletePost, loading } = useDeletePost();
@@ -21,7 +21,7 @@ const Post: React.FC<PostProps> = ({ post, pageType }) => {
   }, [likeUnlikePost]);
 
   const handleDelete = () => {
-    deletePost(post.id, pageType);
+    deletePost(post.id);
   };
 
   return (
@@ -91,7 +91,7 @@ const Post: React.FC<PostProps> = ({ post, pageType }) => {
               size={20}
               className="cursor-pointer text-blue-600"
               onClick={async () => {
-                await likeUnlikePost(post.id, pageType);
+                await likeUnlikePost(post.id);
               }}
             />
           ) : (
@@ -99,7 +99,7 @@ const Post: React.FC<PostProps> = ({ post, pageType }) => {
               size={20}
               className="cursor-pointer hover:text-blue-400"
               onClick={async () => {
-                await likeUnlikePost(post.id, pageType);
+                await likeUnlikePost(post.id);
               }}
             />
           )}
@@ -131,7 +131,7 @@ const Post: React.FC<PostProps> = ({ post, pageType }) => {
           <button>close</button>
         </form>
       </dialog>
-      <EditPost postId={post.id} pageType={pageType}/>
+      <EditPost postId={post.id}/>
       <div className="divider my-0 ml-0"></div>
     </div>
   );
