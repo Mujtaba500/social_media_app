@@ -18,7 +18,7 @@ const AuthContext = createContext<{
 }>({
   authUser: null,
   setAuthUser: () => {},
-  isLoading: true,
+  isLoading: false,
 });
 
 const useAuthContext = () => {
@@ -27,11 +27,12 @@ const useAuthContext = () => {
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [authUser, setAuthUser] = useState<AuthUserType | null>(null);
-  const [isLoading, setisLoading] = useState(true);
+  const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        setisLoading(true)
         const response = await axiosInstance.get("/auth/user", {
           headers: {
             Authorization: localStorage.getItem("access_token"),
