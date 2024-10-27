@@ -37,6 +37,15 @@ export type PostProps = {
   post: Post;
 };
 
+export type PostsProps = {
+  getPosts: () => void,
+  loading: Boolean,
+}
+
+export type userPostsProps = {
+  userId?: string,
+}
+
 export type Post = {
   id: string;
   content: string;
@@ -49,6 +58,7 @@ export type Post = {
 
 export type EditPostProps = {
   postId: string;
+  pageType?: string
 };
 
 export type Comment = {

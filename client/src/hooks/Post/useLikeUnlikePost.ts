@@ -23,12 +23,16 @@ const useLikeUnlikePost = () => {
       );
 
       toast.success(response.data.message);
-      setPosts((prevPosts) => {
+
+      
+        setPosts((prevPosts) => {
         let newPosts = [...prevPosts];
         const index = newPosts.findIndex((post) => post.id === postId);
         newPosts[index] = response.data.data;
         return newPosts;
-      });
+      })
+
+      
     } catch (err: any) {
       console.log(err);
       console.log("status: ", err.response?.status);

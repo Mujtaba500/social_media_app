@@ -6,7 +6,7 @@ import { LogOut } from "lucide-react";
 
 const UserCard: React.FC<UserCardProps> = ({ auth, user }) => {
   const logout = useLogout();
-
+ 
   const navigate = useNavigateNoUpdates();
 
   const { followUnfollow } = useFollowUnfollow();
@@ -47,7 +47,11 @@ const UserCard: React.FC<UserCardProps> = ({ auth, user }) => {
 
           {auth === true ? (
             <div className="ml-12 mr-2">
-              <LogOut onClick={logout} />
+              <LogOut onClick={(e) => {
+                logout()
+                e.stopPropagation();
+              }
+              } />
             </div>
           ) : (
             <button

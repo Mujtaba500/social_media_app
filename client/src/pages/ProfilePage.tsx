@@ -25,7 +25,7 @@ const ProfilePage = () => {
 
   const { loading, getProfile } = useGetProfile();
 
-  const setPosts = useSetRecoilState(postsState);
+  const setPosts = useSetRecoilState(postsState)
 
   const { followUnfollow, loading: followLoading } = useFollowUnfollow();
 
@@ -144,6 +144,7 @@ const ProfilePage = () => {
               <button
                 onClick={handleFollowUnfollow}
                 className="btn rounded-full btn-sm  btn-primary btn-outline mr-3 mt-3 ml-5"
+                disabled={followLoading}
               >
                 {followLoading ? (
                   <div className="text-center">
@@ -196,7 +197,7 @@ const ProfilePage = () => {
           <div className="posts">
             <h1 className="text-white text-center ">Posts</h1>
             <div className="divider my-0 ml-0"></div>
-            <Posts />
+            <Posts  userId={user?.id} />
           </div>
         </div>
       )}

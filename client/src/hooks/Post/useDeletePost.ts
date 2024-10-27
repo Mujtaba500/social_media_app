@@ -20,6 +20,7 @@ const useDeletePost = () => {
       toast.success(response.data.message);
       const newPosts = posts.filter((post) => post.id !== postId);
       setPosts(newPosts);
+      
     } catch (err: any) {
       console.log(err);
       console.log("status: ", err.response?.status);

@@ -84,6 +84,7 @@ const CreatePost = () => {
           <button
             type="submit"
             className="btn btn-primary btn-sm rounded-full py-0 px-6 text-white mr-3"
+            disabled={loading}
           >
             {loading ? "Posting..." : "Post"}
           </button>

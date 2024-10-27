@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import useEditPost from "../../../hooks/Post/useEditPost";
 import { EditPostProps } from "../../../types";
 
-const EditPost: React.FC<EditPostProps> = ({ postId }) => {
+const EditPost: React.FC<EditPostProps> = ({ postId}) => {
   const imgRef = useRef<HTMLInputElement>(null);
 
   const { loading, editPost } = useEditPost();
@@ -77,6 +77,7 @@ const EditPost: React.FC<EditPostProps> = ({ postId }) => {
               <button
                 className="btn btn-primary btn-sm rounded-full py-0 px-6 ml-4 mr-0 text-white "
                 type="submit"
+                disabled={loading}
               >
                 {loading ? "Updating..." : "Update"}
               </button>

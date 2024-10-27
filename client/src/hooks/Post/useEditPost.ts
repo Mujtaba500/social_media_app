@@ -21,10 +21,12 @@ const useEditPost = () => {
       });
       toast.success(response.data.message);
 
-      let newPosts = [...posts];
+        let newPosts = [...posts];
       const index = newPosts.findIndex((post) => post.id === postId);
       newPosts[index] = response.data.data;
       setPosts(newPosts);
+      
+      
     } catch (err: any) {
       console.log(err);
       console.log("status: ", err.response?.status);

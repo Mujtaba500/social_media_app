@@ -1,14 +1,23 @@
 import { Trash2, Pencil, ThumbsUp, MessageCircle } from "lucide-react";
-import Comments from "../comment/Comments";
 import EditPost from "./EditPost";
 import { PostProps } from "../../../types";
 import { useAuthContext } from "../../../context/authContext";
 import useDeletePost from "../../../hooks/Post/useDeletePost";
 import useLikeUnlikePost from "../../../hooks/Post/useLikeUnlikePost";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
+import debounceFunc from "../../../utils/debounce";
 
-const Post: React.FC<PostProps> = ({ post }) => {
+const Comments = lazy(() => import("../comment/Comments"))
+
+const Post: React.FC<PostProps> = ({ post}) => {
   const { authUser } = useAuthContext();
+
+  const {debounce} = debounceFunc()
+
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
   const { deletePost, loading } = useDeletePost();
 
@@ -86,23 +95,15 @@ const Post: React.FC<PostProps> = ({ post }) => {
       </div>
       <div className="flex m-4 justify-around">
         <div className="flex">
-          {isLiked ? (
+          
             <ThumbsUp
               size={20}
-              className="cursor-pointer text-blue-600"
-              onClick={async () => {
-                await likeUnlikePost(post.id);
+              className={isLiked ? "cursor-pointer text-blue-600" : "cursor-pointer hover:text-blue-400"}
+              onClick={async () => {               
+                 debounce(likeUnlikePost, post.id)
               }}
             />
-          ) : (
-            <ThumbsUp
-              size={20}
-              className="cursor-pointer hover:text-blue-400"
-              onClick={async () => {
-                await likeUnlikePost(post.id);
-              }}
-            />
-          )}
+          
 
           <p className="ml-1">{post.likes.length}</p>
         </div>
@@ -115,6 +116,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
               ) as HTMLDialogElement;
               if (modal) {
                 modal.showModal();
+                openModal()
               }
             }}
             className="cursor-pointer hover:text-green-400"
@@ -122,17 +124,22 @@ const Post: React.FC<PostProps> = ({ post }) => {
           <p className="ml-1">{post.comments.length}</p>
         </div>
       </div>
+      
       <dialog id={`commentModal${post.id}`} className="modal">
         <div className="modal-box">
           <h1 className="font-bold text-lg text-white">COMMENTS</h1>
+          {isModalOpen && (<Suspense fallback={<h1>loading...</h1>}>
           <Comments comments={post.comments} postId={post.id} />
+          </Suspense>)
+          }
         </div>
         <form method="dialog" className="modal-backdrop">
-          <button>close</button>
+          <button onClick={closeModal}>close</button>
         </form>
       </dialog>
-      <EditPost postId={post.id} />
-      <div className="divider mt-0 ml-0"></div>
+      
+      <EditPost postId={post.id}/>
+      <div className="divider my-0 ml-0"></div>
     </div>
   );
 };

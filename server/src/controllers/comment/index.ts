@@ -93,8 +93,15 @@ const commentController = {
         },
         include: {
           comments: {
-            orderBy: {
-              createdAt: "desc",
+            include: {
+              author: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  username: true,
+                  profilepic: true,
+                },
+              },
             },
           },
         },

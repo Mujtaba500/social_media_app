@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 
 function Layout() {
   return (
-    <div className="drawer md:drawer-open">
+    <div className="drawer md:drawer-open h-full">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex items-center justify-between">
         <Outlet /> {/* Dynamic content will go here */}
