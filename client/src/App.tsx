@@ -2,13 +2,16 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
-import ProfilePage from "./pages/ProfilePage";
+// import ProfilePage from "./pages/ProfilePage";
 import Layout from "./components/common/Layout";
-import NotificationPage from "./pages/NotificationPage";
+// import NotificationPage from "./pages/NotificationPage";
 import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "./context/authContext";
 import HomeSkeleton from "./components/skeletons/HomeSkeleton";
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
+
+const ProfilePage = lazy(() => import("./pages/ProfilePage"))
+const NotificationPage = lazy(() => import("./pages/NotificationPage"))
 
 function App() {
   const { authUser, isLoading } = useAuthContext();
@@ -41,7 +44,7 @@ function App() {
                 !authUser && !isLoading ? <SignupPage /> : <Navigate to="/" />
               }
             />
-            <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Suspense fallback={<h1>Loading...</h1>}><Layout /></Suspense>}>
               <Route
                 index
                 element={authUser ? <HomePage /> : <Navigate to="/login" />}

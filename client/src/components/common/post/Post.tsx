@@ -7,13 +7,7 @@ import useDeletePost from "../../../hooks/Post/useDeletePost";
 import useLikeUnlikePost from "../../../hooks/Post/useLikeUnlikePost";
 import { useEffect, useState, lazy, Suspense } from "react";
 
-function wait(){
-  return new Promise(resolve => {
-    setTimeout(resolve, 2000)
-  }) 
-}
-
-const Comments = lazy(() => wait().then(() => import("../comment/Comments")))
+const Comments = lazy(() => import("../comment/Comments"))
 
 const Post: React.FC<PostProps> = ({ post}) => {
   const { authUser } = useAuthContext();

@@ -6,9 +6,6 @@ import { useEffect } from "react";
 const HomePage = () => {
   const { initloading, getPosts, loading} =  useGetPosts();
 
-  // const params = useParams()
-  // console.log(params);
-
   useEffect(() => {
     getPosts();
   }, []);
