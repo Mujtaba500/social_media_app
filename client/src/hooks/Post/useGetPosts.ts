@@ -15,7 +15,7 @@ const useGetPosts = () => {
     try {
       // On initial render set initLoading to true 
       offsetCount.current === 0 ? setInitLoading(true) : setLoading(true)
-      if(id){
+      if(id && offsetCount.current === 0){
         offsetCount.current = 1
       }
       let offset = offsetCount.current * 5
