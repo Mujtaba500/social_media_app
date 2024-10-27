@@ -18,7 +18,7 @@ const AuthContext = createContext<{
 }>({
   authUser: null,
   setAuthUser: () => {},
-  isLoading: false,
+  isLoading: true,
 });
 
 const useAuthContext = () => {
@@ -27,7 +27,7 @@ const useAuthContext = () => {
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [authUser, setAuthUser] = useState<AuthUserType | null>(null);
-  const [isLoading, setisLoading] = useState(false);
+  const [isLoading, setisLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {

@@ -144,6 +144,7 @@ const ProfilePage = () => {
               <button
                 onClick={handleFollowUnfollow}
                 className="btn rounded-full btn-sm  btn-primary btn-outline mr-3 mt-3 ml-5"
+                disabled={followLoading}
               >
                 {followLoading ? (
                   <div className="text-center">

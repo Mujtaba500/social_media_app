@@ -221,6 +221,7 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ setUserProfile }) => {
             <button
               type="submit"
               className="btn btn-primary mt-4 rounded-full btn-sm  text-white w-full"
+              disabled={loading}
             >
               {loading ? "Updating..." : "Update"}
             </button>

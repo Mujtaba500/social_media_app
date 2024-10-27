@@ -118,6 +118,7 @@ const SignupPage = () => {
         <button
           type="submit"
           className="btn rounded-full btn-neutral text-white m-5"
+          disabled={loading}
         >
           {loading ? "Loading..." : "Sign Up"}
         </button>

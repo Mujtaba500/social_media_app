@@ -12,8 +12,7 @@ const ProfilePage = lazy(() => import("./pages/ProfilePage"))
 const NotificationPage = lazy(() => import("./pages/NotificationPage"))
 
 function App() {
-  const { authUser, isLoading } = useAuthContext();
-
+  const { authUser, isLoading} = useAuthContext();
   return (
     <>
       {isLoading  ? (
@@ -33,19 +32,19 @@ function App() {
                 !authUser && !isLoading ? <SignupPage /> : <Navigate to="/" />
               }
             />
-            <Route path="/" element={<Suspense fallback={null}><Layout /></Suspense>}>
+            <Route path="/" element={<Suspense fallback={<h1>Loading...</h1>}><Layout /></Suspense>}>
               <Route
                 index
-                element={authUser ? <HomePage /> : <Navigate to="/login" />}
+                element={authUser && !isLoading ? <HomePage /> : <Navigate to="/login" />}
               />
               <Route
                 path="/profile/:username"
-                element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
+                element={authUser && !isLoading ? <ProfilePage /> : <Navigate to="/login" />}
               />
               <Route
                 path="/notifications"
                 element={
-                  authUser ? <NotificationPage /> : <Navigate to="/login" />
+                  authUser && !isLoading ? <NotificationPage /> : <Navigate to="/login" />
                 }
               />
             </Route>

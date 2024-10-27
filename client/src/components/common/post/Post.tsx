@@ -1,16 +1,18 @@
 import { Trash2, Pencil, ThumbsUp, MessageCircle } from "lucide-react";
-// import Comments from "../comment/Comments";
 import EditPost from "./EditPost";
 import { PostProps } from "../../../types";
 import { useAuthContext } from "../../../context/authContext";
 import useDeletePost from "../../../hooks/Post/useDeletePost";
 import useLikeUnlikePost from "../../../hooks/Post/useLikeUnlikePost";
 import { useEffect, useState, lazy, Suspense } from "react";
+import debounceFunc from "../../../utils/debounce";
 
 const Comments = lazy(() => import("../comment/Comments"))
 
 const Post: React.FC<PostProps> = ({ post}) => {
   const { authUser } = useAuthContext();
+
+  const {debounce} = debounceFunc()
 
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -93,23 +95,15 @@ const Post: React.FC<PostProps> = ({ post}) => {
       </div>
       <div className="flex m-4 justify-around">
         <div className="flex">
-          {isLiked ? (
+          
             <ThumbsUp
               size={20}
-              className="cursor-pointer text-blue-600"
-              onClick={async () => {
-                await likeUnlikePost(post.id);
+              className={isLiked ? "cursor-pointer text-blue-600" : "cursor-pointer hover:text-blue-400"}
+              onClick={async () => {               
+                 debounce(likeUnlikePost, post.id)
               }}
             />
-          ) : (
-            <ThumbsUp
-              size={20}
-              className="cursor-pointer hover:text-blue-400"
-              onClick={async () => {
-                await likeUnlikePost(post.id);
-              }}
-            />
-          )}
+          
 
           <p className="ml-1">{post.likes.length}</p>
         </div>
