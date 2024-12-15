@@ -32,7 +32,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        setisLoading(true)
+        setisLoading(true);
         const response = await axiosInstance.get("/auth/user", {
           headers: {
             Authorization: localStorage.getItem("access_token"),

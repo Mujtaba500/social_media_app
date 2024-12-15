@@ -8,15 +8,17 @@ import { useAuthContext } from "./context/authContext";
 import HomeSkeleton from "./components/skeletons/HomeSkeleton";
 import { lazy, Suspense } from "react";
 
-const ProfilePage = lazy(() => import("./pages/ProfilePage"))
-const NotificationPage = lazy(() => import("./pages/NotificationPage"))
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const NotificationPage = lazy(() => import("./pages/NotificationPage"));
 
 function App() {
-  const { authUser, isLoading} = useAuthContext();
+  const { authUser, isLoading } = useAuthContext();
   return (
     <>
-      {isLoading  ? (
-        <HomeSkeleton />
+      {isLoading ? (
+        <div className="flex justify-center align-middle h-screen">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
       ) : (
         <>
           <Routes>
@@ -32,19 +34,42 @@ function App() {
                 !authUser && !isLoading ? <SignupPage /> : <Navigate to="/" />
               }
             />
-            <Route path="/" element={<Suspense fallback={<h1>Loading...</h1>}><Layout /></Suspense>}>
+            <Route
+              path="/"
+              element={
+                // <Suspense fallback={<h1>Loading...</h1>}>
+                <Layout />
+                // {/* </Suspense> */}
+              }
+            >
               <Route
                 index
-                element={authUser && !isLoading ? <HomePage /> : <Navigate to="/login" />}
+                element={
+                  authUser && !isLoading ? (
+                    <HomePage />
+                  ) : (
+                    <Navigate to="/login" />
+                  )
+                }
               />
               <Route
                 path="/profile/:username"
-                element={authUser && !isLoading ? <ProfilePage /> : <Navigate to="/login" />}
+                element={
+                  authUser && !isLoading ? (
+                    <ProfilePage />
+                  ) : (
+                    <Navigate to="/login" />
+                  )
+                }
               />
               <Route
                 path="/notifications"
                 element={
-                  authUser && !isLoading ? <NotificationPage /> : <Navigate to="/login" />
+                  authUser && !isLoading ? (
+                    <NotificationPage />
+                  ) : (
+                    <Navigate to="/login" />
+                  )
                 }
               />
             </Route>

@@ -25,7 +25,7 @@ const ProfilePage = () => {
 
   const { loading, getProfile } = useGetProfile();
 
-  const setPosts = useSetRecoilState(postsState)
+  const setPosts = useSetRecoilState(postsState);
 
   const { followUnfollow, loading: followLoading } = useFollowUnfollow();
 
@@ -52,8 +52,8 @@ const ProfilePage = () => {
     <>
       {/* Page content here */}
       {loading ? (
-        <div className="text-center w-full">
-          <span className="loading loading-spinner loading-lg m-auto"></span>
+        <div className="flex justify-center align-middle w-full h-screen text-center">
+          <span className="loading loading-spinner loading-lg"></span>
         </div>
       ) : (
         <div className="profile w-full h-full">
@@ -197,7 +197,7 @@ const ProfilePage = () => {
           <div className="posts">
             <h1 className="text-white text-center ">Posts</h1>
             <div className="divider my-0 ml-0"></div>
-            <Posts  userId={user?.id} />
+            <Posts userId={user?.id} />
           </div>
         </div>
       )}

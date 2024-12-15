@@ -2,7 +2,7 @@ import axiosInstance from "../../axios";
 import { useState } from "react";
 
 const useGetProfile = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const getProfile = async (username: string) => {
     try {
