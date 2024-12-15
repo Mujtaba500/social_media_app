@@ -5,8 +5,7 @@ import SignupPage from "./pages/SignupPage";
 import Layout from "./components/common/Layout";
 import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "./context/authContext";
-import HomeSkeleton from "./components/skeletons/HomeSkeleton";
-import { lazy, Suspense } from "react";
+import { lazy } from "react";
 
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const NotificationPage = lazy(() => import("./pages/NotificationPage"));
