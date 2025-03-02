@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "nodemon --watch server --ext ts --exec \"tsc --noemit && node --import=./server/dev/register.js server/src/server.ts\"",
     "build": "tsc -p tsconfig.json",
-    "start": "pm2 start server/dist/server.js"
+    "start": "pm2 start server/dist/server.js",
+    "db:client": "cd ./server/prisma && npx prisma generate"
   },
   "keywords": [],
   "author": "",
