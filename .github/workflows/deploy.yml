@@ -31,25 +31,43 @@ jobs:
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
-        env:
-          PORT: ${{ secrets.PORT }}
-          DB_URL: ${{ secrets.DB_URL }}
-          ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
-          REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET }}
         with:
           host: ${{ secrets.EC2_SSH_HOST }}
           username: ${{ secrets.EC2_SSH_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            echo "=== Direct GitHub Secrets Test ==="
+            echo "PORT from GitHub: '${{ secrets.PORT }}'"
+            echo "DB_URL from GitHub: '${{ secrets.DB_URL }}'"
+
+            # Set variables directly from GitHub secrets
+            PORT="${{ secrets.PORT }}"
+            DB_URL="${{ secrets.DB_URL }}"
+            ACCESS_TOKEN_SECRET="${{ secrets.ACCESS_TOKEN_SECRET }}"
+            REFRESH_TOKEN_SECRET="${{ secrets.REFRESH_TOKEN_SECRET }}"
+
+            echo "=== After setting variables ==="
+            echo "PORT: '$PORT'"
+            echo "DB_URL: '$DB_URL'"
+
+            # Set default port if PORT is empty
+            if [ -z "$PORT" ] || [ "$PORT" = "" ]; then
+                PORT=3000
+                echo "PORT was empty, using default: $PORT"
+            fi
+
             sudo docker pull mujtaba1232/social_media_app:latest
             sudo docker stop social_media_app || true
             sudo docker rm social_media_app || true
+
             sudo docker run -d \
-              --name social_media_app \
-              -p 4000:4000 \
-              -e "DATABASE_URL=$DB_URL" \
-              -e "PORT=$PORT" \
-              -e "ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET" \
-              -e "REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET" \
-              --restart=always \
-              mujtaba1232/social_media_app:latest
+                --name social_media_app \
+                -p "$PORT:$PORT" \
+                -e "DATABASE_URL=$DB_URL" \
+                -e "PORT=$PORT" \
+                -e "ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET" \
+                -e "REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET" \
+                --restart=always \
+                mujtaba1232/social_media_app:latest
+
+            echo "=== Container started, checking environment ==="
