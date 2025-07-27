@@ -46,7 +46,7 @@ jobs:
             sudo docker rm social_media_app || true
             sudo docker run -d \
               --name social_media_app \
-              -p "$PORT:$PORT" \
+              -p $PORT:$PORT \
               -e "DATABASE_URL=$DB_URL" \
               -e "PORT=$PORT" \
               -e "ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET" \
