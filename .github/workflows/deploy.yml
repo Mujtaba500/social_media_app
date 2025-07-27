@@ -1,0 +1,42 @@
+name: Build and deploy to Docker Hub
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+
+      - name: Log in to docker hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: mujtaba1232/social_media_app:latest
+
+      - name: Verify pushed image
+        run: docker pull mujtaba1232/social_media_app:latest
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_SSH_HOST }}
+          username: ${{ secrets.EC2_SSH_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo docker pull mujtaba1232/social_media_app:latest
+            sudo docker stop social_media_app || true
+            sudo docker rm social_media_app || true
+            sudo docker run -d --name social_media_app -p 3000:3000 mujtaba1232/social_media_app:latest
