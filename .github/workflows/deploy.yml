@@ -39,4 +39,4 @@ jobs:
             sudo docker pull mujtaba1232/social_media_app:latest
             sudo docker stop social_media_app || true
             sudo docker rm social_media_app || true
-            sudo docker run -d --name social_media_app -p 4000:4000 mujtaba1232/social_media_app:latest
+            sudo docker run -d --name social_media_app -p ${{secrets.PORT}}:${{secrets.PORT}} mujtaba1232/social_media_app:latest
