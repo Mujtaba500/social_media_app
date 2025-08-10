@@ -17,18 +17,17 @@
 #    image and exclude dev dependencies
 #
 
-FROM node:21-alpine AS builder
+FROM node:21-alpine
+
+WORKDIR /app
 
 COPY package*.json ./
-RUN npm install --production=false
+RUN npm install --production && \
+    npm cache clean --force && \
+    rm -rf /root/.npm 
 
 COPY . .
 
 RUN npm run db:client
-
-FROM node:21-alpine
-
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
 
 CMD ["npm", "run", "start"]
