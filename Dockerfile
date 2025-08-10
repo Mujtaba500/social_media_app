@@ -21,7 +21,6 @@ FROM node:21-alpine AS builder
 
 COPY package*.json ./
 RUN npm install --production=false
-RUN npm run build
 
 COPY . .
 
@@ -30,7 +29,6 @@ RUN npm run db:client
 FROM node:21-alpine
 
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package*.json ./
 
 CMD ["npm", "run", "start"]
