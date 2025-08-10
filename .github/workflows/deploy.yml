@@ -50,12 +50,6 @@ jobs:
             echo "PORT: '$PORT'"
             echo "DB_URL: '$DB_URL'"
 
-            # Set default port if PORT is empty
-            if [ -z "$PORT" ] || [ "$PORT" = "" ]; then
-                PORT=3000
-                echo "PORT was empty, using default: $PORT"
-            fi
-
             sudo docker pull mujtaba1232/social_media_app:latest
             sudo docker stop social_media_app || true
             sudo docker rm social_media_app || true
