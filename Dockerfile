@@ -21,6 +21,7 @@ FROM node:21-alpine AS builder
 
 COPY package*.json ./
 RUN npm install --production=false
+RUN npm build
 
 COPY . .
 
