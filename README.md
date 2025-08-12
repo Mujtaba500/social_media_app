@@ -11,7 +11,7 @@ http://konekt.s3-website.eu-north-1.amazonaws.com/
 
 ## Technologies Used
 
-[![My Skills](https://skillicons.dev/icons?i=ts,nodejs,express,postgres,prisma,npm,tailwind,postman,nginx,aws)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=ts,nodejs,express,postgres,prisma,npm,tailwind,postman,nginx,aws,docker)](https://skillicons.dev)
 ## Features
 
 - Authentication & Authorization with JWT
@@ -88,3 +88,4 @@ For client side
 
 ![relationships](relationships.png)
 ![social_media_schema](social_media_schema.png)
+
