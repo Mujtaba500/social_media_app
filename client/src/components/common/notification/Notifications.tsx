@@ -12,9 +12,8 @@ const Notifications = () => {
     const fetchNotifications = async () => {
       await getNotifications();
     };
-    if (notifications.length == 0) {
-      fetchNotifications();
-    }
+
+    fetchNotifications();
   }, []);
 
   const mappedNotifications = notifications.map((notification) => {

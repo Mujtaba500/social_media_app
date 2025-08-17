@@ -5,7 +5,7 @@ const stage = import.meta.env.MODE;
 let baseURL;
 
 if (stage === "production") {
-  baseURL = "http://ec2-13-61-4-237.eu-north-1.compute.amazonaws.com/api/v1";
+  baseURL = "http://157.230.245.139/api/v1";
 } else if (stage === "development") {
   baseURL = "http://localhost:4000/api/v1";
 }
