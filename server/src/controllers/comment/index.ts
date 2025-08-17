@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { customRequest, HttpStatusCode } from "../../types/types.js";
 import prisma from "../../db/config.js";
+import { sendDataToClient } from "../../websocketServer.js";
 
 const commentController = {
   createComment: async (req: customRequest, res: Response) => {
@@ -57,13 +58,15 @@ const commentController = {
 
         // Donot send notification if user comment on his own post
         if (postAuthorId !== userId) {
-          await prisma.notification.create({
+          const notification = await prisma.notification.create({
             data: {
               type: "COMMENT",
               from: userId!,
               to: postAuthorId,
             },
           });
+          console.log(notification);
+          sendDataToClient(postAuthorId, notification);
         }
       } catch (err: any) {
         console.log("Error while creating notification", err.message);
