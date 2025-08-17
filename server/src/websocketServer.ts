@@ -18,7 +18,6 @@ const webSocketServerInit = (wss: WebSocketServer) => {
     const numClients = wss.clients.size;
 
     if (ws.readyState === ws.OPEN) {
-      ws.send("connected!");
       console.log("Clients connected", numClients);
 
       const token = getTokenFromParams(req);
