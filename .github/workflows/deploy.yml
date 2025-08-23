@@ -37,6 +37,7 @@ jobs:
           touch .env
           echo "${{ secrets.FRONTEND_ENV_FILE }}" >> .env
           cat .env
+        working-directory: ./client
 
       - name: Build project
         run: npm run build
