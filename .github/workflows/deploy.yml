@@ -32,11 +32,15 @@ jobs:
       #     echo "=== Node modules check ==="
       #     ls -la ./client/node_modules/ || echo "No node_modules found"
 
+      - name: "Create env file"
+        run: |
+          touch .env
+          echo "${{ secrets.FRONTEND_ENV_FILE }}" >> .env
+          cat .env
+
       - name: Build project
         run: npm run build
         working-directory: ./client
-        env:
-          VITE_BACKEND_URL: ${{ secrets.BACKEND_URL }}
 
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
