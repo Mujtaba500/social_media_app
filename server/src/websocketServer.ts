@@ -26,6 +26,8 @@ const webSocketServerInit = (wss: WebSocketServer) => {
 
       //@ts-ignore
       user && connections.push({ user, ws });
+
+      console.log(connections);
     }
 
     ws.on("close", function close() {
@@ -37,6 +39,7 @@ const webSocketServerInit = (wss: WebSocketServer) => {
 const broadCastDataToClients = (clients: connection[], data: any) => {
   clients.length &&
     clients.forEach((client) => {
+      console.log(`Data to send to client: ${client?.user?.userId}`, data);
       client.ws.send(JSON.stringify(data));
     });
 };
