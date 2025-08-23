@@ -8,15 +8,13 @@ import AuthContextProvider from "./context/authContext.tsx";
 import { RecoilRoot } from "recoil";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <RouterUtils>
-        <RecoilRoot>
-          <AuthContextProvider>
-            <App />
-          </AuthContextProvider>
-        </RecoilRoot>
-      </RouterUtils>
-    </BrowserRouter>
-  </StrictMode>
+  <BrowserRouter>
+    <RouterUtils>
+      <RecoilRoot>
+        <AuthContextProvider>
+          <App />
+        </AuthContextProvider>
+      </RecoilRoot>
+    </RouterUtils>
+  </BrowserRouter>
 );

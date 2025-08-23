@@ -1,20 +1,38 @@
 import { useEffect } from "react";
 import useGetNotifications from "../../../hooks/notification/useGetNotifications";
 import Notification from "./Notification";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import notificationsState from "../../../global/Notifications";
+import useWebSocket from "../../../hooks/useWebSocket";
 
 const Notifications = () => {
   const { loading, getNotifications } = useGetNotifications();
+  const setNotifications = useSetRecoilState(notificationsState);
   const notifications = useRecoilValue(notificationsState);
 
   useEffect(() => {
     const fetchNotifications = async () => {
       await getNotifications();
     };
-    if (notifications.length == 0) {
-      fetchNotifications();
-    }
+    fetchNotifications();
+  }, []);
+
+  useEffect(() => {
+    const { currentWS } = useWebSocket();
+
+    currentWS.onmessage = (e) => {
+      const latestMessage = JSON.parse(e.data);
+      if (latestMessage?.id) {
+        setNotifications((prev) => [latestMessage, ...prev]);
+      }
+    };
+
+    // CLEANUP
+    return () => {
+      if (currentWS) {
+        currentWS.close();
+      }
+    };
   }, []);
 
   const mappedNotifications = notifications.map((notification) => {

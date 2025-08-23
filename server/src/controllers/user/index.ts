@@ -2,18 +2,18 @@ import { customRequest, HttpStatusCode, files } from "../../types/types.js";
 import { Response } from "express";
 import prisma from "../../db/config.js";
 import { comparePassword } from "../../utils/pass.js";
-import { v2 as cloudinary } from "cloudinary";
 import {
   uploadToCloudinary,
   deleteFromCloudinary,
 } from "../../utils/cloudinary.js";
 import fs from "fs";
+import sendNotificationAsync from "../../utils/notification.js";
 
 const userController = {
   getUserProfile: async (req: customRequest, res: Response) => {
     try {
       const username = req.params.username;
-      const limit = 5
+      const limit = 5;
       const user = await prisma.user.findUnique({
         where: {
           username,
@@ -435,20 +435,7 @@ const userController = {
         });
 
         // Send notification
-        try {
-          await prisma.notification.create({
-            data: {
-              type: "FOLLOW",
-              from: authId!,
-              to: userId,
-            },
-          });
-        } catch (err: any) {
-          console.log("Error while creating notification", err.message);
-          res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
-            message: "Internal server error",
-          });
-        }
+        sendNotificationAsync(authId!, userId, "FOLLOW");
 
         return res.status(HttpStatusCode.OK).json({
           message: "User followed successfully",

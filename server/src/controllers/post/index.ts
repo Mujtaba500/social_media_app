@@ -6,6 +6,7 @@ import {
   deleteFromCloudinary,
 } from "../../utils/cloudinary.js";
 import fs from "fs";
+import sendNotificationAsync from "../../utils/notification.js";
 
 const postController = {
   createPost: async (req: customRequest, res: Response) => {
@@ -384,24 +385,9 @@ const postController = {
       });
 
       // Send notification
-      try {
-        const authorId = post.authorId;
 
-        if (authorId !== userId) {
-          await prisma.notification.create({
-            data: {
-              type: "POST_LIKE",
-              from: userId!,
-              to: authorId,
-            },
-          });
-        }
-      } catch (err: any) {
-        console.log("Error while creating notification", err.message);
-        res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
-          message: "Internal server error",
-        });
-      }
+      const authorId = post.authorId;
+      sendNotificationAsync(userId!, authorId, "POST_LIKE");
 
       res.status(HttpStatusCode.OK).json({
         message: "Post liked successfully",
@@ -431,7 +417,7 @@ const postController = {
       }
 
       const offset = Number(req.query.offset);
-      const limit = 5
+      const limit = 5;
 
       const posts = await prisma.post.findMany({
         where: {
@@ -478,7 +464,7 @@ const postController = {
   getAllPosts: async (req: customRequest, res: Response) => {
     try {
       const offset = Number(req.query.offset);
-      const limit = 5
+      const limit = 5;
       const posts = await prisma.post.findMany({
         orderBy: {
           createdAt: "desc", // Use 'desc' for descending order
