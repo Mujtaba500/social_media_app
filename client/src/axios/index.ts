@@ -5,7 +5,7 @@ const stage = import.meta.env.MODE;
 let baseURL;
 
 if (stage === "production") {
-  baseURL = `http://${process.env.VITE_BACKEND_URL}/api/v1`;
+  baseURL = `http://${import.meta.env.VITE_BACKEND_URL}/api/v1`;
 } else if (stage === "development") {
   baseURL = "http://localhost:4000/api/v1";
 }
