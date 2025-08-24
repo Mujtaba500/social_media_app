@@ -21,7 +21,7 @@ http://konekt.s3-website.eu-north-1.amazonaws.com/
 - Create/edit/delete Comment to a Post
 - Follow/Unfollow Users
 - Update Profile
-- Notifications
+- Realtime Notifications
 - Suggested Users
 - State management with recoil
 - Deployed on AWS
@@ -88,4 +88,5 @@ For client side
 
 ![relationships](relationships.png)
 ![social_media_schema](social_media_schema.png)
+
 
