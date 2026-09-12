@@ -62,3 +62,6 @@ Env files: copy `server/.env.example` -> `server/.env` and `client/.env.example`
 - WebSocket client: `axios/ws.ts: newSocketConnection()` opens `ws(s)://<backend>?token=<access_token>` (same host/mode logic as the axios base URL); `hooks/useWebSocket.ts` wraps this with basic open/error/close logging.
 - Styling: Tailwind + daisyUI (`tailwind.config.js`), global styles in `index.css`.
 - Forms use Formik + Yup (see `EditProfileModal.tsx`, post/comment edit dialogs).
+
+## Checking documentation
+When implementing any lib/framework specific features, ALWAYS check the appropriate lib/framework documentation using the /find-docs skill.
